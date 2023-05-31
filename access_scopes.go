@@ -5,7 +5,8 @@ type AccessScopesService interface {
 }
 
 type AccessScope struct {
-	Handle string `json:"handle,omitempty"`
+	Handle      string `json:"handle,omitempty"`
+	Description string `json:"description,omitempty"`
 }
 
 // AccessScopesResource represents the result from the oauth/access_scopes.json endpoint

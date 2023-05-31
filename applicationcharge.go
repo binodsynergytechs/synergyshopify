@@ -38,6 +38,21 @@ type ApplicationCharge struct {
 	ConfirmationURL    string           `json:"confirmation_url"`
 }
 
+// TODO:
+
+// type ApplicationCharge struct {
+// 	ConfirmationURL string `json:"confirmation_url"`
+// 	CreatedAt       string `json:"created_at"`
+// 	ID              string `json:"id"`
+// 	Name            string `json:"name"`
+// 	Price           float64 `json:"price"`
+// 	ReturnURL       string `json:"return_url"`
+// 	Status          string `json:"status"`
+// 	Test            bool `json:"test"`
+// 	UpdatedAt       string `json:"updated_at"`
+// 	Currency        string `json:"currency"`
+// }
+
 // ApplicationChargeResource represents the result from the
 // admin/application_charges{/X{/activate.json}.json}.json endpoints.
 type ApplicationChargeResource struct {

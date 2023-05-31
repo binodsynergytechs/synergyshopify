@@ -38,6 +38,20 @@ type Asset struct {
 	UpdatedAt   *time.Time `json:"updated_at,omitempty"`
 }
 
+// TODO:
+// type Asset struct {
+// 	Attachment   string `json:"attachment"`
+// 	Checksum     string `json:"checksum"`
+// 	ContentType  string `json:"content_type"`
+// 	CreatedAt    string `json:"created_at"`
+// 	Key          string `json:"key"`
+// 	PublicURL    string `json:"public_url"`
+// 	Size         int    `json:"size"`
+// 	ThemeID      int    `json:"theme_id"`
+// 	UpdatedAt    string `json:"updated_at"`
+// 	Value        string `json:"value"`
+// }
+
 // AssetResource is the result from the themes/x/assets.json?asset[key]= endpoint
 type AssetResource struct {
 	Asset *Asset `json:"asset"`
