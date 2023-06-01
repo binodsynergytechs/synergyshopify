@@ -15,7 +15,7 @@ func getTheme() Theme {
 	return Theme{
 		ID:                1,
 		Name:              "launchpad",
-		Previewable:       true,
+		AbleToPreview:     true,
 		Processing:        false,
 		Role:              "unpublished",
 		ThemeStoreID:      1234,
@@ -90,8 +90,8 @@ func TestThemeGet(t *testing.T) {
 	if theme.Name != expectation.Name {
 		t.Errorf("Theme.Name returned %+v, expected %+v", theme.Name, expectation.Name)
 	}
-	if theme.Previewable != expectation.Previewable {
-		t.Errorf("Theme.Previewable returned %+v, expected %+v", theme.Previewable, expectation.Previewable)
+	if theme.AbleToPreview != expectation.AbleToPreview {
+		t.Errorf("Theme.AbleToPreview returned %+v, expected %+v", theme.AbleToPreview, expectation.AbleToPreview)
 	}
 	if theme.Processing != expectation.Processing {
 		t.Errorf("Theme.Processing returned %+v, expected %+v", theme.Processing, expectation.Processing)

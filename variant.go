@@ -36,7 +36,7 @@ type Variant struct {
 	ID                   int64            `json:"id,omitempty"`
 	ProductID            int64            `json:"product_id,omitempty"`
 	Title                string           `json:"title,omitempty"`
-	Sku                  string           `json:"sku,omitempty"`
+	SKU                  string           `json:"sku,omitempty"`
 	Position             int              `json:"position,omitempty"`
 	Grams                int              `json:"grams,omitempty"`
 	InventoryPolicy      string           `json:"inventory_policy,omitempty"`
@@ -57,51 +57,18 @@ type Variant struct {
 	InventoryQuantity    int              `json:"inventory_quantity,omitempty"`
 	Weight               *decimal.Decimal `json:"weight,omitempty"`
 	WeightUnit           string           `json:"weight_unit,omitempty"`
-	OldInventoryQuantity int              `json:"old_inventory_quantity,omitempty"`
-	RequireShipping      bool             `json:"requires_shipping"`
-	AdminGraphqlAPIID    string           `json:"admin_graphql_api_id,omitempty"`
-	Metafields           []Metafield      `json:"metafields,omitempty"`
+	OldInventoryQuantity int              `json:"old_inventory_quantity,omitempty"` //FIXME: deprecated field
+	RequireShipping      bool             `json:"requires_shipping"`                //FIXME: deprecated field
+	AdminGraphqlApiId    string           `json:"admin_graphql_api_id,omitempty"`
+	MetaFields           []MetaField      `json:"metafields,omitempty"`
+	PresentmentPrices    []Price          `json:"presentment_prices"` //TODO: New Field Added In Shopify
 }
 
-//TODO: latest from shopify
-// type Variant struct {
-// 	Available             *bool                 `json:"available"`
-// 	Barcode               *string                `json:"barcode"`
-// 	CompareAtPrice         *float64               `json:"compare_at_price"`
-// 	FeaturedImage         *[]string               `json:"featured_image"`
-// 	FeaturedMedia         *[]string               `json:"featured_media"`
-// 	FeaturedSellingPlan   *string                 `json:"featured_selling_plan_allocation"`
-// 	FeaturedSellingPlanAllocations *[]string           `json:"featured_selling_plan_allocations"`
-// 	Incoming               *bool                 `json:"incoming"`
-// 	InventoryManagement     *bool                 `json:"inventory_management"`
-// 	InventoryQuantity      *float64               `json:"inventory_quantity"`
-// 	InventoryQuantityRule   *string                 `json:"inventory_quantity_rule"`
-// 	Matched                *bool                 `json:"matched"`
-// 	Metafields             *[]string               `json:"metafields"`
-// 	NextIncomingDate       *string                 `json:"next_incoming_date"`
-// 	Option1                *string                 `json:"option1"`
-// 	Option2                *string                 `json:"option2"`
-// 	Option3                *string                 `json:"option3"`
-// 	Options                *[]string               `json:"options"`
-// 	Price                  *float64               `json:"price"`
-// 	Product                 *Product               `json:"product"`
-// 	Quantity               *float64               `json:"quantity"`
-// 	RequiredSellingPlan    *bool                 `json:"required_selling_plan"`
-// 	RequiredShipping        *bool                 `json:"required_shipping"`
-// 	SelectedSellingPlanAllocation *string                 `json:"selected_selling_plan_allocation"`
-// 	SelectedSellingPlanAllocations *[]string           `json:"selected_selling_plan_allocations"`
-// 	Sku                    *string                 `json:"sku"`
-// 	StockAvailabilities      *[]string               `json:"stock_availabilities"`
-// 	StoreAvailabilities     *[]string               `json:"store_availabilities"`
-// 	Title                  *string                 `json:"title"`
-// 	UnitPrice               *float64               `json:"unit_price"`
-// 	UnitPriceMeasurement      *string                 `json:"unit_price_measurement"`
-// 	UnitPriceRatio           *float64               `json:"unit_price_ratio"`
-// 	Url                    *string                 `json:"url"`
-// 	Weight                  *float64               `json:"weight"`
-// 	WeightInUnit           *float64               `json:"weight_in_unit"`
-// 	WeightUnit              *string                 `json:"weight_unit"`
-// }
+// TODO: New Struct Added In Shopify
+type Price struct {
+	CurrencyCode string `json:"currency_code"`
+	Amount       string `json:"amount"`
+}
 
 // VariantResource represents the result from the variants/X.json endpoint
 type VariantResource struct {
@@ -159,7 +126,7 @@ func (s *VariantServiceOp) Delete(productID int64, variantID int64) error {
 }
 
 // ListMetafields for a variant
-func (s *VariantServiceOp) ListMetafields(variantID int64, options interface{}) ([]Metafield, error) {
+func (s *VariantServiceOp) ListMetafields(variantID int64, options interface{}) ([]MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: variantsResourceName, resourceID: variantID}
 	return metafieldService.List(options)
 }
@@ -171,19 +138,19 @@ func (s *VariantServiceOp) CountMetafields(variantID int64, options interface{})
 }
 
 // GetMetafield for a variant
-func (s *VariantServiceOp) GetMetafield(variantID int64, metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *VariantServiceOp) GetMetafield(variantID int64, metafieldID int64, options interface{}) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: variantsResourceName, resourceID: variantID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // CreateMetafield for a variant
-func (s *VariantServiceOp) CreateMetafield(variantID int64, metafield Metafield) (*Metafield, error) {
+func (s *VariantServiceOp) CreateMetafield(variantID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: variantsResourceName, resourceID: variantID}
 	return metafieldService.Create(metafield)
 }
 
 // UpdateMetafield for a variant
-func (s *VariantServiceOp) UpdateMetafield(variantID int64, metafield Metafield) (*Metafield, error) {
+func (s *VariantServiceOp) UpdateMetafield(variantID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: variantsResourceName, resourceID: variantID}
 	return metafieldService.Update(metafield)
 }

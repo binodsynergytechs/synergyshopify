@@ -28,28 +28,11 @@ type InventoryLevel struct {
 	InventoryItemId   int64      `json:"inventory_item_id,omitempty"`
 	LocationId        int64      `json:"location_id,omitempty"`
 	Available         int        `json:"available"`
-	CreatedAt         *time.Time `json:"created_at,omitempty"`
+	CreatedAt         *time.Time `json:"created_at,omitempty"` //FIXME: Field Not Available In Latest Shopify Model
 	UpdatedAt         *time.Time `json:"updated_at,omitempty"`
-	AdminGraphqlApiId string     `json:"admin_graphql_api_id,omitempty"`
+	AdminGraphqlApiId string     `json:"admin_graphql_api_id,omitempty"` //FIXME: Field Not Available In Latest Shopify Model
 }
 
-// TODO: latest from shopify 23/04
-// type InventoryLevel struct {
-// 	CanDeactivate     bool                `json:"canDeactivate"`
-// 	CreatedAt         time.Time           `json:"createdAt"`
-// 	DeactivationAlert string              `json:"deactivationAlert"`
-// 	ID                string              `json:"id"`
-// 	Item              InventoryItem       `json:"item"`
-// 	Location          string              `json:"location"`
-// 	quantities        []InventoryQuantity `json:"quantities"`
-// 	updatedAt         time.Time           `json:"updatedAt"`
-// }
-
-// type InventoryQuantity struct {
-// 	name          string    `json:"name"`
-// 	quantity      int       `json:"quantity"`
-// 	updatedAt     time.Time `json:"updatedAt"`
-// }
 
 // InventoryLevelResource is used for handling single level requests and responses
 type InventoryLevelResource struct {

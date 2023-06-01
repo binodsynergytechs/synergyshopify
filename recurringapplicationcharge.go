@@ -30,16 +30,16 @@ type RecurringApplicationChargeServiceOp struct {
 
 // RecurringApplicationCharge represents a Shopify RecurringApplicationCharge.
 type RecurringApplicationCharge struct {
-	APIClientID           int64            `json:"api_client_id"`
+	APIClientID           int64            `json:"api_client_id"` //FIXME: Not Available In Latest Shopify Update
 	ActivatedOn           *time.Time       `json:"activated_on"`
-	BalanceRemaining      *decimal.Decimal `json:"balance_remaining"`
-	BalanceUsed           *decimal.Decimal `json:"balance_used"`
+	BalanceRemaining      *decimal.Decimal `json:"balance_remaining"` //FIXME: Not Available In Latest Shopify Update
+	BalanceUsed           *decimal.Decimal `json:"balance_used"`      //FIXME: Not Available In Latest Shopify Update
 	BillingOn             *time.Time       `json:"billing_on"`
 	CancelledOn           *time.Time       `json:"cancelled_on"`
 	CappedAmount          *decimal.Decimal `json:"capped_amount"`
 	ConfirmationURL       string           `json:"confirmation_url"`
 	CreatedAt             *time.Time       `json:"created_at"`
-	DecoratedReturnURL    string           `json:"decorated_return_url"`
+	DecoratedReturnURL    string           `json:"decorated_return_url"` //FIXME: Not Available In Latest Shopify Update
 	ID                    int64            `json:"id"`
 	Name                  string           `json:"name"`
 	Price                 *decimal.Decimal `json:"price"`
@@ -50,30 +50,11 @@ type RecurringApplicationCharge struct {
 	Test                  *bool            `json:"test"`
 	TrialDays             int              `json:"trial_days"`
 	TrialEndsOn           *time.Time       `json:"trial_ends_on"`
-	UpdateCappedAmountURL string           `json:"update_capped_amount_url"`
+	UpdateCappedAmountURL string           `json:"update_capped_amount_url"` //FIXME: Not Available In Latest Shopify Update
 	UpdatedAt             *time.Time       `json:"updated_at"`
 }
 
-//TODO: latest from shopify 23/04
-// type RecurringApplicationCharge struct {
-// 	ActivatedOn      *time.Time `json:"activated_on"`
-// 	BillingOn        *time.Time `json:"billing_on"`
-// 	CancelledOn      *time.Time `json:"cancelled_on"`
-// 	CappedAmount     *float64   `json:"capped_amount"`
-// 	ConfirmationURL  string      `json:"confirmation_url"`
-// 	CreatedAt        *time.Time `json:"created_at"`
-// 	ID               int         `json:"id"`
-// 	Name             string      `json:"name"`
-// 	Price             float64     `json:"price"`
-// 	ReturnURL        string      `json:"return_url"`
-// 	Status           string      `json:"status"`
-// 	Terms            string      `json:"terms"`
-// 	Test             *bool       `json:"test"`
-// 	TrialDays        int         `json:"trial_days"`
-// 	TrialEndsOn      *time.Time `json:"trial_ends_on"`
-// 	UpdatedAt        *time.Time `json:"updated_at"`
-// 	Currency         string      `json:"currency"`
-// }
+
 
 func parse(dest **time.Time, data *string) error {
 	if data == nil {

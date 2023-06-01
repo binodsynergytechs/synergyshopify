@@ -32,44 +32,21 @@ type PageServiceOp struct {
 
 // Page represents a Shopify page.
 type Page struct {
-	ID             int64       `json:"id,omitempty"`
-	Author         string      `json:"author,omitempty"`
-	Handle         string      `json:"handle,omitempty"`
-	Title          string      `json:"title,omitempty"`
-	CreatedAt      *time.Time  `json:"created_at,omitempty"`
-	UpdatedAt      *time.Time  `json:"updated_at,omitempty"`
-	BodyHTML       string      `json:"body_html,omitempty"`
-	TemplateSuffix string      `json:"template_suffix,omitempty"`
-	PublishedAt    *time.Time  `json:"published_at,omitempty"`
-	ShopID         int64       `json:"shop_id,omitempty"`
-	Metafields     []Metafield `json:"metafields,omitempty"`
+	ID                int64       `json:"id,omitempty"`
+	Author            string      `json:"author,omitempty"`
+	Handle            string      `json:"handle,omitempty"`
+	Title             string      `json:"title,omitempty"`
+	CreatedAt         *time.Time  `json:"created_at,omitempty"`
+	UpdatedAt         *time.Time  `json:"updated_at,omitempty"`
+	BodyHTML          string      `json:"body_html,omitempty"`
+	TemplateSuffix    string      `json:"template_suffix,omitempty"`
+	PublishedAt       *time.Time  `json:"published_at,omitempty"`
+	ShopID            int64       `json:"shop_id,omitempty"`
+	MetaFields        []MetaField `json:"metafields,omitempty"`
+	AdminGraphqlApiId string      `json:"admin_graphql_api_id"` // TODO: Latest Added From Shopify 23/04
 }
 
-//TODO: latest from shopify 23/04
-// type Page struct {
-// 	ID          string                 `json:"id"`
-// 	Body        string                 `json:"body"`
-// 	Anchor      string                 `json:"anchor"`
-// 	CreatedAt   time.Time             `json:"createdAt"`
-// 	Handle      string                 `json:"handle"`
-// 	Metafields  []Metafield            `json:"metafields"`
-// 	OnlineStoreURL string               `json:"onlineStoreUrl"`
-// 	SEO          SEO                  `json:"seo"`
-// 	Title        string                 `json:"title"`
-// 	UpdatedAt    time.Time             `json:"updatedAt"`
-// 	metafield    map[string]string      `json:"metafield"`
-// }
 
-// type Metafield struct {
-// 	Namespace string `json:"namespace"`
-// 	Key        string `json:"key"`
-// 	Value      string `json:"value"`
-// }
-
-// type SEO struct {
-// 	Title string `json:"title"`
-// 	Description string `json:"description"`
-// }
 
 // PageResource represents the result from the pages/X.json endpoint
 type PageResource struct {
@@ -127,7 +104,7 @@ func (s *PageServiceOp) Delete(pageID int64) error {
 }
 
 // List metafields for a page
-func (s *PageServiceOp) ListMetafields(pageID int64, options interface{}) ([]Metafield, error) {
+func (s *PageServiceOp) ListMetafields(pageID int64, options interface{}) ([]MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.List(options)
 }
@@ -139,19 +116,19 @@ func (s *PageServiceOp) CountMetafields(pageID int64, options interface{}) (int,
 }
 
 // Get individual metafield for a page
-func (s *PageServiceOp) GetMetafield(pageID int64, metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *PageServiceOp) GetMetafield(pageID int64, metafieldID int64, options interface{}) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // Create a new metafield for a page
-func (s *PageServiceOp) CreateMetafield(pageID int64, metafield Metafield) (*Metafield, error) {
+func (s *PageServiceOp) CreateMetafield(pageID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Create(metafield)
 }
 
 // Update an existing metafield for a page
-func (s *PageServiceOp) UpdateMetafield(pageID int64, metafield Metafield) (*Metafield, error) {
+func (s *PageServiceOp) UpdateMetafield(pageID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Update(metafield)
 }

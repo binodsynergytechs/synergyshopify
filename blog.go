@@ -29,18 +29,17 @@ type BlogServiceOp struct {
 type Blog struct {
 	ID                 int64      `json:"id"`
 	Title              string     `json:"title"`
-	Commentable        string     `json:"commentable"`
-	Feedburner         string     `json:"feedburner"`
-	FeedburnerLocation string     `json:"feedburner_location"`
+	AbleToComment      string     `json:"commentable"`
+	FeedBurner         string     `json:"feedburner"`
+	FeedBurnerLocation string     `json:"feedburner_location"`
 	Handle             string     `json:"handle"`
-	Metafield          Metafield  `json:"metafield"`
+	MetaField          MetaField  `json:"metafield"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	Tags               string     `json:"tags"`
 	TemplateSuffix     string     `json:"template_suffix"`
 	CreatedAt          *time.Time `json:"created_at"`
 	UpdatedAt          *time.Time `json:"updated_at"`
-	AdminGraphqlAPIID  string     `json:"admin_graphql_api_id,omitempty"`
+	AdminGraphqlApiID  string     `json:"admin_graphql_api_id,omitempty"`
 }
-
 
 // BlogsResource is the result from the blogs.json endpoint
 type BlogsResource struct {

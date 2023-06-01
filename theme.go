@@ -34,29 +34,15 @@ type ThemeServiceOp struct {
 type Theme struct {
 	ID                int64      `json:"id"`
 	Name              string     `json:"name"`
-	Previewable       bool       `json:"previewable"`
+	AbleToPreview     bool       `json:"previewable"`
 	Processing        bool       `json:"processing"`
 	Role              string     `json:"role"`
 	ThemeStoreID      int64      `json:"theme_store_id"`
 	AdminGraphQLApiID string     `json:"admin_graphql_api_id"`
 	CreatedAt         *time.Time `json:"created_at"`
 	UpdatedAt         *time.Time `json:"updated_at"`
+	ThemeSrc          string     `json:"src"` //TODO: latest added from shopify
 }
-
-//TODO: latest from shopify
-
-// type Theme struct {
-// 	CreatedAt     time.Time `json:"created_at"`
-// 	ID            string    `json:"id"`
-// 	Name          string    `json:"name"`
-// 	Previewable   bool      `json:"previewable"`
-// 	Processing    string    `json:"processing"`
-// 	Role          string    `json:"role"`
-// 	Src           string    `json:"src"`
-// 	ThemeStoreID  string    `json:"theme_store_id"`
-// 	UpdatedAt     time.Time `json:"updated_at"`
-// 	ReadOnly      bool      `json:"read_only"`
-// }
 
 // ThemesResource is the result from the themes/X.json endpoint
 type ThemeResource struct {

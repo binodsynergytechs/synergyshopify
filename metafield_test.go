@@ -9,7 +9,7 @@ import (
 	"github.com/jarcoal/httpmock"
 )
 
-func MetafieldTests(t *testing.T, metafield Metafield) {
+func MetafieldTests(t *testing.T, metafield MetaField) {
 	// Check that ID is assigned to the returned metafield
 	expectedInt := int64(1)
 	if metafield.ID != expectedInt {
@@ -29,7 +29,7 @@ func TestMetafieldList(t *testing.T) {
 		t.Errorf("Metafield.List returned error: %v", err)
 	}
 
-	expected := []Metafield{{ID: 1}, {ID: 2}}
+	expected := []MetaField{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(metafields, expected) {
 		t.Errorf("Metafield.List returned %+v, expected %+v", metafields, expected)
 	}
@@ -85,7 +85,7 @@ func TestMetafieldGet(t *testing.T) {
 
 	createdAt := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
 	updatedAt := time.Date(2016, time.January, 2, 0, 0, 0, 0, time.UTC)
-	expected := &Metafield{
+	expected := &MetaField{
 		ID:                1,
 		Key:               "app_key",
 		Value:             "app_value",
@@ -111,7 +111,7 @@ func TestMetafieldCreate(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := Metafield{
+	metafield := MetaField{
 		Namespace: "inventory",
 		Key:       "warehouse",
 		Value:     "25",
@@ -134,7 +134,7 @@ func TestMetafieldUpdate(t *testing.T) {
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields/1.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := Metafield{
+	metafield := MetaField{
 		ID:        1,
 		Value:     "something new",
 		ValueType: "string",

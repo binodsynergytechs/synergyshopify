@@ -73,6 +73,8 @@ type ShippingRateQuery struct {
 	Locale      string              `json:"locale"`
 }
 
+
+
 // The address3, fax, address_type, and company_name fields are returned by specific ActiveShipping providers.
 // For API-created carrier services, you should use only the following shipping address fields:
 // * address1

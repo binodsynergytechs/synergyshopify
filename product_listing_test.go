@@ -15,8 +15,8 @@ import (
 func productListingTests(t *testing.T, product ProductListing) {
 	// Check that ID is assigned to the returned product
 	var expectedInt int64 = 921728736
-	if product.ID != expectedInt {
-		t.Errorf("Product.ID returned %+v, expected %+v", product.ID, expectedInt)
+	if product.ProductID != expectedInt {
+		t.Errorf("Product.ProductID returned %+v, expected %+v", product.ProductID, expectedInt)
 	}
 }
 
@@ -32,7 +32,7 @@ func TestProductListingList(t *testing.T) {
 		t.Errorf("ProductListing.List returned error: %v", err)
 	}
 
-	expected := []ProductListing{{ID: 1}, {ID: 2}}
+	expected := []ProductListing{{ProductID: 1}, {ProductID: 2}}
 	if !reflect.DeepEqual(products, expected) {
 		t.Errorf("ProductListing.List returned %+v, expected %+v", products, expected)
 	}
@@ -80,7 +80,7 @@ func TestProductListingListWithPagination(t *testing.T) {
 		{
 			`{"product_listings": [{"product_id":1},{"product_id":2}]}`,
 			"",
-			[]ProductListing{{ID: 1}, {ID: 2}},
+			[]ProductListing{{ProductID: 1}, {ProductID: 2}},
 			new(Pagination),
 			nil,
 		},
@@ -124,7 +124,7 @@ func TestProductListingListWithPagination(t *testing.T) {
 		{
 			`{"product_listings": [{"product_id":1}]}`,
 			`<http://valid.url?page_info=foo&limit=2>; rel="next"`,
-			[]ProductListing{{ID: 1}},
+			[]ProductListing{{ProductID: 1}},
 			&Pagination{
 				NextPageOptions: &ListOptions{PageInfo: "foo", Limit: 2},
 			},
@@ -133,7 +133,7 @@ func TestProductListingListWithPagination(t *testing.T) {
 		{
 			`{"product_listings": [{"product_id":2}]}`,
 			`<http://valid.url?page_info=foo>; rel="next", <http://valid.url?page_info=bar>; rel="previous"`,
-			[]ProductListing{{ID: 2}},
+			[]ProductListing{{ProductID: 2}},
 			&Pagination{
 				NextPageOptions:     &ListOptions{PageInfo: "foo"},
 				PreviousPageOptions: &ListOptions{PageInfo: "bar"},
@@ -225,7 +225,7 @@ func TestProductListingGet(t *testing.T) {
 		t.Errorf("ProductListing.Get returned error: %v", err)
 	}
 
-	expected := &ProductListing{ID: 1}
+	expected := &ProductListing{ProductID: 1}
 	if !reflect.DeepEqual(product, expected) {
 		t.Errorf("ProductListing.Get returned %+v, expected %+v", product, expected)
 	}

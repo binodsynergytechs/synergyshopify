@@ -40,7 +40,7 @@ type Location struct {
 	// The two-letter code (ISO 3166-1 alpha-2 format) corresponding to country the location is in.
 	CountryCode string `json:"country_code"`
 
-	CountryName string `json:"country_name"`
+	CountryName string `json:"country_name"` //FIXME: Not Available In Latest Shopify Model
 
 	// The date and time (ISO 8601 format) when the location was created.
 	CreatedAt time.Time `json:"created_at"`
@@ -69,55 +69,12 @@ type Location struct {
 	UpdatedAt time.Time `json:"updated_at"`
 
 	// The zip or postal code.
-	Zip string `json:"zip"`
+	Zip                   string `json:"zip"`
+	LocalizedCountryName  string `json:"localized_country_name"`   //TODO: Field Available In Latest Shopify Model
+	LocalizedProvinceName string `json:"localized_province_name"` //TODO: Field Available In Latest Shopify Model
 
-	AdminGraphqlAPIID string `json:"admin_graphql_api_id"`
+	AdminGraphqlAPIID string `json:"admin_graphql_api_id"` //FIXME: Field Available In Latest Shopify Model
 }
-
-//TODO: latest from shopify 23/04
-// type Location struct {
-// 	Anchor      LocationAddress `json:"anchor"`
-// 	ID          string         `json:"id"`
-// 	Metafields  []Metafield   `json:"metafields"`
-// 	Name        string         `json:"name"`
-// 	SearchResults []HasMetafieldsIdentifier `json:"searchResults"`
-// }
-
-//TODO: latest from shopify 23/04
-// type LocationAddress struct {
-// 	Address string `json:"address"`
-// }
-
-//TODO: latest from shopify 23/04
-// type Metafield struct {
-// 	Namespace    string   `json:"namespace"`
-// 	Key          string   `json:"key"`
-// 	Identifier   string   `json:"identifier"`
-// 	Value        string   `json:"value"`
-// }
-
-//TODO: latest from shopify 23/04
-// type HasMetafieldsIdentifier struct {
-// 	Namespace  string `json:"namespace"`
-// 	Key        string `json:"key"`
-// 	Identifiers []Metafield `json:"identifiers"`
-// }
-
-//TODO: latest from shopify 23/04
-// type LocationAddress struct {
-// 	Address1     string `json:"address1"`
-// 	Address2     string `json:"address2"`
-// 	City          string `json:"city"`
-// 	Country       string `json:"country"`
-// 	CountryCode   string `json:"countryCode"`
-// 	Formatted     []string `json:"formatted"`
-// 	Latitude      float64  `json:"latitude"`
-// 	Longitude     float64  `json:"longitude"`
-// 	Phone          string `json:"phone"`
-// 	Province       string `json:"province"`
-// 	ProvinceCode   string `json:"provinceCode"`
-// 	Zip             string `json:"zip"`
-// }
 
 // LocationServiceOp handles communication with the location related methods of
 // the Shopify API.

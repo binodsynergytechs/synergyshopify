@@ -32,18 +32,11 @@ type PriceRuleDiscountCode struct {
 	UsageCount  int        `json:"usage_count,omitempty"`
 	CreatedAt   *time.Time `json:"created_at,omitempty"`
 	UpdatedAt   *time.Time `json:"updated_at,omitempty"`
+	Errors      []string   `json:"// FIXME: Field Not Available In Model 23/04"`
 }
 
-//TODO: latest from shopify 23/04
-
-// type PriceRuleDiscountCode struct {
-// 	App        string `json:"app"`
-// 	Code       string `json:"code"`
-// 	ID         string `json:"id"`
-// 	UsageCount int    `json:"usageCount"`
-// }
-
-
+// FIXME: Field Not Available In Model 23/04
+// TODO: Latest Field Available In Model 23/04
 
 // DiscountCodesResource is the result from the discount_codes.json endpoint
 type DiscountCodesResource struct {

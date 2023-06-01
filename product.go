@@ -51,56 +51,13 @@ type Product struct {
 	Options                        []ProductOption `json:"options,omitempty"`
 	Variants                       []Variant       `json:"variants,omitempty"`
 	Image                          Image           `json:"image,omitempty"`
-	Images                         []Image         `json:"images,omitempty"`
 	TemplateSuffix                 string          `json:"template_suffix,omitempty"`
-	MetafieldsGlobalTitleTag       string          `json:"metafields_global_title_tag,omitempty"`
-	MetafieldsGlobalDescriptionTag string          `json:"metafields_global_description_tag,omitempty"`
-	Metafields                     []Metafield     `json:"metafields,omitempty"`
-	AdminGraphqlAPIID              string          `json:"admin_graphql_api_id,omitempty"`
+	Images                         []Image         `json:"images,omitempty"`                            // FIXME: Not Available In Latest Shopify Update
+	MetafieldsGlobalTitleTag       string          `json:"metafields_global_title_tag,omitempty"`       // FIXME: Not Available In Latest Shopify Update
+	MetafieldsGlobalDescriptionTag string          `json:"metafields_global_description_tag,omitempty"` // FIXME: Not Available In Latest Shopify Update
+	Metafields                     []MetaField     `json:"metafields,omitempty"`                        // FIXME: Not Available In Latest Shopify Update
+	AdminGraphqlAPIID              string          `json:"admin_graphql_api_id,omitempty"`              // FIXME: Not Available In Latest Shopify Update
 }
-
-//TODO: latest options provided by Shopify
-
-//	type Product struct {
-//		AvailablePublicationCount      int         `json:"availablePublicationCount"`
-//		ContextualPricing             ProductContextualPricing `json:"contextualPricing"`
-//		CreatedAt                      DateTime    `json:"createdAt"`
-//		DefaultCursor                  string      `json:"defaultCursor"`
-//		Description                    string      `json:"description"`
-//		DescriptionHTML                string      `json:"descriptionHTML"`
-//		FeaturedImage                  Image       `json:"featuredImage"`
-//		FeaturedMedia                  Media       `json:"featuredMedia"`
-//		Feedback                        ResourceFeedback `json:"feedback"`
-//		GiftCardTemplateSuffix         string      `json:"giftCardTemplateSuffix"`
-//		Handle                         string      `json:"handle"`
-//		HasOnlyDefaultVariant          bool        `json:"hasOnlyDefaultVariant"`
-//		HasOutOfStockVariants          bool        `json:"hasOutOfStockVariants"`
-//		ID                              ID          `json:"id"`
-//		InCollection                   bool        `json:"inCollection"`
-//		IsGiftCard                     bool        `json:"isGiftCard"`
-//		LegacyResourceID               string      `json:"legacyResourceId"`
-//		MediaCount                      int         `json:"mediaCount"`
-//		Metafield                       Metafield   `json:"metafield"`
-//		OnlineStorePreviewUrl           URL        `json:"onlineStorePreviewUrl"`
-//		OnlineStoreUrl                 URL        `json:"onlineStoreUrl"`
-//		Options                         []ProductOption `json:"options"`
-//		PriceRangeV2                    ProductPriceRangeV2 `json:"priceRangeV2"`
-//		ProductCategory                 ProductCategory `json:"productCategory"`
-//		ProductType                     string      `json:"productType"`
-//		PublicationCount                int         `json:"publicationCount"`
-//		PublishedAt                     DateTime    `json:"publishedAt"`
-//		PublishedInContext              bool        `json:"publishedInContext"`
-//		PublishedInCurrentPublication   bool        `json:"publishedInCurrentPublication"`
-//		PublicationId                   ID          `json:"publicationId"`
-//		PublishedOnCurrentPublication     bool        `json:"publishedOnCurrentPublication"`
-//		PublishedOnPublication            bool        `json:"publishedOnPublication"`
-//		RequiresSellingPlan              bool        `json:"requiresSellingPlan"`
-//		ResourcePublicationOnCurrentPublication ResourcePublicationV2 `json:"resourcePublicationOnCurrentPublication"`
-//		SellingPlanGroupCount            int         `json:"sellingPlanGroupCount"`
-//		SEO                              SEO         `json:"seo"`
-//		Status                            ProductStatus `json:"status"`
-//		Tags                              []string    `json:"tags"`
-//	}
 
 type ProductOption struct {
 	ID        int64    `json:"id,omitempty"`
@@ -198,7 +155,7 @@ func (s *ProductServiceOp) Delete(productID int64) error {
 }
 
 // ListMetafields for a product
-func (s *ProductServiceOp) ListMetafields(productID int64, options interface{}) ([]Metafield, error) {
+func (s *ProductServiceOp) ListMetafields(productID int64, options interface{}) ([]MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
 	return metafieldService.List(options)
 }
@@ -210,19 +167,19 @@ func (s *ProductServiceOp) CountMetafields(productID int64, options interface{})
 }
 
 // GetMetafield for a product
-func (s *ProductServiceOp) GetMetafield(productID int64, metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *ProductServiceOp) GetMetafield(productID int64, metafieldID int64, options interface{}) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // CreateMetafield for a product
-func (s *ProductServiceOp) CreateMetafield(productID int64, metafield Metafield) (*Metafield, error) {
+func (s *ProductServiceOp) CreateMetafield(productID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
 	return metafieldService.Create(metafield)
 }
 
 // UpdateMetafield for a product
-func (s *ProductServiceOp) UpdateMetafield(productID int64, metafield Metafield) (*Metafield, error) {
+func (s *ProductServiceOp) UpdateMetafield(productID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
 	return metafieldService.Update(metafield)
 }

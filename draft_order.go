@@ -49,6 +49,8 @@ type DraftOrder struct {
 	Currency        string           `json:"currency,omitempty"`
 	InvoiceSentAt   *time.Time       `json:"invoice_sent_at,omitempty"`
 	InvoiceURL      string           `json:"invoice_url,omitempty"`
+	PaymentTerm     interface{}      `json:"payment_terms"` // TODO: Latest Field Available In Model 23/04
+	SourceName      string           `json:"source_name"`   // TODO: Latest Field Available In Model 23/04
 	LineItems       []LineItem       `json:"line_items,omitempty"`
 	ShippingLine    *ShippingLines   `json:"shipping_line,omitempty"`
 	Tags            string           `json:"tags,omitempty"`
@@ -57,6 +59,7 @@ type DraftOrder struct {
 	TaxesIncluded   bool             `json:"taxes_included,omitempty"`
 	TotalTax        string           `json:"total_tax,omitempty"`
 	TaxExempt       *bool            `json:"tax_exempt,omitempty"`
+	TaxExemptions   []string         `json:"tax_exemptions"` // TODO: Latest Field Available In Model 23/04
 	TotalPrice      string           `json:"total_price,omitempty"`
 	SubtotalPrice   *decimal.Decimal `json:"subtotal_price,omitempty"`
 	CompletedAt     *time.Time       `json:"completed_at,omitempty"`
@@ -66,8 +69,6 @@ type DraftOrder struct {
 	// only in request to flag using the customer's default address
 	UseCustomerDefaultAddress bool `json:"use_customer_default_address,omitempty"`
 }
-
-// TODO: latest from shopify 23/04
 
 // type DraftOrder struct {
 // 	AppliedDiscount string                 `json:"appliedDiscount"`
@@ -252,7 +253,7 @@ func (s *DraftOrderServiceOp) Complete(draftOrderID int64, paymentPending bool) 
 }
 
 // List metafields for an order
-func (s *DraftOrderServiceOp) ListMetafields(draftOrderID int64, options interface{}) ([]Metafield, error) {
+func (s *DraftOrderServiceOp) ListMetafields(draftOrderID int64, options interface{}) ([]MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.List(options)
 }
@@ -264,19 +265,19 @@ func (s *DraftOrderServiceOp) CountMetafields(draftOrderID int64, options interf
 }
 
 // Get individual metafield for an order
-func (s *DraftOrderServiceOp) GetMetafield(draftOrderID int64, metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *DraftOrderServiceOp) GetMetafield(draftOrderID int64, metafieldID int64, options interface{}) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // Create a new metafield for an order
-func (s *DraftOrderServiceOp) CreateMetafield(draftOrderID int64, metafield Metafield) (*Metafield, error) {
+func (s *DraftOrderServiceOp) CreateMetafield(draftOrderID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Create(metafield)
 }
 
 // Update an existing metafield for an order
-func (s *DraftOrderServiceOp) UpdateMetafield(draftOrderID int64, metafield Metafield) (*Metafield, error) {
+func (s *DraftOrderServiceOp) UpdateMetafield(draftOrderID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Update(metafield)
 }

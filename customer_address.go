@@ -39,8 +39,9 @@ type CustomerAddress struct {
 	ProvinceCode string `json:"province_code,omitempty"`
 	CountryCode  string `json:"country_code,omitempty"`
 	CountryName  string `json:"country_name,omitempty"`
-	Default      bool   `json:"default,omitempty"`
+	Default      bool   `json:"default,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 }
+
 
 // CustomerAddressResoruce represents the result from the addresses/X.json endpoint
 type CustomerAddressResource struct {

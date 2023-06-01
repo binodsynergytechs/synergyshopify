@@ -25,37 +25,22 @@ type InventoryItemServiceOp struct {
 
 // InventoryItem represents a Shopify inventory item
 type InventoryItem struct {
-	ID                int64            `json:"id,omitempty"`
-	SKU               string           `json:"sku,omitempty"`
-	CreatedAt         *time.Time       `json:"created_at,omitempty"`
-	UpdatedAt         *time.Time       `json:"updated_at,omitempty"`
-	Cost              *decimal.Decimal `json:"cost,omitempty"`
-	Tracked           *bool            `json:"tracked,omitempty"`
-	AdminGraphqlAPIID string           `json:"admin_graphql_api_id,omitempty"`
+	ID                           int64            `json:"id,omitempty"`
+	SKU                          string           `json:"sku,omitempty"`
+	CreatedAt                    *time.Time       `json:"created_at,omitempty"`
+	UpdatedAt                    *time.Time       `json:"updated_at,omitempty"`
+	Cost                         *decimal.Decimal `json:"cost,omitempty"`
+	Tracked                      *bool            `json:"tracked,omitempty"`
+	AdminGraphqlApiId            string           `json:"admin_graphql_api_id,omitempty"`
+	RequireShipping              bool             `json:"requires_shipping"`
+	ProvinceCodeOfOrigin         string           `json:"province_code_of_origin"`         //TODO: Field Available In Latest Shopify Model
+	HarmonizedSystemCode         string           `json:"harmonized_system_code"`          //TODO: Field Available In Latest Shopify Model
+	CountryHarmonizedSystemCodes []interface{}    `json:"country_harmonized_system_codes"` //TODO: Field Available In Latest Shopify Model
+	CountryCodeOfOrigin          string           `json:"country_code_of_origin"`          //TODO: Field Available In Latest Shopify Model
 }
 
-// // TODO: latest from shopify 23/04
-// type InventoryItem struct {
-// 	ID                   string             `json:"id"`
-// 	CreatedAt             time.Time          `json:"createdAt"`
-// 	CountryCodeOfOrigin    string             `json:"countryCodeOfOrigin"`
-// 	HarmonizedSystemCode  string             `json:"harmonizedSystemCode"`
-// 	InventoryLevel        InventoryLevel     `json:"inventoryLevel"`
-// 	InventoryHistoryUrl  string             `json:"inventoryHistoryUrl"`
-// 	InventoryLevelUrl    string             `json:"inventoryLevelUrl"`
-// 	LocationId           string             `json:"locationId"`
-// 	LegacyResourceId     string             `json:"legacyResourceId"`
-// 	LocationsCount        int                `json:"locationsCount"`
-// 	ProvinceCodeOfOrigin string             `json:"provinceCodeOfOrigin"`
-// 	RequiresShipping      bool               `json:"requiresShipping"`
-// 	SKU                   string             `json:"sku"`
-// 	Tracked                bool               `json:"tracked"`
-// 	TrackedEditable        bool               `json:"trackedEditable"`
-// 	UnitCost              MoneyV2            `json:"unitCost"`
-// 	UpdatedAt             time.Time          `json:"updatedAt"`
-// 	Variant                ProductVariant     `json:"variant"`
-// 	ImageUrl               string             `json:"imageUrl"`
-// }
+//FIXME: Field Available In Latest Shopify Model
+//TODO: Field Available In Latest Shopify Model
 
 // InventoryItemResource is used for handling single item requests and responses
 type InventoryItemResource struct {

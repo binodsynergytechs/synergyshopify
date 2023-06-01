@@ -17,14 +17,16 @@ type FulfillmentServiceService interface {
 	Delete(int64) error
 }
 
+// FIXME: Field Not Available In Model 23/04
+// TODO: Latest Field Available In Model 23/04
 type FulfillmentServiceData struct {
-	Id                     int64  `json:"id,omitempty"`
+	Id                     int64  `json:"id,omitempty"` // FIXME: Field Not Available In Model 23/04
 	Name                   string `json:"name,omitempty"`
-	Email                  string `json:"email,omitempty"`
-	ServiceName            string `json:"service_name,omitempty"`
+	Email                  string `json:"email,omitempty"`        // FIXME: Field Not Available In Model 23/04
+	ServiceName            string `json:"service_name,omitempty"` // FIXME: Field Not Available In Model 23/04
 	Handle                 string `json:"handle,omitempty"`
 	FulfillmentOrdersOptIn bool   `json:"fulfillment_orders_opt_in,omitempty"`
-	IncludePendingStock    bool   `json:"include_pending_stock,omitempty"`
+	IncludePendingStock    bool   `json:"include_pending_stock,omitempty"` // FIXME: Field Not Available In Model 23/04
 	ProviderId             int64  `json:"provider_id,omitempty"`
 	LocationId             int64  `json:"location_id,omitempty"`
 	CallbackURL            string `json:"callback_url,omitempty"`
@@ -34,8 +36,6 @@ type FulfillmentServiceData struct {
 	PermitsSkuSharing      bool   `json:"permits_sku_sharing,omitempty"`
 	RequiresShippingMethod bool   `json:"requires_shipping_method,omitempty"`
 }
-
-
 
 type FulfillmentServiceResource struct {
 	FulfillmentService *FulfillmentServiceData `json:"fulfillment_service,omitempty"`

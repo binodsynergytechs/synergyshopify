@@ -29,8 +29,8 @@ func variantTests(t *testing.T, variant Variant) {
 	}
 
 	expectedMetafieldCount := 0
-	if len(variant.Metafields) != expectedMetafieldCount {
-		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.Metafields, expectedMetafieldCount)
+	if len(variant.MetaFields) != expectedMetafieldCount {
+		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.MetaFields, expectedMetafieldCount)
 	}
 }
 
@@ -53,13 +53,13 @@ func variantWithMetafieldsTests(t *testing.T, variant Variant) {
 	}
 
 	expectedMetafieldCount := 1
-	if len(variant.Metafields) != expectedMetafieldCount {
-		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.Metafields, expectedMetafieldCount)
+	if len(variant.MetaFields) != expectedMetafieldCount {
+		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.MetaFields, expectedMetafieldCount)
 	}
 
 	expectedMetafieldDescription := "description"
-	if variant.Metafields[0].Description != expectedMetafieldDescription {
-		t.Errorf("Variant.Metafield.Description returned %+v, expected %+v", variant.Metafields[0].Description, expectedMetafieldDescription)
+	if variant.MetaFields[0].Description != expectedMetafieldDescription {
+		t.Errorf("Variant.Metafield.Description returned %+v, expected %+v", variant.MetaFields[0].Description, expectedMetafieldDescription)
 	}
 }
 
@@ -206,7 +206,7 @@ func TestVariantWithMetafieldsUpdate(t *testing.T) {
 	variant := Variant{
 		ID:      2,
 		Option1: "Green",
-		Metafields: []Metafield{
+		MetaFields: []MetaField{
 			{
 				ID:          123,
 				Description: "Original",
@@ -215,7 +215,7 @@ func TestVariantWithMetafieldsUpdate(t *testing.T) {
 	}
 
 	variant.Option1 = "Blue"
-	variant.Metafields[0].Description = "description"
+	variant.MetaFields[0].Description = "description"
 
 	returnedVariant, err := client.Variant.Update(variant)
 	if err != nil {
@@ -250,7 +250,7 @@ func TestVariantListMetafields(t *testing.T) {
 		t.Errorf("Variant.ListMetafields() returned error: %v", err)
 	}
 
-	expected := []Metafield{{ID: 1}, {ID: 2}}
+	expected := []MetaField{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(metafields, expected) {
 		t.Errorf("Variant.ListMetafields() returned %+v, expected %+v", metafields, expected)
 	}
@@ -304,7 +304,7 @@ func TestVariantGetMetafield(t *testing.T) {
 		t.Errorf("Variant.GetMetafield() returned error: %v", err)
 	}
 
-	expected := &Metafield{ID: 2}
+	expected := &MetaField{ID: 2}
 	if !reflect.DeepEqual(metafield, expected) {
 		t.Errorf("Variant.GetMetafield() returned %+v, expected %+v", metafield, expected)
 	}
@@ -317,7 +317,7 @@ func TestVariantCreateMetafield(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := Metafield{
+	metafield := MetaField{
 		Key:       "app_key",
 		Value:     "app_value",
 		ValueType: "string",
@@ -340,7 +340,7 @@ func TestVariantUpdateMetafield(t *testing.T) {
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := Metafield{
+	metafield := MetaField{
 		ID:        2,
 		Key:       "app_key",
 		Value:     "app_value",
@@ -446,8 +446,8 @@ func variantTestsWithTaxCode(t *testing.T, variant Variant) {
 	}
 
 	expectedMetafieldCount := 0
-	if len(variant.Metafields) != expectedMetafieldCount {
-		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.Metafields, expectedMetafieldCount)
+	if len(variant.MetaFields) != expectedMetafieldCount {
+		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.MetaFields, expectedMetafieldCount)
 	}
 
 	// Check that the Tax_code is assigned to the returned variant

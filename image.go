@@ -33,8 +33,8 @@ type Image struct {
 	Width      int        `json:"width,omitempty"`
 	Height     int        `json:"height,omitempty"`
 	Src        string     `json:"src,omitempty"`
-	Attachment string     `json:"attachment,omitempty"`
-	Filename   string     `json:"filename,omitempty"`
+	Attachment string     `json:"attachment,omitempty"` //FIXME: Not Available In Latest Shopify Model
+	Filename   string     `json:"filename,omitempty"`   //FIXME: Not Available In Latest Shopify Model
 	VariantIds []int64    `json:"variant_ids,omitempty"`
 }
 

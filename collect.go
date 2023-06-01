@@ -29,12 +29,14 @@ type Collect struct {
 	ID           int64      `json:"id,omitempty"`
 	CollectionID int64      `json:"collection_id,omitempty"`
 	ProductID    int64      `json:"product_id,omitempty"`
-	Featured     bool       `json:"featured,omitempty"` // FIXME: Not In Shopify latest Version 23/04
+	Featured     bool       `json:"featured,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	CreatedAt    *time.Time `json:"created_at,omitempty"`
 	UpdatedAt    *time.Time `json:"updated_at,omitempty"`
 	Position     int        `json:"position,omitempty"`
 	SortValue    string     `json:"sort_value,omitempty"`
 }
+
+
 
 // Represents the result from the collects/X.json endpoint
 type CollectResource struct {

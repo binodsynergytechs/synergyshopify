@@ -322,7 +322,7 @@ func TestProductListMetafields(t *testing.T) {
 		t.Errorf("Product.ListMetafields() returned error: %v", err)
 	}
 
-	expected := []Metafield{{ID: 1}, {ID: 2}}
+	expected := []MetaField{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(metafields, expected) {
 		t.Errorf("Product.ListMetafields() returned %+v, expected %+v", metafields, expected)
 	}
@@ -376,7 +376,7 @@ func TestProductGetMetafield(t *testing.T) {
 		t.Errorf("Product.GetMetafield() returned error: %v", err)
 	}
 
-	expected := &Metafield{ID: 2}
+	expected := &MetaField{ID: 2}
 	if !reflect.DeepEqual(metafield, expected) {
 		t.Errorf("Product.GetMetafield() returned %+v, expected %+v", metafield, expected)
 	}
@@ -389,7 +389,7 @@ func TestProductCreateMetafield(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/metafields.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := Metafield{
+	metafield := MetaField{
 		Key:       "app_key",
 		Value:     "app_value",
 		ValueType: "string",
@@ -412,7 +412,7 @@ func TestProductUpdateMetafield(t *testing.T) {
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := Metafield{
+	metafield := MetaField{
 		ID:        2,
 		Key:       "app_key",
 		Value:     "app_value",

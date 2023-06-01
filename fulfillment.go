@@ -43,42 +43,39 @@ type FulfillmentServiceOp struct {
 
 // Fulfillment represents a Shopify fulfillment.
 type Fulfillment struct {
-	ID              int64      `json:"id,omitempty"`
-	OrderID         int64      `json:"order_id,omitempty"`
-	LocationID      int64      `json:"location_id,omitempty"`
-	Status          string     `json:"status,omitempty"`
-	CreatedAt       *time.Time `json:"created_at,omitempty"`
-	Service         string     `json:"service,omitempty"`
-	UpdatedAt       *time.Time `json:"updated_at,omitempty"`
-	TrackingCompany string     `json:"tracking_company,omitempty"`
-	ShipmentStatus  string     `json:"shipment_status,omitempty"`
-	TrackingNumber  string     `json:"tracking_number,omitempty"`
-	TrackingNumbers []string   `json:"tracking_numbers,omitempty"`
-	TrackingUrl     string     `json:"tracking_url,omitempty"`
-	TrackingUrls    []string   `json:"tracking_urls,omitempty"`
-	Receipt         Receipt    `json:"receipt,omitempty"`
-	LineItems       []LineItem `json:"line_items,omitempty"`
-	NotifyCustomer  bool       `json:"notify_customer"`
+	ID                         int64      `json:"id,omitempty"`
+	OrderID                    int64      `json:"order_id,omitempty"`
+	LocationID                 int64      `json:"location_id,omitempty"`
+	Status                     string     `json:"status,omitempty"`
+	CreatedAt                  *time.Time `json:"created_at,omitempty"`
+	Service                    string     `json:"service,omitempty"`
+	UpdatedAt                  *time.Time `json:"updated_at,omitempty"`
+	TrackingCompany            string     `json:"tracking_company,omitempty"`
+	ShipmentStatus             string     `json:"shipment_status,omitempty"`
+	TrackingNumber             string     `json:"tracking_number,omitempty"`
+	TrackingNumbers            []string   `json:"tracking_numbers,omitempty"`
+	TrackingUrl                string     `json:"tracking_url,omitempty"`
+	TrackingUrls               []string   `json:"tracking_urls,omitempty"`
+	Receipt                    Receipt    `json:"receipt,omitempty"`
+	LineItems                  []LineItem `json:"line_items,omitempty"`
+	NotifyCustomer             bool       `json:"notify_customer"`
+	Name                       string     `json:"name"`                          // TODO: Latest From Shopify Model 23/04
+	VariantInventoryManagement string     `jso0n:"variant_inventory_management"` // TODO: Latest From Shopify Model 23/04
+	OriginAddress              Address    `json:"origin_address"`                // TODO: Latest From Shopify Model 23/04
 }
-
-// // TODO: latest from shopify 23/04
-// type FulfillmentService struct {
-// 	CallbackURL            string `json:"callbackUrl"`
-// 	FulfillmentOrdersOptIn bool   `json:"fulfillmentOrdersOptIn"`
-// 	Handle                 string `json:"handle"`
-// 	ID                     string `json:"id"`
-// 	InventoryManagement    bool   `json:"inventoryManagement"`
-// 	Location               string `json:"location"`
-// 	PermitsSKUSharing      bool   `json:"permitsSkuSharing"`
-// 	ProductBased           bool   `json:"productBased"`
-// 	ServiceName            string `json:"serviceName"`
-// 	Type                   string `json:"type"`
-// }
 
 // Receipt represents a Shopify receipt.
 type Receipt struct {
 	TestCase      bool   `json:"testcase,omitempty"`
 	Authorization string `json:"authorization,omitempty"`
+	LocationID    int64  `json:"location_id"`    // TODO: Latest From Shopify Model 23/04
+	UserID        int64  `json:"user_id"`        // TODO: Latest From Shopify Model 23/04
+	ReceiptType   string `json:"receipt_type"`   // TODO: Latest From Shopify Model 23/04
+	ReceiptHeader string `json:"receipt_header"` // TODO: Latest From Shopify Model 23/04
+	ReceiptFooter string `json:"receipt_footer"` // TODO: Latest From Shopify Model 23/04
+	CreatedAt     string `json:"created_at"`     // TODO: Latest From Shopify Model 23/04
+	UpdatedAt     string `json:"updated_at"`     // TODO: Latest From Shopify Model 23/04
+	ReceiptNumber string `json:"receipt_number"` // TODO: Latest From Shopify Model 23/04
 }
 
 // FulfillmentResource represents the result from the fulfillments/X.json endpoint

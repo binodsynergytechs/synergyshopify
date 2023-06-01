@@ -45,37 +45,15 @@ type SmartCollection struct {
 	SortOrder      string      `json:"sort_order"`
 	TemplateSuffix string      `json:"template_suffix"`
 	Image          Image       `json:"image"`
-	Published      bool        `json:"published"`
+	Published      bool        `json:"published"` // FIXME: Not Available In Latest Shopify Model 23/04
 	PublishedAt    *time.Time  `json:"published_at"`
 	PublishedScope string      `json:"published_scope"`
 	Rules          []Rule      `json:"rules"`
 	Disjunctive    bool        `json:"disjunctive"`
-	Metafields     []Metafield `json:"metafields,omitempty"`
+	MetaFields     []MetaField `json:"metafields,omitempty"` // FIXME: Not Available In Latest Shopify Model 23/04
 }
 
 //TODO: latest from shopify 23/04
-
-// type Shop struct {
-// 	BodyHtml        string                 `json:"body_html"`
-// 	Handle          string                 `json:"handle"`
-// 	ID              int                    `json:"id"`
-// 	Image           string                 `json:"image"`
-// 	PublishedAt     time.Time               `json:"published_at"`
-// 	PublishedScope  string                 `json:"published_scope"`
-// 	Rules           []Rule                 `json:"rules"`
-// 	Disjunctive     bool                    `json:"disjunctive"`
-// 	SortOrder       string                 `json:"sort_order"`
-// 	Title           string                 `json:"title"`
-// 	UpdatedAt       time.Time               `json:"updated_at"`
-// }
-
-// type Rule struct {
-// 	Column     string                 `json:"column"`
-// 	Condition  string                 `json:"condition"`
-// 	Relation   string                 `json:"relation"`
-// 	ObjectID   int                    `json:"object_id"`
-// 	ConditionObjectID int                `json:"condition_object_id"`
-// }
 
 // SmartCollectionResource represents the result from the smart_collections/X.json endpoint
 type SmartCollectionResource struct {
@@ -134,7 +112,7 @@ func (s *SmartCollectionServiceOp) Delete(collectionID int64) error {
 }
 
 // List metafields for a smart collection
-func (s *SmartCollectionServiceOp) ListMetafields(smartCollectionID int64, options interface{}) ([]Metafield, error) {
+func (s *SmartCollectionServiceOp) ListMetafields(smartCollectionID int64, options interface{}) ([]MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
 	return metafieldService.List(options)
 }
@@ -146,19 +124,19 @@ func (s *SmartCollectionServiceOp) CountMetafields(smartCollectionID int64, opti
 }
 
 // Get individual metafield for a smart collection
-func (s *SmartCollectionServiceOp) GetMetafield(smartCollectionID int64, metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *SmartCollectionServiceOp) GetMetafield(smartCollectionID int64, metafieldID int64, options interface{}) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // Create a new metafield for a smart collection
-func (s *SmartCollectionServiceOp) CreateMetafield(smartCollectionID int64, metafield Metafield) (*Metafield, error) {
+func (s *SmartCollectionServiceOp) CreateMetafield(smartCollectionID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
 	return metafieldService.Create(metafield)
 }
 
 // Update an existing metafield for a smart collection
-func (s *SmartCollectionServiceOp) UpdateMetafield(smartCollectionID int64, metafield Metafield) (*Metafield, error) {
+func (s *SmartCollectionServiceOp) UpdateMetafield(smartCollectionID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
 	return metafieldService.Update(metafield)
 }

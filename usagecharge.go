@@ -27,26 +27,19 @@ type UsageChargeServiceOp struct {
 
 // UsageCharge represents a Shopify UsageCharge.
 type UsageCharge struct {
-	BalanceRemaining *decimal.Decimal `json:"balance_remaining,omitempty"`
-	BalanceUsed      *decimal.Decimal `json:"balance_used,omitempty"`
-	BillingOn        *time.Time       `json:"billing_on,omitempty"`
-	CreatedAt        *time.Time       `json:"created_at,omitempty"`
-	Description      string           `json:"description,omitempty"`
-	ID               int64            `json:"id,omitempty"`
-	Price            *decimal.Decimal `json:"price,omitempty"`
-	RiskLevel        *decimal.Decimal `json:"risk_level,omitempty"`
+	BalanceRemaining             *decimal.Decimal `json:"balance_remaining,omitempty"` //FIXME: Not Available In Shopify
+	BalanceUsed                  *decimal.Decimal `json:"balance_used,omitempty"`      //FIXME: Not Available In Shopify
+	BillingOn                    *time.Time       `json:"billing_on,omitempty"`        //FIXME: Not Available In Shopify
+	RiskLevel                    *decimal.Decimal `json:"risk_level,omitempty"`        //FIXME: Not Available In Shopify
+	CreatedAt                    *time.Time       `json:"created_at,omitempty"`
+	Description                  string           `json:"description,omitempty"`
+	ID                           int64            `json:"id,omitempty"`
+	Price                        *decimal.Decimal `json:"price,omitempty"`
+	UpdatedAt                    *time.Time       `json:"Updated_at,omitempty"`            //TODO: New Field Added In Shopify
+	RecurringApplicationChargeID int64            `json:"recurring_application_charge_id"` //TODO: New Field Added In Shopify
+	Currency                     string           `json:"currency"`                        //TODO: New Field Added In Shopify
 }
 
-//TODO: latest from shopify
-// type Transaction struct {
-// 	CreatedAt      time.Time `json:"created_at"`
-// 	Description    string     `json:"description"`
-// 	ID             string     `json:"id"`
-// 	Price          string     `json:"price"`
-// 	RecurringAppChargeID string     `json:"recurring_application_charge_id"`
-// 	UpdatedAt      time.Time `json:"updated_at"`
-// 	Currency       string     `json:"currency"`
-// }
 func (r *UsageCharge) UnmarshalJSON(data []byte) error {
 	// This is a workaround for the API returning BillingOn date in the format of "YYYY-MM-DD"
 	// https://help.shopify.com/en/api/reference/billing/usagecharge#endpoints

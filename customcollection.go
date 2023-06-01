@@ -42,23 +42,10 @@ type CustomCollection struct {
 	Published      bool        `json:"published"`
 	PublishedAt    *time.Time  `json:"published_at"`
 	PublishedScope string      `json:"published_scope"`
-	Metafields     []Metafield `json:"metafields,omitempty"`
+	MetaFields     []MetaField `json:"metafields,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 }
 
-// TODO: latest model from shopify
-// type CustomCollection struct {
-// 	BodyHTML       string      `json:"body_html"`
-// 	Handle         string      `json:"handle"`
-// 	Image          interface{} `json:"image"`
-// 	ID             int         `json:"id"`
-// 	Published      bool        `json:"published"`
-// 	PublishedAt    time.Time   `json:"published_at"`
-// 	PublishedScope string      `json:"published_scope"`
-// 	SortOrder      string      `json:"sort_order"`
-// 	TemplateSuffix string      `json:"template_suffix"`
-// 	Title          string      `json:"title"`
-// 	UpdatedAt      time.Time   `json:"updated_at"`
-// }
+
 
 // CustomCollectionResource represents the result form the custom_collections/X.json endpoint
 type CustomCollectionResource struct {
@@ -117,7 +104,7 @@ func (s *CustomCollectionServiceOp) Delete(collectionID int64) error {
 }
 
 // List metafields for a custom collection
-func (s *CustomCollectionServiceOp) ListMetafields(customCollectionID int64, options interface{}) ([]Metafield, error) {
+func (s *CustomCollectionServiceOp) ListMetafields(customCollectionID int64, options interface{}) ([]MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: customCollectionsResourceName, resourceID: customCollectionID}
 	return metafieldService.List(options)
 }
@@ -129,19 +116,19 @@ func (s *CustomCollectionServiceOp) CountMetafields(customCollectionID int64, op
 }
 
 // Get individual metafield for a custom collection
-func (s *CustomCollectionServiceOp) GetMetafield(customCollectionID int64, metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *CustomCollectionServiceOp) GetMetafield(customCollectionID int64, metafieldID int64, options interface{}) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: customCollectionsResourceName, resourceID: customCollectionID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // Create a new metafield for a custom collection
-func (s *CustomCollectionServiceOp) CreateMetafield(customCollectionID int64, metafield Metafield) (*Metafield, error) {
+func (s *CustomCollectionServiceOp) CreateMetafield(customCollectionID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: customCollectionsResourceName, resourceID: customCollectionID}
 	return metafieldService.Create(metafield)
 }
 
 // Update an existing metafield for a custom collection
-func (s *CustomCollectionServiceOp) UpdateMetafield(customCollectionID int64, metafield Metafield) (*Metafield, error) {
+func (s *CustomCollectionServiceOp) UpdateMetafield(customCollectionID int64, metafield MetaField) (*MetaField, error) {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: customCollectionsResourceName, resourceID: customCollectionID}
 	return metafieldService.Update(metafield)
 }

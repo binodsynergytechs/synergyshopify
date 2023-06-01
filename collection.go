@@ -36,22 +36,6 @@ type Collection struct {
 	PublishedScope string     `json:"published_scope"`
 }
 
-// TODO: latest collection object from shopify
-
-// type Collection struct {
-// 	Description    string    `json:"description"`
-// 	Title          string    `json:"title"`
-// 	Handle         string    `json:"handle"`
-// 	ID             int       `json:"id"`
-// 	Image          Image     `json:"image"`
-// 	Metafield      Metafield `json:"metafield"`
-// 	OnlineStoreUrl string    `json:"onlineStoreUrl"`
-// 	Seo            SEO       `json:"seo"`
-// 	TitleHtml      string    `json:"titleHtml"`
-// 	TruncateAt     int       `json:"truncateAt"`
-// 	UpdatedAt      time.Time `json:"updatedAt"`
-// }
-
 // Represents the result from the collections/X.json endpoint
 type CollectionResource struct {
 	Collection *Collection `json:"collection"`

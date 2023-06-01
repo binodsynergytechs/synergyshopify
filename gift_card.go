@@ -31,7 +31,7 @@ type GiftCard struct {
 	ID             int64            `json:"id,omitempty"`
 	ApiClientId    int64            `json:"api_client_id,omitempty"`
 	Balance        *decimal.Decimal `json:"balance,omitempty"`
-	InitalValue    *decimal.Decimal `json:"initial_value,omitempty"`
+	InitialValue   *decimal.Decimal `json:"initial_value,omitempty"`
 	Code           string           `json:"code,omitempty"`
 	Currency       string           `json:"currency,omitempty"`
 	CustomerID     *CustomerID      `json:"customer_id,omitempty"`
@@ -46,23 +46,6 @@ type GiftCard struct {
 	UserID         int64            `json:"user_id,omitempty"`
 	UpdatedAt      *time.Time       `json:"updated_at,omitempty"`
 }
-
-//TODO: latest from shopify 23/04
-
-// type GiftCard struct {
-// 	Balance          MoneyV2 `json:"balance"`
-// 	CreatedAt        time.Time `json:"createdAt"`
-// 	Customer         string    `json:"customer"`
-// 	DisabledAt       time.Time `json:"disabledAt"`
-// 	Enabled          bool     `json:"enabled"`
-// 	ExpiresOn        time.Time `json:"expiresOn"`
-// 	ID               string    `json:"id"`
-// 	InitialValue     MoneyV2 `json:"initialValue"`
-// 	LastCharacters    string    `json:"lastCharacters"`
-// 	MaskedCode       string    `json:"maskedCode"`
-// 	Note              string    `json:"note"`
-// 	Order             Order     `json:"order"`
-// }
 
 type CustomerID struct {
 	CustomerID int64 `json:"customer_id,omitempty"`

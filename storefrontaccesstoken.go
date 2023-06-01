@@ -28,20 +28,9 @@ type StorefrontAccessToken struct {
 	Title             string     `json:"title,omitempty"`
 	AccessToken       string     `json:"access_token,omitempty"`
 	AccessScope       string     `json:"access_scope,omitempty"`
-	AdminGraphqlAPIID string     `json:"admin_graphql_api_id,omitempty"`
+	AdminGraphqlApiID string     `json:"admin_graphql_api_id,omitempty"` // FIXME: NOT AVAILABLE IN LATEST SHOPIFY UPDATES
 	CreatedAt         *time.Time `json:"created_at,omitempty"`
 }
-
-//TODO: latest from shopify 23/04
-
-// type StorefrontAccessToken struct {
-// 	AccessScopes []AccessScope `json:"accessScopes"`
-// 	AccessToken  string        `json:"accessToken"`
-// 	CreatedAt    time.Time     `json:"createdAt"`
-// 	ID           string        `json:"id"`
-// 	Title        string        `json:"title"`
-// 	UpdatedAt    time.Time     `json:"updatedAt"`
-// }
 
 // StorefrontAccessTokenResource represents the result from the admin/storefront_access_tokens.json endpoint
 type StorefrontAccessTokenResource struct {

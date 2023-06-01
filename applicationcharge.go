@@ -33,25 +33,12 @@ type ApplicationCharge struct {
 	Test               *bool            `json:"test"`
 	CreatedAt          *time.Time       `json:"created_at"`
 	UpdatedAt          *time.Time       `json:"updated_at"`
-	ChargeType         *string          `json:"charge_type"`
-	DecoratedReturnURL string           `json:"decorated_return_url"`
+	ChargeType         *string          `json:"charge_type"`          // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
+	DecoratedReturnURL string           `json:"decorated_return_url"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	ConfirmationURL    string           `json:"confirmation_url"`
 }
 
-// TODO:
 
-// type ApplicationCharge struct {
-// 	ConfirmationURL string `json:"confirmation_url"`
-// 	CreatedAt       string `json:"created_at"`
-// 	ID              string `json:"id"`
-// 	Name            string `json:"name"`
-// 	Price           float64 `json:"price"`
-// 	ReturnURL       string `json:"return_url"`
-// 	Status          string `json:"status"`
-// 	Test            bool `json:"test"`
-// 	UpdatedAt       string `json:"updated_at"`
-// 	Currency        string `json:"currency"`
-// }
 
 // ApplicationChargeResource represents the result from the
 // admin/application_charges{/X{/activate.json}.json}.json endpoints.

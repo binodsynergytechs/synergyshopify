@@ -29,7 +29,7 @@ type ProductListingServiceOp struct {
 
 // ProductListing represents a Shopify product published to your sales channel app
 type ProductListing struct {
-	ID          int64           `json:"product_id,omitempty"`
+	ProductID   int64           `json:"product_id,omitempty"`
 	Title       string          `json:"title,omitempty"`
 	BodyHTML    string          `json:"body_html,omitempty"`
 	Vendor      string          `json:"vendor,omitempty"`
@@ -44,47 +44,8 @@ type ProductListing struct {
 	Images      []Image         `json:"images,omitempty"`
 }
 
-//TODO: latest from shopify 23/04
 
-//	type ProductListing struct {
-//		ProductID                    string                 `json:"product_id"`
-//		BodyHTML                     string                 `json:"body_html"`
-//		CreatedAt                    string                 `json:"created_at"`
-//		Handle                       string                 `json:"handle"`
-//		Images                        []string               `json:"images"`
-//		Options                       []string               `json:"options"`
-//		ProductType                   string                 `json:"product_type"`
-//		PublishedAt                   string                 `json:"published_at"`
-//		Tags                          []string               `json:"tags"`
-//		Title                         string                 `json:"title"`
-//		UpdatedAt                     string                 `json:"updated_at"`
-//		Variants                      []struct {
-//			Barcode                  string                 `json:"barcode"`
-//			CompareAtPrice            string                 `json:"compare_at_price"`
-//			CreatedAt                 string                 `json:"created_at"`
-//			FulfillmentService          string                 `json:"fulfillment_service"`
-//			Grams                      int                    `json:"grams"`
-//			Weight                     int                    `json:"weight"`
-//			WeightUnit                  string                 `json:"weight_unit"`
-//			ID                          string                 `json:"id"`
-//			InventoryManagement          bool                   `json:"inventory_management"`
-//			InventoryPolicy              bool                   `json:"inventory_policy"`
-//			InventoryQuantity           int                    `json:"inventory_quantity"`
-//			Metafield                   string                 `json:"metafield"`
-//			Option                      string                 `json:"option"`
-//			Position                     int                    `json:"position"`
-//			Price                        float64                `json:"price"`
-//			ProductID                    string                 `json:"product_id"`
-//			RequiresShipping              bool                   `json:"requires_shipping"`
-//			Sku                          string                 `json:"sku"`
-//			SKU                          string                 `json:"sku"`
-//			Taxable                      bool                   `json:"taxable"`
-//			Title                         string                 `json:"title"`
-//			UpdatedAt                     string                 `json:"updated_at"`
-//			Vendor                        string                 `json:"vendor"`
-//		} `json:"variants"`
-//	}
-//
+
 // Represents the result from the product_listings/X.json endpoint
 type ProductListingResource struct {
 	ProductListing *ProductListing `json:"product_listing"`

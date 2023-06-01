@@ -6,8 +6,9 @@ type AccessScopesService interface {
 
 type AccessScope struct {
 	Handle      string `json:"handle,omitempty"`
-	Description string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 }
+
 
 // AccessScopesResource represents the result from the oauth/access_scopes.json endpoint
 type AccessScopesResource struct {

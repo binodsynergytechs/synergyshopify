@@ -9,11 +9,11 @@ import (
 // of the Shopify API.
 // https://help.shopify.com/api/reference/metafield
 type MetafieldService interface {
-	List(interface{}) ([]Metafield, error)
+	List(interface{}) ([]MetaField, error)
 	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*Metafield, error)
-	Create(Metafield) (*Metafield, error)
-	Update(Metafield) (*Metafield, error)
+	Get(int64, interface{}) (*MetaField, error)
+	Create(MetaField) (*MetaField, error)
+	Update(MetaField) (*MetaField, error)
 	Delete(int64) error
 }
 
@@ -21,11 +21,11 @@ type MetafieldService interface {
 // to interface with the metafield endpoints of the Shopify API.
 // https://help.shopify.com/api/reference/metafield
 type MetafieldsService interface {
-	ListMetafields(int64, interface{}) ([]Metafield, error)
+	ListMetafields(int64, interface{}) ([]MetaField, error)
 	CountMetafields(int64, interface{}) (int, error)
-	GetMetafield(int64, int64, interface{}) (*Metafield, error)
-	CreateMetafield(int64, Metafield) (*Metafield, error)
-	UpdateMetafield(int64, Metafield) (*Metafield, error)
+	GetMetafield(int64, int64, interface{}) (*MetaField, error)
+	CreateMetafield(int64, MetaField) (*MetaField, error)
+	UpdateMetafield(int64, MetaField) (*MetaField, error)
 	DeleteMetafield(int64, int64) error
 }
 
@@ -37,12 +37,12 @@ type MetafieldServiceOp struct {
 	resourceID int64
 }
 
-// Metafield represents a Shopify metafield.
-type Metafield struct {
+// MetaField represents a Shopify metafield.
+type MetaField struct {
 	ID                int64       `json:"id,omitempty"`
 	Key               string      `json:"key,omitempty"`
 	Value             interface{} `json:"value,omitempty"`
-	ValueType         string      `json:"value_type,omitempty"`
+	ValueType         string      `json:"value_type,omitempty"` // FIXME: Not Available In Latest Shopify Model
 	Type              string      `json:"type,omitempty"`
 	Namespace         string      `json:"namespace,omitempty"`
 	Description       string      `json:"description,omitempty"`
@@ -50,35 +50,24 @@ type Metafield struct {
 	CreatedAt         *time.Time  `json:"created_at,omitempty"`
 	UpdatedAt         *time.Time  `json:"updated_at,omitempty"`
 	OwnerResource     string      `json:"owner_resource,omitempty"`
-	AdminGraphqlAPIID string      `json:"admin_graphql_api_id,omitempty"`
+	AdminGraphqlAPIID string      `json:"admin_graphql_api_id,omitempty"` // FIXME: Not Available In Latest Shopify Model
 }
 
-// TODO:latest from shopify 23/04
-
-// type Metafield struct {
-// 	CreatedAt      time.Time   `json:"createdAt"`
-// 	ID             string      `json:"id"`
-// 	Key            string      `json:"key"`
-// 	Namespace      string      `json:"namespace"`
-// 	ParentResource string      `json:"parentResource"`
-// 	Reference      string      `json:"reference"`
-// 	Type           string      `json:"type"`
-// 	UpdatedAt      time.Time   `json:"updatedAt"`
-// 	Value          interface{} `json:"value"`
-// }
+// FIXME: Not Available In Latest Shopify Model
+// TODO: Available In Latest Shopify Model 23/04
 
 // MetafieldResource represents the result from the metafields/X.json endpoint
 type MetafieldResource struct {
-	Metafield *Metafield `json:"metafield"`
+	Metafield *MetaField `json:"metafield"`
 }
 
 // MetafieldsResource represents the result from the metafields.json endpoint
 type MetafieldsResource struct {
-	Metafields []Metafield `json:"metafields"`
+	Metafields []MetaField `json:"metafields"`
 }
 
 // List metafields
-func (s *MetafieldServiceOp) List(options interface{}) ([]Metafield, error) {
+func (s *MetafieldServiceOp) List(options interface{}) ([]MetaField, error) {
 	prefix := MetafieldPathPrefix(s.resource, s.resourceID)
 	path := fmt.Sprintf("%s.json", prefix)
 	resource := new(MetafieldsResource)
@@ -94,7 +83,7 @@ func (s *MetafieldServiceOp) Count(options interface{}) (int, error) {
 }
 
 // Get individual metafield
-func (s *MetafieldServiceOp) Get(metafieldID int64, options interface{}) (*Metafield, error) {
+func (s *MetafieldServiceOp) Get(metafieldID int64, options interface{}) (*MetaField, error) {
 	prefix := MetafieldPathPrefix(s.resource, s.resourceID)
 	path := fmt.Sprintf("%s/%d.json", prefix, metafieldID)
 	resource := new(MetafieldResource)
@@ -103,7 +92,7 @@ func (s *MetafieldServiceOp) Get(metafieldID int64, options interface{}) (*Metaf
 }
 
 // Create a new metafield
-func (s *MetafieldServiceOp) Create(metafield Metafield) (*Metafield, error) {
+func (s *MetafieldServiceOp) Create(metafield MetaField) (*MetaField, error) {
 	prefix := MetafieldPathPrefix(s.resource, s.resourceID)
 	path := fmt.Sprintf("%s.json", prefix)
 	wrappedData := MetafieldResource{Metafield: &metafield}
@@ -113,7 +102,7 @@ func (s *MetafieldServiceOp) Create(metafield Metafield) (*Metafield, error) {
 }
 
 // Update an existing metafield
-func (s *MetafieldServiceOp) Update(metafield Metafield) (*Metafield, error) {
+func (s *MetafieldServiceOp) Update(metafield MetaField) (*MetaField, error) {
 	prefix := MetafieldPathPrefix(s.resource, s.resourceID)
 	path := fmt.Sprintf("%s/%d.json", prefix, metafield.ID)
 	wrappedData := MetafieldResource{Metafield: &metafield}
