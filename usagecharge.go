@@ -37,6 +37,16 @@ type UsageCharge struct {
 	RiskLevel        *decimal.Decimal `json:"risk_level,omitempty"`
 }
 
+//TODO: latest from shopify
+// type Transaction struct {
+// 	CreatedAt      time.Time `json:"created_at"`
+// 	Description    string     `json:"description"`
+// 	ID             string     `json:"id"`
+// 	Price          string     `json:"price"`
+// 	RecurringAppChargeID string     `json:"recurring_application_charge_id"`
+// 	UpdatedAt      time.Time `json:"updated_at"`
+// 	Currency       string     `json:"currency"`
+// }
 func (r *UsageCharge) UnmarshalJSON(data []byte) error {
 	// This is a workaround for the API returning BillingOn date in the format of "YYYY-MM-DD"
 	// https://help.shopify.com/en/api/reference/billing/usagecharge#endpoints

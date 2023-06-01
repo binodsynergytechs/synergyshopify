@@ -53,6 +53,30 @@ type SmartCollection struct {
 	Metafields     []Metafield `json:"metafields,omitempty"`
 }
 
+//TODO: latest from shopify 23/04
+
+// type Shop struct {
+// 	BodyHtml        string                 `json:"body_html"`
+// 	Handle          string                 `json:"handle"`
+// 	ID              int                    `json:"id"`
+// 	Image           string                 `json:"image"`
+// 	PublishedAt     time.Time               `json:"published_at"`
+// 	PublishedScope  string                 `json:"published_scope"`
+// 	Rules           []Rule                 `json:"rules"`
+// 	Disjunctive     bool                    `json:"disjunctive"`
+// 	SortOrder       string                 `json:"sort_order"`
+// 	Title           string                 `json:"title"`
+// 	UpdatedAt       time.Time               `json:"updated_at"`
+// }
+
+// type Rule struct {
+// 	Column     string                 `json:"column"`
+// 	Condition  string                 `json:"condition"`
+// 	Relation   string                 `json:"relation"`
+// 	ObjectID   int                    `json:"object_id"`
+// 	ConditionObjectID int                `json:"condition_object_id"`
+// }
+
 // SmartCollectionResource represents the result from the smart_collections/X.json endpoint
 type SmartCollectionResource struct {
 	Collection *SmartCollection `json:"smart_collection"`

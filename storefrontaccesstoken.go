@@ -32,6 +32,17 @@ type StorefrontAccessToken struct {
 	CreatedAt         *time.Time `json:"created_at,omitempty"`
 }
 
+//TODO: latest from shopify 23/04
+
+// type StorefrontAccessToken struct {
+// 	AccessScopes []AccessScope `json:"accessScopes"`
+// 	AccessToken  string        `json:"accessToken"`
+// 	CreatedAt    time.Time     `json:"createdAt"`
+// 	ID           string        `json:"id"`
+// 	Title        string        `json:"title"`
+// 	UpdatedAt    time.Time     `json:"updatedAt"`
+// }
+
 // StorefrontAccessTokenResource represents the result from the admin/storefront_access_tokens.json endpoint
 type StorefrontAccessTokenResource struct {
 	StorefrontAccessToken *StorefrontAccessToken `json:"storefront_access_token"`

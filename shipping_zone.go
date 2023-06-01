@@ -30,6 +30,61 @@ type ShippingZone struct {
 	CarrierShippingRateProviders []CarrierShippingRateProvider `json:"carrier_shipping_rate_providers,omitempty"`
 }
 
+// TODO: Latest From Shopify 23/04
+
+// type ScriptTag struct {
+// 	ID                  int         `json:"id"`
+// 	Name                string      `json:"name"`
+// 	ProfileID           string      `json:"profile_id"`
+// 	LocationGroupID      string      `json:"location_group_id"`
+// 	Countries            []Country   `json:"countries"`
+// 	Provinces           []Province  `json:"provinces"`
+// 	CarrierShippingRateProviders []interface{} `json:"carrier_shipping_rate_providers"`
+// 	PriceBasedShippingRates []PriceBasedShippingRate `json:"price_based_shipping_rates"`
+// 	WeightBasedShippingRates []WeightBasedShippingRate `json:"weight_based_shipping_rates"`
+// }
+
+// TODO: Latest From Shopify 23/04
+// type Country struct {
+// 	ID          int    `json:"id"`
+// 	ShippingZoneID int    `json:"shipping_zone_id"`
+// 	Name        string `json:"name"`
+// 	Tax         float64 `json:"tax"`
+// 	Code        string `json:"code"`
+// 	TaxName     string `json:"tax_name"`
+// 	Provinces  []interface{} `json:"provinces"`
+// }
+
+// TODO: Latest From Shopify 23/04
+// type Province struct {
+// 	Code        string `json:"code"`
+// 	CountryID   int    `json:"country_id"`
+// 	ShippingZoneID int    `json:"shipping_zone_id"`
+// 	Name        string `json:"name"`
+// 	Tax         float64 `json:"tax"`
+// 	TaxName     string `json:"tax_name"`
+// 	TaxPercent   float64 `json:"tax_percent"`
+// }
+
+// TODO: Latest From Shopify 23/04
+// type PriceBasedShippingRate struct {
+// 	ID          int    `json:"id"`
+// 	Name        string `json:"name"`
+// 	Price       float64 `json:"price"`
+// 	MinOrderSubtotal float64 `json:"min_order_subtotal"`
+// 	MaxOrderSubtotal float64 `json:"max_order_subtotal"`
+// }
+
+// TODO: Latest From Shopify 23/04
+// type WeightBasedShippingRate struct {
+// 	ID          int    `json:"id"`
+// 	Name        string `json:"name"`
+// 	Price       float64 `json:"price"`
+// 	WeightLow    float64 `json:"weight_low"`
+// 	WeightHigh   float64 `json:"weight_high"`
+// 	WeightRange float64 `json:"weight_range"`
+// }
+
 // ShippingCountry represents a Shopify shipping country
 type ShippingCountry struct {
 	ID             int64              `json:"id,omitempty"`

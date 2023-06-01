@@ -12,6 +12,35 @@ type TransactionService interface {
 	Create(int64, Transaction) (*Transaction, error)
 }
 
+//TODO: latest from shopify
+
+// type Transaction struct {
+// 	TransactionAmount    float64                 `json:"transaction-amount"`
+// 	BuyerPendingPaymentInstructions []PendingPaymentInstructionInput `json:"transaction-buyer_pending_payment_instructions"`
+// 	BuyerPendingPaymentNotice      string                  `json:"transaction-buyer_pending_payment_notice"`
+// 	CreatedAt                 string                  `json:"transaction-created_at"`
+// 	Gateway                   string                  `json:"transaction-gateway"`
+// 	GatewayDisplayName        string                  `json:"transaction-gateway_display_name"`
+// 	ID                        string                  `json:"transaction-id"`
+// 	Kind                      string                  `json:"transaction-kind"`
+// 	Name                      string                  `json:"transaction-name"`
+// 	PaymentDetails            TransactionPaymentDetails  `json:"transaction-payment_details"`
+// 	Receipt                   string                  `json:"transaction-receipt"`
+// 	ShowBuyerPendingPaymentInstructions bool `json:"transaction-show_buyer_pending_payment_instructions"`
+// 	Status                     string                  `json:"transaction-status"`
+// 	StatusLabel                 string                  `json:"transaction-status_label"`
+// }
+
+
+
+// type PendingPaymentInstructionInput struct {
+// 	// Add fields for pending payment instruction input
+// }
+
+// type TransactionPaymentDetails struct {
+// 	// Add fields for payment details
+// }
+
 // TransactionServiceOp handles communication with the transaction related methods of the
 // Shopify API.
 type TransactionServiceOp struct {

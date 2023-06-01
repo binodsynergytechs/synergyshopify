@@ -35,7 +35,26 @@ type ScriptTag struct {
 	UpdatedAt    *time.Time `json:"updated_at"`
 }
 
+// TODO: latest from shopify 23/04
+// type ScriptTag struct {
+// 	Cache            bool         `json:"cache"`
+// 	CreatedAt        time.Time    `json:"createdAt"`
+// 	DisplayScope     ScriptTagDisplayScope `json:"displayScope"`
+// 	Id               string        `json:"id"`
+// 	LegacyResourceId UnsignedInt64  `json:"legacyResourceId"`
+// 	Src              string        `json:"src"`
+// 	UpdatedAt        time.Time    `json:"updatedAt"`
+// }
 // The options provided by Shopify.
+
+// type ScriptTagDisplayScope string
+
+// const (
+//
+//	PageAll ScriptTagDisplayScope = "page_all"
+//	PageSpecific ScriptTagDisplayScope = "page_specific"
+//
+// )
 type ScriptTagOption struct {
 	Limit        int       `url:"limit,omitempty"`
 	Page         int       `url:"page,omitempty"`

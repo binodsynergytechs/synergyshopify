@@ -39,6 +39,21 @@ type Webhook struct {
 	ApiVersion                 string     `json:"api_version,omitempty"`
 }
 
+// TODO: latest from shopify
+//
+//	type Webhook struct {
+//	    Address                  string   `json:"address"`
+//	    APIVersion               string   `json:"api_version,omitempty"`
+//	    CreatedAt                string   `json:"created_at,omitempty"`
+//	    Fields                   []string `json:"fields,omitempty"`
+//	    Format                   string   `json:"format,omitempty"`
+//	    ID                       int      `json:"id,omitempty"`
+//	    MetafieldNamespaces      []string `json:"metafield_namespaces,omitempty"`
+//	    PrivateMetafieldNamespaces []string `json:"private_metafield_namespaces,omitempty"`
+//	    Topic                    string   `json:"topic"`
+//	    UpdatedAt                string   `json:"updated_at,omitempty"`
+//	}
+//
 // WebhookOptions can be used for filtering webhooks on a List request.
 type WebhookOptions struct {
 	Address string `url:"address,omitempty"`

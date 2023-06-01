@@ -70,6 +70,124 @@ type Shop struct {
 	PreLaunchEnabled                bool       `json:"pre_launch_enabled"`
 }
 
+//TODO: latest from shopify 23/04
+
+// type Shop struct {
+// 	Alerts                              []ShopAlert                       `json:"alerts"`
+// 	AllProductCategories                []ProductCategory                 `json:"allProductCategories"`
+// 	BillingAddress                      ShopAddress                       `json:"billingAddress"`
+// 	ChannelDefinitionsForInstalledChannels []AvailableChannelDefinitionsByChannel `json:"channelDefinitionsForInstalledChannels"`
+// 	CheckoutApiSupported                bool                              `json:"checkoutApiSupported"`
+// 	ContactEmail                        string                            `json:"contactEmail"`
+// 	CountriesInShippingZones            CountriesInShippingZones          `json:"countriesInShippingZones"`
+// 	CurrencyCode                        CurrencyCode                      `json:"currencyCode"`
+// 	CurrencyFormats                     CurrencyFormats                   `json:"currencyFormats"`
+// 	CustomerAccounts                    ShopCustomerAccountsSetting       `json:"customerAccounts"`
+// 	Description                         *string                           `json:"description"`
+// 	Email                               string                            `json:"email"`
+// 	EnabledPresentmentCurrencies        []CurrencyCode                    `json:"enabledPresentmentCurrencies"`
+// 	Features                            ShopFeatures                      `json:"features"`
+// 	FulfillmentServices                 []FulfillmentService              `json:"fulfillmentServices"`
+// 	IanaTimezone                        string                            `json:"ianaTimezone"`
+// 	ID                                  string                            `json:"id"`
+// 	LimitedPendingOrderCount            LimitedPendingOrderCount          `json:"limitedPendingOrderCount"`
+// 	MerchantApprovalSignals             *MerchantApprovalSignals          `json:"merchantApprovalSignals"`
+// 	Metafield                           *Metafield                        `json:"metafield"`
+// 	MyshopifyDomain                     string                            `json:"myshopifyDomain"`
+// 	Name                                string                            `json:"name"`
+// 	NavigationSettings                  []NavigationItem                  `json:"navigationSettings"`
+// 	OrderNumberFormatPrefix             string                            `json:"orderNumberFormatPrefix"`
+// 	OrderNumberFormatSuffix             string                            `json:"orderNumberFormatSuffix"`
+// 	PaymentSettings                     PaymentSettings                   `json:"paymentSettings"`
+// 	Plan                                ShopPlan                          `json:"plan"`
+// 	PrimaryDomain                       Domain                            `json:"primaryDomain"`
+// 	PublicationCount                    int                               `json:"publicationCount"`
+// 	ResourceLimits                      ShopResourceLimits                `json:"resourceLimits"`
+// 	RichTextEditorURL                   string                            `json:"richTextEditorUrl"`
+// 	SearchFilters                       SearchFilterOptions               `json:"searchFilters"`
+// 	SetupRequired                       bool                              `json:"setupRequired"`
+// 	ShipsToCountries                    []CountryCode                     `json:"shipsToCountries"`
+// 	ShopPolicies                        []ShopPolicy                      `json:"shopPolicies"`
+// 	TaxShipping                         bool                              `json:"taxShipping"`
+// 	TaxesIncluded                       bool                              `json:"taxesIncluded"`
+// 	TimezoneAbbreviation                string                            `json:"timezoneAbbreviation"`
+// 	TimezoneOffset                      string                            `json:"timezoneOffset"`
+// 	TimezoneOffsetMinutes               int                               `json:"timezoneOffsetMinutes"`
+// 	TransactionalSMSDisabled            bool                              `json:"transactionalSmsDisabled"`
+// 	Translations                        []Translation                     `json:"translations"`
+// 	UnitSystem                          UnitSystem                        `json:"unitSystem"`
+// 	UploadedImagesByIds                 []Image                           `json:"uploadedImagesByIds"`
+// }
+
+//TODO: latest from shopify 23/04
+
+// type Shop struct {
+// 	Alerts                   []struct {
+// 		*ShopAlert `json:"alerts"`
+// 	} `json:"alerts"`
+// 	AllProductCategories      []struct {
+// 		*ProductCategory `json:"allProductCategories"`
+// 	} `json:"allProductCategories"`
+// 	BillingAddress           struct {
+// 		*ShopAddress `json:"billingAddress"`
+// 	} `json:"billingAddress"`
+// 	ChannelDefinitionsForInstalledChannels []struct {
+// 		*AvailableChannelDefinitionsByChannel `json:"availableChannelDefinitions"`
+// 	} `json:"channelDefinitionsForInstalledChannels"`
+// 	CheckoutApiSupported           bool    `json:"checkoutApiSupported"`
+// 	CustomerAccounts           bool    `json:"customerAccounts"`
+// 	EnabledPresentmentCurrencies bool    `json:"enabledPresentmentCurrencies"`
+// 	Email                       string  `json:"email"`
+// 	EnabledFeatures             []struct {
+// 		*Feature `json:"feature"`
+// 	} `json:"enabledFeatures"`
+// 	Features                    struct {
+// 		*ShopFeatures `json:"features"`
+// 	} `json:"features"`
+// 	FulfillmentServices         []struct {
+// 		*FulfillmentService `json:"fulfillmentService"`
+// 	} `json:"fulfillmentServices"`
+// 	IanaTimezone              string    `json:"ianaTimezone"`
+// 	ID                         string    `json:"id"`
+// 	Name                        string    `json:"name"`
+// 	NavigationSettings         struct {
+// 		*NavigationItem `json:"navigationSettings"`
+// 	} `json:"navigationSettings"`
+// 	OrderNumberFormatPrefix    string    `json:"orderNumberFormatPrefix"`
+// 	OrderNumberFormatSuffix    string    `json:"orderNumberFormatSuffix"`
+// 	PaymentSettings           struct {
+// 		*PaymentSettings `json:"paymentSettings"`
+// 	} `json:"paymentSettings"`
+// 	Plan                       struct {
+// 		*ShopPlan `json:"plan"`
+// 	} `json:"plan"`
+// 	PublicationCount           int      `json:"publicationCount"`
+// 	ResourceLimits           struct {
+// 		*ShopResourceLimits `json:"resourceLimits"`
+// 	} `json:"resourceLimits"`
+// 	RichTextEditorUrl         string    `json:"richTextEditorUrl"`
+// 	SearchFilters             []struct {
+// 		*Translation `json:"translation"`
+// 	} `json:"searchFilters"`
+// 	SetupRequired             bool    `json:"setupRequired"`
+// 	ShipsToCountries         []struct {
+// 		*CountryCode `json:"countryCode"`
+// 	} `json:"shipsToCountries"`
+// 	ShopPolicies             struct {
+// 		*ShopPolicy `json:"shopPolicies"`
+// 	} `json:"shopPolicies"`
+// 	TaxShipping                bool    `json:"taxShipping"`
+// 	TaxesIncluded             bool    `json:"taxesIncluded"`
+// 	TransactionalSmsDisabled    bool    `json:"transactionalSmsDisabled"`
+// 	Translations              []struct {
+// 		*Translation `json:"translation"`
+// 	} `json:"translations"`
+// 	UnitSystem                 string    `json:"unitSystem"`
+// 	UploadedImagesByIds       []struct {
+// 		*Image                 `json:"uploadedImagesByIds"`
+// 	} `json:"uploadedImagesByIds"`
+// }
+
 // Represents the result from the admin/shop.json endpoint
 type ShopResource struct {
 	Shop *Shop `json:"shop"`

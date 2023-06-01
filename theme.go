@@ -43,6 +43,21 @@ type Theme struct {
 	UpdatedAt         *time.Time `json:"updated_at"`
 }
 
+//TODO: latest from shopify
+
+// type Theme struct {
+// 	CreatedAt     time.Time `json:"created_at"`
+// 	ID            string    `json:"id"`
+// 	Name          string    `json:"name"`
+// 	Previewable   bool      `json:"previewable"`
+// 	Processing    string    `json:"processing"`
+// 	Role          string    `json:"role"`
+// 	Src           string    `json:"src"`
+// 	ThemeStoreID  string    `json:"theme_store_id"`
+// 	UpdatedAt     time.Time `json:"updated_at"`
+// 	ReadOnly      bool      `json:"read_only"`
+// }
+
 // ThemesResource is the result from the themes/X.json endpoint
 type ThemeResource struct {
 	Theme *Theme `json:"theme"`

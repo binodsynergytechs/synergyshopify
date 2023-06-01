@@ -63,6 +63,46 @@ type Variant struct {
 	Metafields           []Metafield      `json:"metafields,omitempty"`
 }
 
+//TODO: latest from shopify
+// type Variant struct {
+// 	Available             *bool                 `json:"available"`
+// 	Barcode               *string                `json:"barcode"`
+// 	CompareAtPrice         *float64               `json:"compare_at_price"`
+// 	FeaturedImage         *[]string               `json:"featured_image"`
+// 	FeaturedMedia         *[]string               `json:"featured_media"`
+// 	FeaturedSellingPlan   *string                 `json:"featured_selling_plan_allocation"`
+// 	FeaturedSellingPlanAllocations *[]string           `json:"featured_selling_plan_allocations"`
+// 	Incoming               *bool                 `json:"incoming"`
+// 	InventoryManagement     *bool                 `json:"inventory_management"`
+// 	InventoryQuantity      *float64               `json:"inventory_quantity"`
+// 	InventoryQuantityRule   *string                 `json:"inventory_quantity_rule"`
+// 	Matched                *bool                 `json:"matched"`
+// 	Metafields             *[]string               `json:"metafields"`
+// 	NextIncomingDate       *string                 `json:"next_incoming_date"`
+// 	Option1                *string                 `json:"option1"`
+// 	Option2                *string                 `json:"option2"`
+// 	Option3                *string                 `json:"option3"`
+// 	Options                *[]string               `json:"options"`
+// 	Price                  *float64               `json:"price"`
+// 	Product                 *Product               `json:"product"`
+// 	Quantity               *float64               `json:"quantity"`
+// 	RequiredSellingPlan    *bool                 `json:"required_selling_plan"`
+// 	RequiredShipping        *bool                 `json:"required_shipping"`
+// 	SelectedSellingPlanAllocation *string                 `json:"selected_selling_plan_allocation"`
+// 	SelectedSellingPlanAllocations *[]string           `json:"selected_selling_plan_allocations"`
+// 	Sku                    *string                 `json:"sku"`
+// 	StockAvailabilities      *[]string               `json:"stock_availabilities"`
+// 	StoreAvailabilities     *[]string               `json:"store_availabilities"`
+// 	Title                  *string                 `json:"title"`
+// 	UnitPrice               *float64               `json:"unit_price"`
+// 	UnitPriceMeasurement      *string                 `json:"unit_price_measurement"`
+// 	UnitPriceRatio           *float64               `json:"unit_price_ratio"`
+// 	Url                    *string                 `json:"url"`
+// 	Weight                  *float64               `json:"weight"`
+// 	WeightInUnit           *float64               `json:"weight_in_unit"`
+// 	WeightUnit              *string                 `json:"weight_unit"`
+// }
+
 // VariantResource represents the result from the variants/X.json endpoint
 type VariantResource struct {
 	Variant *Variant `json:"variant"`
