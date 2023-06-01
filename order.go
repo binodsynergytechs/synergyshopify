@@ -148,6 +148,74 @@ type Order struct {
 	SendFulfillmentReceipt bool             `json:"send_fulfillment_receipt,omitempty"`
 }
 
+// TODO: latest from shopify 23/04
+
+// type MailingAddress struct {
+// 	// Add fields for MailingAddress
+// }
+
+// type MoneyV2 struct {
+// 	// Add fields for MoneyV2
+// }
+
+// type Order struct {
+// 	BillingAddress MailingAddress `json:"billingAddress"`
+// 	CancelReason    string         `json:"cancelReason"`
+// 	CanceledAt     time.Time      `json:"canceledAt"`
+// 	CurrencyCode   string         `json:"currencyCode"`
+// 	CurrentSubtotalPrice MoneyV2      `json:"currentSubtotalPrice"`
+// 	CurrentTotalDuties MoneyV2      `json:"currentTotalDuties"`
+// 	CurrentTotalPrice MoneyV2      `json:"currentTotalPrice"`
+// 	CurrentTotalTax MoneyV2      `json:"currentTotalTax"`
+// 	CustomAttributes []Attribute `json:"customAttributes"`
+// 	CustomerLocale  string       `json:"customerLocale"`
+// 	CustomerUrl     string       `json:"customerUrl"`
+// 	Edited          bool         `json:"edited"`
+// 	Email           string       `json:"email"`
+// 	FinancialStatus OrderFinancialStatus `json:"financialStatus"`
+// 	FulfillmentStatus OrderFulfillmentStatus `json:"fulfillmentStatus"`
+// 	ID              string       `json:"id"`
+// 	Metafield       Metafield    `json:"metafield"`
+// 	Name            string       `json:"name"`
+// 	OrderNumber     int          `json:"orderNumber"`
+// 	OriginalTotalDuties MoneyV2    `json:"originalTotalDuties"`
+// 	OriginalTotalPrice MoneyV2    `json:"originalTotalPrice"`
+// 	Phone            string       `json:"phone"`
+// 	ProcessedAt     time.Time    `json:"processedAt"`
+// 	ShippingAddress MailingAddress `json:"shippingAddress"`
+// 	ShippingDiscountAllocations []DiscountAllocation `json:"shippingDiscountAllocations"`
+// 	StatusUrl        string       `json:"statusUrl"`
+// 	SubtotalPrice    MoneyV2      `json:"subtotalPrice"`
+// 	SuccessfulFulfillments []Fulfillment `json:"successfulFulfillments"`
+// 	TotalPrice       MoneyV2      `json:"totalPrice"`
+// 	TotalRefunded    MoneyV2      `json:"totalRefunded"`
+// 	TotalShippingPrice MoneyV2      `json:"totalShippingPrice"`
+// }
+
+// type Attribute struct {
+// 	// Add fields for Attribute
+// }
+
+// type Metafield struct {
+// 	// Add fields for Metafield
+// }
+
+// type OrderFinancialStatus struct {
+// 	// Add fields for OrderFinancialStatus
+// }
+
+// type OrderFulfillmentStatus struct {
+// 	// Add fields for OrderFulfillmentStatus
+// }
+
+// type DiscountAllocation struct {
+// 	// Add fields for DiscountAllocation
+// }
+
+// type Fulfillment struct {
+// 	// Add fields for Fulfillment
+// }
+
 type Address struct {
 	ID           int64   `json:"id,omitempty"`
 	Address1     string  `json:"address1,omitempty"`

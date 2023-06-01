@@ -45,6 +45,21 @@ type CustomCollection struct {
 	Metafields     []Metafield `json:"metafields,omitempty"`
 }
 
+// TODO: latest model from shopify
+// type CustomCollection struct {
+// 	BodyHTML       string      `json:"body_html"`
+// 	Handle         string      `json:"handle"`
+// 	Image          interface{} `json:"image"`
+// 	ID             int         `json:"id"`
+// 	Published      bool        `json:"published"`
+// 	PublishedAt    time.Time   `json:"published_at"`
+// 	PublishedScope string      `json:"published_scope"`
+// 	SortOrder      string      `json:"sort_order"`
+// 	TemplateSuffix string      `json:"template_suffix"`
+// 	Title          string      `json:"title"`
+// 	UpdatedAt      time.Time   `json:"updated_at"`
+// }
+
 // CustomCollectionResource represents the result form the custom_collections/X.json endpoint
 type CustomCollectionResource struct {
 	Collection *CustomCollection `json:"custom_collection"`

@@ -41,6 +41,7 @@ type Blog struct {
 	AdminGraphqlAPIID  string     `json:"admin_graphql_api_id,omitempty"`
 }
 
+
 // BlogsResource is the result from the blogs.json endpoint
 type BlogsResource struct {
 	Blogs []Blog `json:"blogs"`

@@ -60,6 +60,26 @@ type Customer struct {
 	Metafields          []Metafield        `json:"metafields,omitempty"`
 }
 
+//TODO: latest from shopify
+
+// type Customer struct {
+// 	AcceptsMarketing bool                 `json:"acceptsMarketing"`
+// 	CreatedAt        time.Time            `json:"createdAt"`
+// 	DefaultAddress   MailingAddress      `json:"defaultAddress"`
+// 	DisplayName      string               `json:"displayName"`
+// 	Email            string               `json:"email"`
+// 	FirstName        string               `json:"firstName"`
+// 	ID               ID                    `json:"id"`
+// 	LastIncompleteCheckout LastIncompleteCheckout `json:"lastIncompleteCheckout"`
+// 	LastName         string               `json:"lastName"`
+// 	Metafield        Metafield             `json:"metafield,omitempty"`
+// 	Metafields        []HasMetafieldsIdentifier `json:"metafields,omitempty"`
+// 	NumberOfOrders    uint64                `json:"numberOfOrders"`
+// 	Phone             string               `json:"phone"`
+// 	Tags              []string             `json:"tags,omitempty"`
+// 	UpdatedAt         time.Time            `json:"updatedAt"`
+// }
+
 // Represents the result from the customers/X.json endpoint
 type CustomerResource struct {
 	Customer *Customer `json:"customer"`

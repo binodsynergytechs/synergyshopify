@@ -34,6 +34,17 @@ type PriceRuleDiscountCode struct {
 	UpdatedAt   *time.Time `json:"updated_at,omitempty"`
 }
 
+//TODO: latest from shopify 23/04
+
+// type PriceRuleDiscountCode struct {
+// 	App        string `json:"app"`
+// 	Code       string `json:"code"`
+// 	ID         string `json:"id"`
+// 	UsageCount int    `json:"usageCount"`
+// }
+
+
+
 // DiscountCodesResource is the result from the discount_codes.json endpoint
 type DiscountCodesResource struct {
 	DiscountCodes []PriceRuleDiscountCode `json:"discount_codes"`

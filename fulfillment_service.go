@@ -35,6 +35,8 @@ type FulfillmentServiceData struct {
 	RequiresShippingMethod bool   `json:"requires_shipping_method,omitempty"`
 }
 
+
+
 type FulfillmentServiceResource struct {
 	FulfillmentService *FulfillmentServiceData `json:"fulfillment_service,omitempty"`
 }

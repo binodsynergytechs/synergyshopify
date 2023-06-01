@@ -61,6 +61,20 @@ type Fulfillment struct {
 	NotifyCustomer  bool       `json:"notify_customer"`
 }
 
+// // TODO: latest from shopify 23/04
+// type FulfillmentService struct {
+// 	CallbackURL            string `json:"callbackUrl"`
+// 	FulfillmentOrdersOptIn bool   `json:"fulfillmentOrdersOptIn"`
+// 	Handle                 string `json:"handle"`
+// 	ID                     string `json:"id"`
+// 	InventoryManagement    bool   `json:"inventoryManagement"`
+// 	Location               string `json:"location"`
+// 	PermitsSKUSharing      bool   `json:"permitsSkuSharing"`
+// 	ProductBased           bool   `json:"productBased"`
+// 	ServiceName            string `json:"serviceName"`
+// 	Type                   string `json:"type"`
+// }
+
 // Receipt represents a Shopify receipt.
 type Receipt struct {
 	TestCase      bool   `json:"testcase,omitempty"`

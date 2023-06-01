@@ -74,6 +74,51 @@ type Location struct {
 	AdminGraphqlAPIID string `json:"admin_graphql_api_id"`
 }
 
+//TODO: latest from shopify 23/04
+// type Location struct {
+// 	Anchor      LocationAddress `json:"anchor"`
+// 	ID          string         `json:"id"`
+// 	Metafields  []Metafield   `json:"metafields"`
+// 	Name        string         `json:"name"`
+// 	SearchResults []HasMetafieldsIdentifier `json:"searchResults"`
+// }
+
+//TODO: latest from shopify 23/04
+// type LocationAddress struct {
+// 	Address string `json:"address"`
+// }
+
+//TODO: latest from shopify 23/04
+// type Metafield struct {
+// 	Namespace    string   `json:"namespace"`
+// 	Key          string   `json:"key"`
+// 	Identifier   string   `json:"identifier"`
+// 	Value        string   `json:"value"`
+// }
+
+//TODO: latest from shopify 23/04
+// type HasMetafieldsIdentifier struct {
+// 	Namespace  string `json:"namespace"`
+// 	Key        string `json:"key"`
+// 	Identifiers []Metafield `json:"identifiers"`
+// }
+
+//TODO: latest from shopify 23/04
+// type LocationAddress struct {
+// 	Address1     string `json:"address1"`
+// 	Address2     string `json:"address2"`
+// 	City          string `json:"city"`
+// 	Country       string `json:"country"`
+// 	CountryCode   string `json:"countryCode"`
+// 	Formatted     []string `json:"formatted"`
+// 	Latitude      float64  `json:"latitude"`
+// 	Longitude     float64  `json:"longitude"`
+// 	Phone          string `json:"phone"`
+// 	Province       string `json:"province"`
+// 	ProvinceCode   string `json:"provinceCode"`
+// 	Zip             string `json:"zip"`
+// }
+
 // LocationServiceOp handles communication with the location related methods of
 // the Shopify API.
 type LocationServiceOp struct {

@@ -47,6 +47,35 @@ type App struct {
 	Client      *Client // see GetAccessToken
 }
 
+//TODO:
+// type App struct {
+// 	AppID                      string  `json:"apiKey"`
+// 	AppStoreAppUrl              string  `json:"appStoreAppUrl"`
+// 	AppStoreAppDeveloperUrl     string  `json:"appStoreDeveloperUrl"`
+// 	AvailableAccessScopes      []string `json:"availableAccessScopes"`
+// 	FailedRequirements          []string `json:"failedRequirements"`
+// 	Features                     []string `json:"features"`
+// 	Feedback                      string  `json:"feedback"`
+// 	Handle                       string  `json:"handle"`
+// 	Icon                          string  `json:"icon"`
+// 	ID                            string  `json:"id"`
+// 	InstallUrl                    string  `json:"installUrl"`
+// 	Installation                   *bool   `json:"installation"`
+// 	IsPostPurchaseAppInUse         bool    `json:"isPostPurchaseAppInUse"`
+// 	PreviouslyInstalled           bool    `json:"previouslyInstalled"`
+// 	PricingDetails                string  `json:"pricingDetails"`
+// 	PricingDetailsSummary          string  `json:"pricingDetailsSummary"`
+// 	PrivacyPolicyUrl               string  `json:"privacyPolicyUrl"`
+// 	PublicCategory                 AppPublicCategory `json:"publicCategory"`
+// 	Title                          string  `json:"title"`
+// 	UninstallMessage               string  `json:"uninstallMessage"`
+// 	WebhookApiVersion               string  `json:"webhookApiVersion"`
+// 	ShopifyDeveloped                bool    `json:"shopifyDeveloped"`
+// 	Title                          string  `json:"title"`
+// }
+//TODO:
+// AppPublicCategory = []string{"CUSTOM","OTHER","PRIVATE","PUBLIC"}
+
 type RateLimitInfo struct {
 	RequestCount      int
 	BucketSize        int

@@ -45,6 +45,32 @@ type Page struct {
 	Metafields     []Metafield `json:"metafields,omitempty"`
 }
 
+//TODO: latest from shopify 23/04
+// type Page struct {
+// 	ID          string                 `json:"id"`
+// 	Body        string                 `json:"body"`
+// 	Anchor      string                 `json:"anchor"`
+// 	CreatedAt   time.Time             `json:"createdAt"`
+// 	Handle      string                 `json:"handle"`
+// 	Metafields  []Metafield            `json:"metafields"`
+// 	OnlineStoreURL string               `json:"onlineStoreUrl"`
+// 	SEO          SEO                  `json:"seo"`
+// 	Title        string                 `json:"title"`
+// 	UpdatedAt    time.Time             `json:"updatedAt"`
+// 	metafield    map[string]string      `json:"metafield"`
+// }
+
+// type Metafield struct {
+// 	Namespace string `json:"namespace"`
+// 	Key        string `json:"key"`
+// 	Value      string `json:"value"`
+// }
+
+// type SEO struct {
+// 	Title string `json:"title"`
+// 	Description string `json:"description"`
+// }
+
 // PageResource represents the result from the pages/X.json endpoint
 type PageResource struct {
 	Page *Page `json:"page"`

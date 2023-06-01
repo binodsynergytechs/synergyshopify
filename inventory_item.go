@@ -34,6 +34,29 @@ type InventoryItem struct {
 	AdminGraphqlAPIID string           `json:"admin_graphql_api_id,omitempty"`
 }
 
+// // TODO: latest from shopify 23/04
+// type InventoryItem struct {
+// 	ID                   string             `json:"id"`
+// 	CreatedAt             time.Time          `json:"createdAt"`
+// 	CountryCodeOfOrigin    string             `json:"countryCodeOfOrigin"`
+// 	HarmonizedSystemCode  string             `json:"harmonizedSystemCode"`
+// 	InventoryLevel        InventoryLevel     `json:"inventoryLevel"`
+// 	InventoryHistoryUrl  string             `json:"inventoryHistoryUrl"`
+// 	InventoryLevelUrl    string             `json:"inventoryLevelUrl"`
+// 	LocationId           string             `json:"locationId"`
+// 	LegacyResourceId     string             `json:"legacyResourceId"`
+// 	LocationsCount        int                `json:"locationsCount"`
+// 	ProvinceCodeOfOrigin string             `json:"provinceCodeOfOrigin"`
+// 	RequiresShipping      bool               `json:"requiresShipping"`
+// 	SKU                   string             `json:"sku"`
+// 	Tracked                bool               `json:"tracked"`
+// 	TrackedEditable        bool               `json:"trackedEditable"`
+// 	UnitCost              MoneyV2            `json:"unitCost"`
+// 	UpdatedAt             time.Time          `json:"updatedAt"`
+// 	Variant                ProductVariant     `json:"variant"`
+// 	ImageUrl               string             `json:"imageUrl"`
+// }
+
 // InventoryItemResource is used for handling single item requests and responses
 type InventoryItemResource struct {
 	InventoryItem *InventoryItem `json:"inventory_item"`

@@ -53,6 +53,20 @@ type Metafield struct {
 	AdminGraphqlAPIID string      `json:"admin_graphql_api_id,omitempty"`
 }
 
+// TODO:latest from shopify 23/04
+
+// type Metafield struct {
+// 	CreatedAt      time.Time   `json:"createdAt"`
+// 	ID             string      `json:"id"`
+// 	Key            string      `json:"key"`
+// 	Namespace      string      `json:"namespace"`
+// 	ParentResource string      `json:"parentResource"`
+// 	Reference      string      `json:"reference"`
+// 	Type           string      `json:"type"`
+// 	UpdatedAt      time.Time   `json:"updatedAt"`
+// 	Value          interface{} `json:"value"`
+// }
+
 // MetafieldResource represents the result from the metafields/X.json endpoint
 type MetafieldResource struct {
 	Metafield *Metafield `json:"metafield"`

@@ -59,7 +59,49 @@ type Product struct {
 	AdminGraphqlAPIID              string          `json:"admin_graphql_api_id,omitempty"`
 }
 
-// The options provided by Shopify
+//TODO: latest options provided by Shopify
+
+//	type Product struct {
+//		AvailablePublicationCount      int         `json:"availablePublicationCount"`
+//		ContextualPricing             ProductContextualPricing `json:"contextualPricing"`
+//		CreatedAt                      DateTime    `json:"createdAt"`
+//		DefaultCursor                  string      `json:"defaultCursor"`
+//		Description                    string      `json:"description"`
+//		DescriptionHTML                string      `json:"descriptionHTML"`
+//		FeaturedImage                  Image       `json:"featuredImage"`
+//		FeaturedMedia                  Media       `json:"featuredMedia"`
+//		Feedback                        ResourceFeedback `json:"feedback"`
+//		GiftCardTemplateSuffix         string      `json:"giftCardTemplateSuffix"`
+//		Handle                         string      `json:"handle"`
+//		HasOnlyDefaultVariant          bool        `json:"hasOnlyDefaultVariant"`
+//		HasOutOfStockVariants          bool        `json:"hasOutOfStockVariants"`
+//		ID                              ID          `json:"id"`
+//		InCollection                   bool        `json:"inCollection"`
+//		IsGiftCard                     bool        `json:"isGiftCard"`
+//		LegacyResourceID               string      `json:"legacyResourceId"`
+//		MediaCount                      int         `json:"mediaCount"`
+//		Metafield                       Metafield   `json:"metafield"`
+//		OnlineStorePreviewUrl           URL        `json:"onlineStorePreviewUrl"`
+//		OnlineStoreUrl                 URL        `json:"onlineStoreUrl"`
+//		Options                         []ProductOption `json:"options"`
+//		PriceRangeV2                    ProductPriceRangeV2 `json:"priceRangeV2"`
+//		ProductCategory                 ProductCategory `json:"productCategory"`
+//		ProductType                     string      `json:"productType"`
+//		PublicationCount                int         `json:"publicationCount"`
+//		PublishedAt                     DateTime    `json:"publishedAt"`
+//		PublishedInContext              bool        `json:"publishedInContext"`
+//		PublishedInCurrentPublication   bool        `json:"publishedInCurrentPublication"`
+//		PublicationId                   ID          `json:"publicationId"`
+//		PublishedOnCurrentPublication     bool        `json:"publishedOnCurrentPublication"`
+//		PublishedOnPublication            bool        `json:"publishedOnPublication"`
+//		RequiresSellingPlan              bool        `json:"requiresSellingPlan"`
+//		ResourcePublicationOnCurrentPublication ResourcePublicationV2 `json:"resourcePublicationOnCurrentPublication"`
+//		SellingPlanGroupCount            int         `json:"sellingPlanGroupCount"`
+//		SEO                              SEO         `json:"seo"`
+//		Status                            ProductStatus `json:"status"`
+//		Tags                              []string    `json:"tags"`
+//	}
+
 type ProductOption struct {
 	ID        int64    `json:"id,omitempty"`
 	ProductID int64    `json:"product_id,omitempty"`

@@ -45,6 +45,15 @@ type Payout struct {
 	Status   PayoutStatus    `json:"status,omitempty"`
 }
 
+// TODO: latest from shopify 23/04
+//
+//	type Payout struct {
+//		ID          string                 `json:"id"`
+//		Status      string                 `json:"status"`
+//		Date        time.Time             `json:"date"`
+//		Currency    string                 `json:"currency"`
+//		Amount      string                 `json:"amount"`
+//	}
 type PayoutStatus string
 
 const (

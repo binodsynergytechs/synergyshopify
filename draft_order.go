@@ -67,6 +67,76 @@ type DraftOrder struct {
 	UseCustomerDefaultAddress bool `json:"use_customer_default_address,omitempty"`
 }
 
+// TODO: latest from shopify 23/04
+
+// type DraftOrder struct {
+// 	AppliedDiscount string                 `json:"appliedDiscount"`
+// 	BillingAddress   MailingAddress         `json:"billingAddress"`
+// 	BillingAddressMatchesShippingAddress bool   `json:"billingAddressMatchesShippingAddress"`
+// 	CompletedAt       time.Time            `json:"completedAt"`
+// 	CreatedAt         time.Time            `json:"createdAt"`
+// 	CurrencyCode      string                `json:"currencyCode"`
+// 	CustomAttributes   []Attribute           `json:"customAttributes"`
+// 	Customer           Customer               `json:"customer"`
+// 	DraftOrderID       ID                     `json:"id"`
+// 	Email              string                `json:"email"`
+// 	HasTimelineComment  bool                   `json:"hasTimelineComment"`
+// 	Id                  ID                     `json:"id"`
+// 	InvoiceEmailTemplateSubject string              `json:"invoiceEmailTemplateSubject"`
+// 	InvoiceSentAt       time.Time            `json:"invoiceSentAt"`
+// 	InvoiceUrl          URL                     `json:"invoiceUrl"`
+// 	LegacyResourceID    UnsignedInt64           `json:"legacyResourceId"`
+// 	LineItemsSubtotalPrice MoneyBag                `json:"lineItemsSubtotalPrice"`
+// 	MarketName          string                `json:"marketName"`
+// 	MarketRegionCountryCode CountryCode             `json:"marketRegionCountryCode"`
+// 	MetaData              map[string]interface{} `json:"metaData"`
+// 	Name                  string                `json:"name"`
+// 	Note2                 string                `json:"note2"`
+// 	Order                Order                   `json:"order"`
+// 	PaymentTerms           PaymentTerms           `json:"paymentTerms"`
+// 	Phone                 string                `json:"phone"`
+// 	PresentmentCurrencyCode CurrencyCode             `json:"presentmentCurrencyCode"`
+// 	PurchasingEntity       PurchasingEntity       `json:"purchasingEntity"`
+// 	Ready                 bool                   `json:"ready"`
+// 	ReserveInventoryUntil time.Time            `json:"reserveInventoryUntil"`
+// 	ShippingAddress       MailingAddress         `json:"shippingAddress"`
+// 	ShippingLine          ShippingLine           `json:"shippingLine"`
+// 	Status                 DraftOrderStatus        `json:"status"`
+// 	SubtotalPrice         Money                     `json:"subtotalPrice"`
+// 	SubtotalPriceSet        MoneyBag               `json:"subtotalPriceSet"`
+// 	TotalDiscountsSet        MoneyBag               `json:"totalDiscountsSet"`
+// 	TotalPrice             Money                     `json:"totalPrice"`
+// 	TotalPriceSet           MoneyBag               `json:"totalPriceSet"`
+// 	taxesIncluded         bool                   `json:"taxesIncluded"`
+// 	taxLines             []TaxLine               `json:"taxLines"`
+// 	TaxesIncluded         bool                   `json:"taxesIncluded"`
+// 	TotalLineItemsPriceSet MoneyBag                `json:"totalLineItemsPriceSet"`
+// 	TotalPrice               Money                     `json:"totalPrice"`
+// 	TotalPriceSet           MoneyBag               `json:"totalPriceSet"`
+// }
+
+// TODO: latest from shopify 23/04
+
+// type MoneyBag struct {
+// 	Amount float64 `json:"amount"`
+// 	Currency string  `json:"currency"`
+// }
+
+// TODO: latest from shopify 23/04
+// type MoneyV2 struct {
+// 	Amount float64 `json:"amount"`
+// }
+
+// TODO: latest from shopify 23/04
+// type DraftOrderAppliedDiscount struct {
+// 	Amount   MoneyBag `json:"amountSet"`
+// 	AmountV2 MoneyV2 `json:"amountV2"`
+// 	Description string `json:"description"`
+// 	Title       string `json:"title"`
+// 	Value       float64 `json:"value"`
+// 	ValueType   string `json:"valueType"`
+// }
+
 // AppliedDiscount is the discount applied to the line item or the draft order object.
 type AppliedDiscount struct {
 	Title       string `json:"title,omitempty"`

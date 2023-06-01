@@ -57,6 +57,43 @@ type PriceRule struct {
 	PrerequisiteToEntitlementQuantityRatio *prerequisiteToEntitlementQuantityRatio `json:"prerequisite_to_entitlement_quantity_ratio,omitempty"`
 }
 
+// TODO: latest from shopify 23/04
+
+// type PriceRule struct {
+// 	AllocationLimit            int                `json:"allocationLimit"`
+// 	Anchor                     PriceRuleAllocationMethod  `json:"anchor"`
+// 	App                         App                      `json:"app"`
+// 	CombinesWith                DiscountCombinesWith!     `json:"combinesWith"`
+// 	CreatedAt                   time.Time               `json:"createdAt"`
+// 	CustomerSelection            PriceRuleCustomerSelection! `json:"customerSelection"`
+// 	DiscountClass                 DiscountClass             `json:"discountClass"`
+// 	DiscountCodesCount            int                      `json:"discountCodesCount"`
+// 	EndsAt                       time.Time               `json:"endsAt"`
+// 	Features                     []PriceRuleFeature!      `json:"features"`
+// 	HasTimelineComment            bool                     `json:"hasTimelineComment"`
+// 	ID                            ID                        `json:"id"`
+// 	ItemEntitlements              PriceRuleItemEntitlements! `json:"itemEntitlements"`
+// 	ItemPrerequisites             PriceRuleLineItemPrerequisites! `json:"itemPrerequisites"`
+// 	LegacyResourceID              UnsignedInt64              `json:"legacyResourceId"`
+// 	OncePerCustomer                bool                     `json:"oncePerCustomer"`
+// 	PrerequisiteQuantityRange      PriceRuleQuantityRange    `json:"prerequisiteQuantityRange"`
+// 	PrerequisiteShippingPriceRange PriceRuleMoneyRange     `json:"prerequisiteShippingPriceRange"`
+// 	PrerequisiteSubtotalRange      PriceRuleMoneyRange     `json:"prerequisiteSubtotalRange"`
+// 	PrerequisiteToEntitlementQuantityRatio PriceRulePrerequisiteToEntitlementQuantityRatio `json:"prerequisiteToEntitlementQuantityRatio"`
+// 	ShareableUrls                 []PriceRuleShareableUrl! `json:"shareableUrls"`
+// 	ShippingEntitlements          PriceRuleShippingLineEntitlements! `json:"shippingEntitlements"`
+// 	StartsAt                      time.Time               `json:"startsAt"`
+// 	Status                         PriceRuleStatus!           `json:"status"`
+// 	Summary                        string                    `json:"summary"`
+// 	Target                         PriceRuleTarget!           `json:"target"`
+// 	Title                           string                    `json:"title"`
+// 	TotalSales                     MoneyV2                  `json:"totalSales"`
+// 	UsageCount                     int                      `json:"usageCount"`
+// 	UsageLimit                     int                      `json:"usageLimit"`
+// 	ValidityPeriod                 PriceRuleValidityPeriod!     `json:"validityPeriod"`
+// 	ValueV2                       PricingValue                `json:"valueV2"`
+// }
+
 type prerequisiteSubtotalRange struct {
 	GreaterThanOrEqualTo string `json:"greater_than_or_equal_to,omitempty"`
 }

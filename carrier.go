@@ -64,6 +64,7 @@ type ShippingRateRequest struct {
 	Rate ShippingRateQuery `json:"rate"`
 }
 
+// FIXME: not available in latest shopify version
 type ShippingRateQuery struct {
 	Origin      ShippingRateAddress `json:"origin"`
 	Destination ShippingRateAddress `json:"destination"`
@@ -103,6 +104,19 @@ type ShippingRateAddress struct {
 type ShippingRateResponse struct {
 	Rates []ShippingRate `json:"rates"`
 }
+
+// TODO:
+//
+//	type ShippingRate struct {
+//		handle string  `json:"handle"`
+//		price  MoneyV2 `json:"price"`
+//		title  string  `json:"title"`
+//	}
+//TODO:
+// type MoneyV2 struct {
+// 	Amount       float64 `json:"amount"`
+// 	CurrencyCode string  `json:"currencyCode"`
+// }
 
 type ShippingRate struct {
 	// The name of the rate, which customers see at checkout. For example: Expedited Mail.
