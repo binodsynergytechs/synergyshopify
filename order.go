@@ -80,72 +80,96 @@ type OrderCancelOptions struct {
 
 // Order represents a Shopify order
 type Order struct {
-	ID                     int64            `json:"id,omitempty"`
-	Name                   string           `json:"name,omitempty"`
-	Email                  string           `json:"email,omitempty"`
-	CreatedAt              *time.Time       `json:"created_at,omitempty"`
-	UpdatedAt              *time.Time       `json:"updated_at,omitempty"`
-	CancelledAt            *time.Time       `json:"cancelled_at,omitempty"`
-	ClosedAt               *time.Time       `json:"closed_at,omitempty"`
-	ProcessedAt            *time.Time       `json:"processed_at,omitempty"`
-	Customer               *Customer        `json:"customer,omitempty"`
-	BillingAddress         *Address         `json:"billing_address,omitempty"`
-	ShippingAddress        *Address         `json:"shipping_address,omitempty"`
-	Currency               string           `json:"currency,omitempty"`
-	TotalPrice             *decimal.Decimal `json:"total_price,omitempty"`
-	CurrentTotalPrice      *decimal.Decimal `json:"current_total_price,omitempty"`
-	SubtotalPrice          *decimal.Decimal `json:"subtotal_price,omitempty"`
-	TotalDiscounts         *decimal.Decimal `json:"total_discounts,omitempty"`
-	TotalLineItemsPrice    *decimal.Decimal `json:"total_line_items_price,omitempty"`
-	TaxesIncluded          bool             `json:"taxes_included,omitempty"`
-	TotalTax               *decimal.Decimal `json:"total_tax,omitempty"`
-	TaxLines               []TaxLine        `json:"tax_lines,omitempty"`
-	TotalWeight            int              `json:"total_weight,omitempty"`
-	FinancialStatus        string           `json:"financial_status,omitempty"`
-	Fulfillments           []Fulfillment    `json:"fulfillments,omitempty"`
-	FulfillmentStatus      string           `json:"fulfillment_status,omitempty"`
-	Token                  string           `json:"token,omitempty"`
-	CartToken              string           `json:"cart_token,omitempty"`
-	Number                 int              `json:"number,omitempty"`
-	OrderNumber            int              `json:"order_number,omitempty"`
-	Note                   string           `json:"note,omitempty"`
-	Test                   bool             `json:"test,omitempty"`
-	BrowserIp              string           `json:"browser_ip,omitempty"`
-	BuyerAcceptsMarketing  bool             `json:"buyer_accepts_marketing,omitempty"`
-	CancelReason           string           `json:"cancel_reason,omitempty"`
-	NoteAttributes         []NoteAttribute  `json:"note_attributes,omitempty"`
-	DiscountCodes          []DiscountCode   `json:"discount_codes,omitempty"`
-	LineItems              []LineItem       `json:"line_items,omitempty"`
-	ShippingLines          []ShippingLines  `json:"shipping_lines,omitempty"`
-	Transactions           []Transaction    `json:"transactions,omitempty"`
-	AppID                  int              `json:"app_id,omitempty"`
-	CustomerLocale         string           `json:"customer_locale,omitempty"`
-	LandingSite            string           `json:"landing_site,omitempty"`
-	ReferringSite          string           `json:"referring_site,omitempty"`
-	SourceName             string           `json:"source_name,omitempty"`
-	ClientDetails          *ClientDetails   `json:"client_details,omitempty"`
-	Tags                   string           `json:"tags,omitempty"`
-	LocationId             int64            `json:"location_id,omitempty"`
-	PaymentGatewayNames    []string         `json:"payment_gateway_names,omitempty"`
-	ProcessingMethod       string           `json:"processing_method,omitempty"`
-	Refunds                []Refund         `json:"refunds,omitempty"`
-	UserId                 int64            `json:"user_id,omitempty"`
-	OrderStatusUrl         string           `json:"order_status_url,omitempty"` //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	Gateway                string           `json:"gateway,omitempty"`
-	Confirmed              bool             `json:"confirmed,omitempty"`         //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	TotalPriceUSD          *decimal.Decimal `json:"total_price_usd,omitempty"`   //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	CheckoutToken          string           `json:"checkout_token,omitempty"`    //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	Reference              string           `json:"reference,omitempty"`         //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	SourceIdentifier       string           `json:"source_identifier,omitempty"` //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	SourceURL              string           `json:"source_url,omitempty"`        //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	DeviceID               int64            `json:"device_id,omitempty"`         //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	Phone                  string           `json:"phone,omitempty"`
-	LandingSiteRef         string           `json:"landing_site_ref,omitempty"` //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	CheckoutID             int64            `json:"checkout_id,omitempty"`      //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	ContactEmail           string           `json:"contact_email,omitempty"`
-	MetaFields             []MetaField      `json:"metafields,omitempty"`               //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	SendReceipt            bool             `json:"send_receipt,omitempty"`             //FIXME: Note : This Field Is Not Available In Latest Shopify Model
-	SendFulfillmentReceipt bool             `json:"send_fulfillment_receipt,omitempty"` //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	ID                             int64            `json:"id,omitempty"`
+	Name                           string           `json:"name,omitempty"`
+	Email                          string           `json:"email,omitempty"`
+	CreatedAt                      *time.Time       `json:"created_at,omitempty"`
+	UpdatedAt                      *time.Time       `json:"updated_at,omitempty"`
+	CancelledAt                    *time.Time       `json:"cancelled_at,omitempty"`
+	ClosedAt                       *time.Time       `json:"closed_at,omitempty"`
+	ProcessedAt                    *time.Time       `json:"processed_at,omitempty"`
+	Customer                       *Customer        `json:"customer,omitempty"`
+	BillingAddress                 *Address         `json:"billing_address,omitempty"`
+	ShippingAddress                *Address         `json:"shipping_address,omitempty"`
+	Currency                       string           `json:"currency,omitempty"`
+	TotalPrice                     *decimal.Decimal `json:"total_price,omitempty"`
+	CurrentTotalPrice              *decimal.Decimal `json:"current_total_price,omitempty"`
+	OriginalTotalDutiesSet         interface{}      `json:"original_total_duties_set"`
+	SubTotalPrice                  *decimal.Decimal `json:"subtotal_price,omitempty"`
+	SubTotalPriceSet               *decimal.Decimal `json:"subtotal_price_set,omitempty"`
+	TotalDiscounts                 *decimal.Decimal `json:"total_discounts,omitempty"`
+	TotalLineItemsPrice            *decimal.Decimal `json:"total_line_items_price,omitempty"`
+	TotalLineItemsPriceSet         *decimal.Decimal `json:"total_line_items_price_set,omitempty"`
+	TaxesIncluded                  bool             `json:"taxes_included,omitempty"`
+	TotalTax                       *decimal.Decimal `json:"total_tax,omitempty"`
+	TaxLines                       []TaxLine        `json:"tax_lines,omitempty"`
+	TotalWeight                    int              `json:"total_weight,omitempty"`
+	FinancialStatus                string           `json:"financial_status,omitempty"`
+	Fulfillments                   []Fulfillment    `json:"fulfillments,omitempty"`
+	FulfillmentStatus              string           `json:"fulfillment_status,omitempty"`
+	Token                          string           `json:"token,omitempty"`
+	CartToken                      string           `json:"cart_token,omitempty"`
+	Number                         int              `json:"number,omitempty"`
+	OrderNumber                    int              `json:"order_number,omitempty"`
+	Note                           string           `json:"note,omitempty"`
+	Test                           bool             `json:"test,omitempty"`
+	BrowserIp                      string           `json:"browser_ip,omitempty"`
+	BuyerAcceptsMarketing          bool             `json:"buyer_accepts_marketing,omitempty"`
+	CancelReason                   string           `json:"cancel_reason,omitempty"`
+	NoteAttributes                 []NoteAttribute  `json:"note_attributes,omitempty"`
+	DiscountCodes                  []DiscountCode   `json:"discount_codes,omitempty"`
+	LineItems                      []LineItem       `json:"line_items,omitempty"`
+	ShippingLines                  []ShippingLines  `json:"shipping_lines,omitempty"`
+	AppID                          int              `json:"app_id,omitempty"`
+	CustomerLocale                 string           `json:"customer_locale,omitempty"`
+	LandingSite                    string           `json:"landing_site,omitempty"`
+	ReferringSite                  string           `json:"referring_site,omitempty"`
+	SourceName                     string           `json:"source_name,omitempty"`
+	ClientDetails                  *ClientDetails   `json:"client_details,omitempty"`
+	Tags                           string           `json:"tags,omitempty"`
+	LocationId                     int64            `json:"location_id,omitempty"`
+	PaymentGatewayNames            []string         `json:"payment_gateway_names,omitempty"`
+	ProcessingMethod               string           `json:"processing_method,omitempty"`
+	Refunds                        []Refund         `json:"refunds,omitempty"`
+	UserId                         int64            `json:"user_id,omitempty"`
+	OrderStatusUrl                 string           `json:"order_status_url,omitempty"`
+	Gateway                        string           `json:"gateway,omitempty"`
+	CheckoutToken                  string           `json:"checkout_token,omitempty"`
+	SourceIdentifier               string           `json:"source_identifier,omitempty"`
+	SourceURL                      string           `json:"source_url,omitempty"`
+	Phone                          string           `json:"phone,omitempty"`
+	PaymentTerms                   interface{}      `json:"payment_terms"`                               //TODO: Field Added In Latest Shopify Package 23/04
+	PresentmentCurrency            string           `json:"presentment_currency"`                        //TODO: Field Added In Latest Shopify Package 23/04
+	Company                        interface{}      `json:"company,omitempty"`                           //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalPriceSet           *decimal.Decimal `json:"current_total_price_set,omitempty"`           //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentSubTotalPrice           *decimal.Decimal `json:"current_subtotal_price,omitempty"`            //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentSubTotalPriceSet        *decimal.Decimal `json:"current_subtotal_price_set,omitempty"`        //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalTax                *decimal.Decimal `json:"current_total_tax,omitempty"`                 //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalTaxSet             *decimal.Decimal `json:"current_total_tax_set,omitempty"`             //TODO: Field Added In Latest Shopify Package 23/04
+	DiscountApplication            *decimal.Decimal `json:"discount_application"`                        //TODO: Field Added In Latest Shopify Package 23/04
+	EstimatedTaxes                 bool             `json:"estimated_taxes"`                             //TODO: Field Added In Latest Shopify Package 23/04
+	MerchantOfRecordAppID          int64            `json:"merchant_of_record_app_id"`                   //TODO: Field Added In Latest Shopify Package 23/04
+	OriginalTotalAdditionalFeesSet interface{}      `json:"original_total_additional_fees_set"`          //TODO: Field Added In Latest Shopify Package 23/04
+	TotalPriceSet                  *decimal.Decimal `json:"total_price_set,omitempty"`                   //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalAdditionalFeesSet  interface{}      `json:"current_total_additional_fees_set,omitempty"` //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalDiscount           *decimal.Decimal `json:"current_total_discount,omitempty"`            //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalDiscountSet        *decimal.Decimal `json:"current_total_discount_set,omitempty"`        //TODO: Field Added In Latest Shopify Package 23/04
+	CurrentTotalDutiesSet          *decimal.Decimal `json:"current_total_duties_set,omitempty"`          //TODO: Field Added In Latest Shopify Package 23/04
+	TotalTaxSet                    *decimal.Decimal `json:"total_tax_set,omitempty"`                     //TODO: Field Added In Latest Shopify Package 23/04
+	TotalTipReceived               *decimal.Decimal `json:"total_tip_Received,omitempty"`                //TODO: Field Added In Latest Shopify Package 23/04
+	TotalDiscountsSet              *decimal.Decimal `json:"total_discounts_set,omitempty"`               //TODO: Field Added In Latest Shopify Package 23/04
+	TotalOutstanding               *decimal.Decimal `json:"total_outstanding,omitempty"`                 //TODO: Field Added In Latest Shopify Package 23/04
+	LandingSiteRef                 string           `json:"landing_site_ref,omitempty"`                  //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	CheckoutID                     int64            `json:"checkout_id,omitempty"`                       //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	ContactEmail                   string           `json:"contact_email,omitempty"`                     //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	MetaFields                     []MetaField      `json:"metafields,omitempty"`                        //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	SendReceipt                    bool             `json:"send_receipt,omitempty"`                      //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	SendFulfillmentReceipt         bool             `json:"send_fulfillment_receipt,omitempty"`          //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	Confirmed                      bool             `json:"confirmed,omitempty"`                         //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	TotalPriceUSD                  *decimal.Decimal `json:"total_price_usd,omitempty"`                   //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	Reference                      string           `json:"reference,omitempty"`                         //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	DeviceID                       int64            `json:"device_id,omitempty"`                         //FIXME: Note : This Field Is Not Available In Latest Shopify Model
+	Transactions                   []Transaction    `json:"transactions,omitempty"`                      //FIXME: Note : This Field Is Not Available In Latest Shopify Model
 
 }
 
@@ -336,79 +360,79 @@ type TaxLine struct {
 	Rate  *decimal.Decimal `json:"rate,omitempty"`
 }
 type Transaction struct {
-	ID                              int64                          `json:"id,omitempty"`
-	OrderID                         int64                          `json:"order_id,omitempty"`
-	Amount                          *decimal.Decimal               `json:"amount,omitempty"`
-	AmountSet                       MoneyBag                       `json:"amount_set"` //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	Kind                            string                         `json:"kind,omitempty"`
-	Gateway                         string                         `json:"gateway,omitempty"`
-	Status                          string                         `json:"status,omitempty"`
-	Message                         string                         `json:"message,omitempty"`
-	CreatedAt                       *time.Time                     `json:"created_at,omitempty"`
-	Test                            bool                           `json:"test,omitempty"`
-	Authorization                   string                         `json:"authorization,omitempty"`
-	Currency                        string                         `json:"currency,omitempty"`
-	LocationID                      *int64                         `json:"location_id,omitempty"`
-	UserID                          *int64                         `json:"user_id,omitempty"`
-	ParentID                        *int64                         `json:"parent_id,omitempty"`
-	DeviceID                        *int64                         `json:"device_id,omitempty"`
-	ErrorCode                       string                         `json:"error_code,omitempty"`
-	SourceName                      string                         `json:"source_name,omitempty"`
-	Source                          string                         `json:"source,omitempty"` //FIXME: This Field Is Not Available In Latest Shopify Model
-	PaymentDetails                  *PaymentDetails                `json:"payment_details,omitempty"`
-	AuthorizationExpiresAt          time.Time                      `json:"authorization_expires_at"`          //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	ExtendedAuthorizationAttributes ExtendedAuthorizationAttribute `json:"extended_authorization_attributes"` //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	ProcessedAt                     *time.Time                     `json:"processed_at,omitempty"`            //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	PaymentsRefundAttributes        PaymentsRefundAttribute        `json:"payments_refund_attributes"`        //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	Receipt                         Receipt                        `json:"receipt"`                           //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	TotalUnsettledSet               UnsettledSet                   `json:"total_unsettled_set"`               //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	CurrencyExchangeAdjustment      CurrencyExchangeAdjustment     `json:"currency_exchange_adjustment"`      //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	CurrencyExchangeRate            string                         `json:"currency_exchange_rate"`            //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	CreditCardNumber                string                         `json:"credit_card_number"`                //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	OrderAdjustmentID               int64                          `json:"order_adjustment_id"`               //TODO: Newly Added Field As Per Shopify Latest Update 23/03
-	AdminGraphqlAPIID               string                         `json:"admin_graphql_api_id"`              //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	ID      int64            `json:"id,omitempty"`
+	OrderID int64            `json:"order_id,omitempty"`
+	Amount  *decimal.Decimal `json:"amount,omitempty"`
+	// AmountSet                       MoneyBag                       `json:"amount_set"` //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	Kind           string          `json:"kind,omitempty"`
+	Gateway        string          `json:"gateway,omitempty"`
+	Status         string          `json:"status,omitempty"`
+	Message        string          `json:"message,omitempty"`
+	CreatedAt      *time.Time      `json:"created_at,omitempty"`
+	Test           bool            `json:"test,omitempty"`
+	Authorization  string          `json:"authorization,omitempty"`
+	Currency       string          `json:"currency,omitempty"`
+	LocationID     *int64          `json:"location_id,omitempty"`
+	UserID         *int64          `json:"user_id,omitempty"`
+	ParentID       *int64          `json:"parent_id,omitempty"`
+	DeviceID       *int64          `json:"device_id,omitempty"`
+	ErrorCode      string          `json:"error_code,omitempty"`
+	SourceName     string          `json:"source_name,omitempty"`
+	Source         string          `json:"source,omitempty"` //FIXME: This Field Is Not Available In Latest Shopify Model
+	PaymentDetails *PaymentDetails `json:"payment_details,omitempty"`
+	// AuthorizationExpiresAt          time.Time                      `json:"authorization_expires_at"`          //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// ExtendedAuthorizationAttributes ExtendedAuthorizationAttribute `json:"extended_authorization_attributes"` //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// ProcessedAt                     *time.Time                     `json:"processed_at,omitempty"`            //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// PaymentsRefundAttributes        PaymentsRefundAttribute        `json:"payments_refund_attributes"`        //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// Receipt                         Receipt                        `json:"receipt"`                           //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// TotalUnsettledSet               UnsettledSet                   `json:"total_unsettled_set"`               //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// CurrencyExchangeAdjustment      CurrencyExchangeAdjustment     `json:"currency_exchange_adjustment"`      //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// CurrencyExchangeRate            string                         `json:"currency_exchange_rate"`            //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// CreditCardNumber                string                         `json:"credit_card_number"`                //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// OrderAdjustmentID               int64                          `json:"order_adjustment_id"`               //TODO: Newly Added Field As Per Shopify Latest Update 23/03
+	// AdminGraphqlAPIID               string                         `json:"admin_graphql_api_id"`              //TODO: Newly Added Field As Per Shopify Latest Update 23/03
 }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
-type UnsettledSet struct {
-	PresentmentMoney Money `json:"presentment_money"`
-	ShopMoney        Money `json:"shop_money"`
-}
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// type UnsettledSet struct {
+// 	PresentmentMoney Money `json:"presentment_money"`
+// 	ShopMoney        Money `json:"shop_money"`
+// }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
-type Money struct {
-	Amount   *decimal.Decimal `json:"amount"`
-	Currency string           `json:"currency"`
-}
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// type Money struct {
+// 	Amount   *decimal.Decimal `json:"amount"`
+// 	Currency string           `json:"currency"`
+// }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
-type ExtendedAuthorizationAttribute struct {
-	StandardAuthorizationExpiresAt time.Time `json:"standard_authorization_expires_at"`
-	ExtendedAuthorizationExpiresAt time.Time `json:"extended_authorization_expires_at"`
-}
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// type ExtendedAuthorizationAttribute struct {
+// 	StandardAuthorizationExpiresAt time.Time `json:"standard_authorization_expires_at"`
+// 	ExtendedAuthorizationExpiresAt time.Time `json:"extended_authorization_expires_at"`
+// }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
-type PaymentsRefundAttribute struct {
-	Status                  string `json:"status"`
-	AcquirerReferenceNumber string `json:"acquirer_reference_number"`
-}
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// type PaymentsRefundAttribute struct {
+// 	Status                  string `json:"status"`
+// 	AcquirerReferenceNumber string `json:"acquirer_reference_number"`
+// }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
-type CurrencyExchangeAdjustment struct {
-	ID             int64            `json:"id"`
-	Adjustment     string           `json:"adjustment"`
-	OriginalAmount *decimal.Decimal `json:"original_amount"`
-	FinalAmount    *decimal.Decimal `json:"final_amount"`
-	Currency       string           `json:"currency"`
-}
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// type CurrencyExchangeAdjustment struct {
+// 	ID             int64            `json:"id"`
+// 	Adjustment     string           `json:"adjustment"`
+// 	OriginalAmount *decimal.Decimal `json:"original_amount"`
+// 	FinalAmount    *decimal.Decimal `json:"final_amount"`
+// 	Currency       string           `json:"currency"`
+// }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
 type MoneyBag struct {
 	Amount   string `json:"amount"`
 	Currency string `json:"currency"`
 }
 
-// TODO: Newly Added Field As Per Shopify Latest Update 23/03
+// // TODO: Newly Added Field As Per Shopify Latest Update 23/03
 
 type DiscountApplication struct {
 	Type             string `json:"type"`
