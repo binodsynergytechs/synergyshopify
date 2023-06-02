@@ -13,7 +13,7 @@ const abandonedCheckoutsBasePath = "checkouts"
 // of the Shopify API.
 // See: https://shopify.dev/docs/api/admin-rest/latest/resources/abandoned-checkouts
 type AbandonedCheckoutService interface {
-	List(interface{}) ([]AbandonedCheckout, error)
+	ListAbandonedCheckout(interface{}) ([]AbandonedCheckout, error)
 }
 
 // AbandonedCheckoutServiceOp handles communication with the checkout related methods of
@@ -87,9 +87,16 @@ type SmsMarketingConsent struct {
 }
 
 // Get abandoned checkout list
-func (s *AbandonedCheckoutServiceOp) List(options interface{}) ([]AbandonedCheckout, error) {
-	path := fmt.Sprintf("/%s.json", abandonedCheckoutsBasePath)
+func (s *AbandonedCheckoutServiceOp) ListAbandonedCheckout(options interface{}) ([]AbandonedCheckout, error) {
+	// Construct the path for the abandoned checkouts endpoint using fmt.Sprintf
+	path := fmt.Sprintf("%s.json", abandonedCheckoutsBasePath)
+
+	// Create a new instance of the resource struct to hold the response
 	resource := new(AbandonedCheckoutsResource)
+
+	// Use the HTTP client to send a GET request to the specified path
 	err := s.client.Get(path, resource, options)
+
+	// Return the abandoned checkouts and any potential error from the request
 	return resource.AbandonedCheckouts, err
 }

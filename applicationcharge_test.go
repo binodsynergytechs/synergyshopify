@@ -10,8 +10,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-// applicationChargeTests tests if the fields are properly parsed.
-func applicationChargeTests(t *testing.T, charge ApplicationCharge) {
+func testApplicationChargeFields(t *testing.T, charge ApplicationCharge) {
 	var nilTest *bool
 	cases := []struct {
 		field    string
@@ -46,7 +45,7 @@ func applicationChargeTests(t *testing.T, charge ApplicationCharge) {
 	}
 }
 
-func TestApplicationChargeServiceOp_Create(t *testing.T) {
+func TestCreateApplicationCharge(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -63,15 +62,15 @@ func TestApplicationChargeServiceOp_Create(t *testing.T) {
 		ReturnURL: "http://super-duper.shopifyapps.com",
 	}
 
-	returnedCharge, err := client.ApplicationCharge.Create(charge)
+	returnedCharge, err := client.ApplicationCharge.CreateApplicationCharge(charge)
 	if err != nil {
-		t.Errorf("ApplicationCharge.Create returned an error: %v", err)
+		t.Errorf("ApplicationCharge.CreateApplicationCharge returned an error: %v", err)
 	}
 
-	applicationChargeTests(t, *returnedCharge)
+	testApplicationChargeFields(t, *returnedCharge)
 }
 
-func TestApplicationChargeServiceOp_Get(t *testing.T) {
+func TestGetApplicationCharge(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -81,18 +80,18 @@ func TestApplicationChargeServiceOp_Get(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"application_charge": {"id":1}}`),
 	)
 
-	charge, err := client.ApplicationCharge.Get(1, nil)
+	charge, err := client.ApplicationCharge.GetApplicationCharge(1, nil)
 	if err != nil {
-		t.Errorf("ApplicationCharge.Get returned an error: %v", err)
+		t.Errorf("ApplicationCharge.GetApplicationCharge returned an error: %v", err)
 	}
 
 	expected := &ApplicationCharge{ID: 1}
 	if !reflect.DeepEqual(charge, expected) {
-		t.Errorf("ApplicationCharge.Get returned %+v, expected %+v", charge, expected)
+		t.Errorf("ApplicationCharge.GetApplicationCharge returned %+v, expected %+v", charge, expected)
 	}
 }
 
-func TestApplicationChargeServiceOp_List(t *testing.T) {
+func TestListApplicationCharges(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -102,18 +101,18 @@ func TestApplicationChargeServiceOp_List(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"application_charges": [{"id":1},{"id":2}]}`),
 	)
 
-	charges, err := client.ApplicationCharge.List(nil)
+	charges, err := client.ApplicationCharge.ListApplicationCharges(nil)
 	if err != nil {
-		t.Errorf("ApplicationCharge.List returned an error: %v", err)
+		t.Errorf("ApplicationCharge.ListApplicationCharges returned an error: %v", err)
 	}
 
 	expected := []ApplicationCharge{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(charges, expected) {
-		t.Errorf("ApplicationCharge.List returned %+v, expected %+v", charges, expected)
+		t.Errorf("ApplicationCharge.ListApplicationCharges returned %+v, expected %+v", charges, expected)
 	}
 }
 
-func TestApplicationChargeServiceOp_Activate(t *testing.T) {
+func TestActivateApplicationCharge(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -131,13 +130,13 @@ func TestApplicationChargeServiceOp_Activate(t *testing.T) {
 		Status: "accepted",
 	}
 
-	returnedCharge, err := client.ApplicationCharge.Activate(charge)
+	returnedCharge, err := client.ApplicationCharge.ActivateApplicationCharge(charge)
 	if err != nil {
-		t.Errorf("ApplicationCharge.Activate returned an error: %v", err)
+		t.Errorf("ApplicationCharge.ActivateApplicationCharge returned an error: %v", err)
 	}
 
 	expected := &ApplicationCharge{ID: 455696195, Status: "active"}
 	if !reflect.DeepEqual(returnedCharge, expected) {
-		t.Errorf("ApplicationCharge.Activate returned %+v, expected %+v", charge, expected)
+		t.Errorf("ApplicationCharge.ActivateApplicationCharge returned %+v, expected %+v", charge, expected)
 	}
 }

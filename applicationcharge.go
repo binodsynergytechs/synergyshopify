@@ -13,10 +13,10 @@ const applicationChargesBasePath = "application_charges"
 // ApplicationCharge endpoints of the Shopify API.
 // See https://help.shopify.com/api/reference/billing/applicationcharge
 type ApplicationChargeService interface {
-	Create(ApplicationCharge) (*ApplicationCharge, error)
-	Get(int64, interface{}) (*ApplicationCharge, error)
-	List(interface{}) ([]ApplicationCharge, error)
-	Activate(ApplicationCharge) (*ApplicationCharge, error)
+	CreateApplicationCharge(ApplicationCharge) (*ApplicationCharge, error)
+	GetApplicationCharge(int64, interface{}) (*ApplicationCharge, error)
+	ListApplicationCharges(interface{}) ([]ApplicationCharge, error)
+	ActivateApplicationCharge(ApplicationCharge) (*ApplicationCharge, error)
 }
 
 type ApplicationChargeServiceOp struct {
@@ -38,8 +38,6 @@ type ApplicationCharge struct {
 	ConfirmationURL    string           `json:"confirmation_url"`
 }
 
-
-
 // ApplicationChargeResource represents the result from the
 // admin/application_charges{/X{/activate.json}.json}.json endpoints.
 type ApplicationChargeResource struct {
@@ -52,29 +50,35 @@ type ApplicationChargesResource struct {
 	Charges []ApplicationCharge `json:"application_charges"`
 }
 
-// Create creates new application charge.
-func (a ApplicationChargeServiceOp) Create(charge ApplicationCharge) (*ApplicationCharge, error) {
+// CreateApplicationCharge creates a new application charge.
+// It takes an ApplicationCharge parameter and returns a pointer to the created ApplicationCharge and an error, if any.
+func (a ApplicationChargeServiceOp) CreateApplicationCharge(charge ApplicationCharge) (*ApplicationCharge, error) {
 	path := fmt.Sprintf("%s.json", applicationChargesBasePath)
 	resource := &ApplicationChargeResource{}
 	return resource.Charge, a.client.Post(path, ApplicationChargeResource{Charge: &charge}, resource)
 }
 
-// Get gets individual application charge.
-func (a ApplicationChargeServiceOp) Get(chargeID int64, options interface{}) (*ApplicationCharge, error) {
+// GetApplicationCharge retrieves an individual application charge.
+// It takes the chargeID as an int64 and options as an interface{} parameter.
+// It returns a pointer to the retrieved ApplicationCharge and an error, if any.
+func (a ApplicationChargeServiceOp) GetApplicationCharge(chargeID int64, options interface{}) (*ApplicationCharge, error) {
 	path := fmt.Sprintf("%s/%d.json", applicationChargesBasePath, chargeID)
 	resource := &ApplicationChargeResource{}
 	return resource.Charge, a.client.Get(path, resource, options)
 }
 
-// List gets all application charges.
-func (a ApplicationChargeServiceOp) List(options interface{}) ([]ApplicationCharge, error) {
+// ListApplicationCharges retrieves all application charges.
+// It takes options as an interface{} parameter.
+// It returns a slice of ApplicationCharge and an error, if any.
+func (a ApplicationChargeServiceOp) ListApplicationCharges(options interface{}) ([]ApplicationCharge, error) {
 	path := fmt.Sprintf("%s.json", applicationChargesBasePath)
 	resource := &ApplicationChargesResource{}
 	return resource.Charges, a.client.Get(path, resource, options)
 }
 
-// Activate activates application charge.
-func (a ApplicationChargeServiceOp) Activate(charge ApplicationCharge) (*ApplicationCharge, error) {
+// ActivateApplicationCharge activates an application charge.
+// It takes an ApplicationCharge parameter and returns a pointer to the activated ApplicationCharge and an error, if any.
+func (a ApplicationChargeServiceOp) ActivateApplicationCharge(charge ApplicationCharge) (*ApplicationCharge, error) {
 	path := fmt.Sprintf("%s/%d/activate.json", applicationChargesBasePath, charge.ID)
 	resource := &ApplicationChargeResource{}
 	return resource.Charge, a.client.Post(path, ApplicationChargeResource{Charge: &charge}, resource)
