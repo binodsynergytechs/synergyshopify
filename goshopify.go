@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"path"
@@ -456,11 +455,11 @@ func (c *Client) logBody(body *io.ReadCloser, format string) {
 	if body == nil {
 		return
 	}
-	b, _ := ioutil.ReadAll(*body)
+	b, _ := io.ReadAll(*body)
 	if len(b) > 0 {
 		c.log.Debugf(format, string(b))
 	}
-	*body = ioutil.NopCloser(bytes.NewBuffer(b))
+	*body = io.NopCloser(bytes.NewBuffer(b))
 }
 
 func wrapSpecificError(r *http.Response, err ResponseError) error {
@@ -497,7 +496,7 @@ func CheckResponseError(r *http.Response) error {
 		Errors interface{} `json:"errors"`
 	}{}
 
-	bodyBytes, err := ioutil.ReadAll(r.Body)
+	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}

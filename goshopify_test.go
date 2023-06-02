@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"net/url"
+	"os"
 	"reflect"
 	"strings"
 	"testing"
@@ -57,7 +58,7 @@ func teardown() {
 }
 
 func loadFixture(filename string) []byte {
-	f, err := ioutil.ReadFile("fixtures/" + filename)
+	f, err := os.ReadFile("fixtures/" + filename)
 	if err != nil {
 		panic(fmt.Sprintf("Cannot load fixture %v", filename))
 	}
@@ -139,7 +140,7 @@ func TestNewRequest(t *testing.T) {
 	}
 
 	// Test body was JSON encoded
-	body, _ := ioutil.ReadAll(req.Body)
+	body, _ := io.ReadAll(req.Body)
 	if string(body) != outBody {
 		t.Errorf("NewRequest(%v) Body = %v, expected %v", inBody, string(body), outBody)
 	}
@@ -182,7 +183,7 @@ func TestNewRequestForPrivateApp(t *testing.T) {
 	}
 
 	// Test body was JSON encoded
-	body, _ := ioutil.ReadAll(req.Body)
+	body, _ := io.ReadAll(req.Body)
 	if string(body) != outBody {
 		t.Errorf("NewRequest(%v) Body = %v, expected %v", inBody, string(body), outBody)
 	}

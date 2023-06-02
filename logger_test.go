@@ -2,7 +2,7 @@ package goshopify
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -97,7 +97,7 @@ func TestDoGetHeadersDebug(t *testing.T) {
 	client.logRequest(&http.Request{
 		Method: "GET",
 		URL:    &url.URL{Host: "http://test.com", Path: "/foo/1"},
-		Body:   ioutil.NopCloser(strings.NewReader("request body")),
+		Body:   io.NopCloser(strings.NewReader("request body")),
 	})
 
 	if out.String() != reqExpected {
@@ -115,7 +115,7 @@ func TestDoGetHeadersDebug(t *testing.T) {
 	client.logResponse(&http.Response{
 		Status:     http.StatusText(http.StatusOK),
 		StatusCode: http.StatusOK,
-		Body:       ioutil.NopCloser(strings.NewReader("response body")),
+		Body:       io.NopCloser(strings.NewReader("response body")),
 	})
 
 	if out.String() != resExpected {

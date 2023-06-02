@@ -6,7 +6,8 @@ import (
 )
 
 const productListingBasePath = "product_listings"
-const productsListingResourceName = "product_listings"
+
+// const productsListingResourceName = "product_listings"
 
 // ProductListingService is an interface for interfacing with the product listing endpoints
 // of the Shopify API.
@@ -43,8 +44,6 @@ type ProductListing struct {
 	Variants    []Variant       `json:"variants,omitempty"`
 	Images      []Image         `json:"images,omitempty"`
 }
-
-
 
 // Represents the result from the product_listings/X.json endpoint
 type ProductListingResource struct {
