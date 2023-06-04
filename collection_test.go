@@ -38,7 +38,7 @@ func TestCollectionGet(t *testing.T) {
 				}
 			}`))
 
-	collection, err := client.Collection.Get(1, nil)
+	collection, err := client.Collection.GetCollection(1, nil)
 	if err != nil {
 		t.Errorf("Collection.Get returned error: %v", err)
 	}
@@ -169,7 +169,7 @@ func TestCollectionListProducts(t *testing.T) {
 				},
 			},
 			TemplateSuffix:    "special",
-			AdminGraphqlAPIID: "gid://shopify/Location/4688969785",
+			AdminGraphqlApiId: "gid://shopify/Location/4688969785",
 		},
 	}
 	if !reflect.DeepEqual(products, expected) {
@@ -304,7 +304,7 @@ func TestListProductsWithPagination(t *testing.T) {
 				},
 			},
 			TemplateSuffix:    "special",
-			AdminGraphqlAPIID: "gid://shopify/Location/4688969785",
+			AdminGraphqlApiId: "gid://shopify/Location/4688969785",
 		},
 	}
 	if !reflect.DeepEqual(products, expectedProducts) {

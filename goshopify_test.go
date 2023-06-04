@@ -921,7 +921,7 @@ func TestListWithPagination(t *testing.T) {
 				},
 			}))
 
-	var locations LocationsResource
+	var locations MultipleLocationsResponse
 	pagination, err := client.ListWithPagination("locations", &locations, nil)
 	if err != nil {
 		t.Fatalf("Client.ListWithPagination returned error: %v", err)

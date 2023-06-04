@@ -21,7 +21,7 @@ type PageService interface {
 
 	// MetafieldsService used for Pages resource to communicate with Metafields
 	// resource
-	MetafieldsService
+	MetaFieldsRepository
 }
 
 // PageServiceOp handles communication with the page related methods of the
@@ -45,8 +45,6 @@ type Page struct {
 	MetaFields        []MetaField `json:"metafields,omitempty"`
 	AdminGraphqlApiId string      `json:"admin_graphql_api_id"` // TODO: Latest Added From Shopify 23/04
 }
-
-
 
 // PageResource represents the result from the pages/X.json endpoint
 type PageResource struct {
@@ -105,36 +103,36 @@ func (s *PageServiceOp) Delete(pageID int64) error {
 
 // List metafields for a page
 func (s *PageServiceOp) ListMetafields(pageID int64, options interface{}) ([]MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.List(options)
 }
 
 // Count metafields for a page
 func (s *PageServiceOp) CountMetafields(pageID int64, options interface{}) (int, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Count(options)
 }
 
 // Get individual metafield for a page
 func (s *PageServiceOp) GetMetafield(pageID int64, metafieldID int64, options interface{}) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // Create a new metafield for a page
 func (s *PageServiceOp) CreateMetafield(pageID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Create(metafield)
 }
 
 // Update an existing metafield for a page
 func (s *PageServiceOp) UpdateMetafield(pageID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Update(metafield)
 }
 
 // Delete an existing metafield for a page
 func (s *PageServiceOp) DeleteMetafield(pageID int64, metafieldID int64) error {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: pagesResourceName, resourceID: pageID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: pagesResourceName, resourceID: pageID}
 	return metafieldService.Delete(metafieldID)
 }

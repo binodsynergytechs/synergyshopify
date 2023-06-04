@@ -24,7 +24,7 @@ func TestFulfillmentList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"fulfillments": [{"id":1},{"id":2}]}`))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	fulfillments, err := fulfillmentService.List(nil)
 	if err != nil {
@@ -51,7 +51,7 @@ func TestFulfillmentCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	cnt, err := fulfillmentService.Count(nil)
 	if err != nil {
@@ -82,7 +82,7 @@ func TestFulfillmentGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"fulfillment": {"id":1}}`))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	fulfillment, err := fulfillmentService.Get(1, nil)
 	if err != nil {
@@ -102,7 +102,7 @@ func TestFulfillmentCreate(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	fulfillment := Fulfillment{
 		LocationID:     905684977,
@@ -129,7 +129,7 @@ func TestFulfillmentUpdate(t *testing.T) {
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments/1022782888.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	fulfillment := Fulfillment{
 		ID:             1022782888,
@@ -151,7 +151,7 @@ func TestFulfillmentComplete(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments/1/complete.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	returnedFulfillment, err := fulfillmentService.Complete(1)
 	if err != nil {
@@ -168,7 +168,7 @@ func TestFulfillmentTransition(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments/1/open.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	returnedFulfillment, err := fulfillmentService.Transition(1)
 	if err != nil {
@@ -185,7 +185,7 @@ func TestFulfillmentCancel(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/123/fulfillments/1/cancel.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	fulfillmentService := &FulfillmentServiceOp{client: client, resource: ordersResourceName, resourceID: 123}
+	fulfillmentService := &FulfillmentClient{client: client, resource: ordersResourceName, resourceID: 123}
 
 	returnedFulfillment, err := fulfillmentService.Cancel(1)
 	if err != nil {

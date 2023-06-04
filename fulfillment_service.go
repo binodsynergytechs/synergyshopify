@@ -6,20 +6,20 @@ const (
 	fulfillmentServiceBasePath = "fulfillment_services"
 )
 
-// FulfillmentServiceService is an interface for interfacing with the fulfillment service
+// FulfillmentServiceRepository is an interface for interfacing with the fulfillment service
 // of the Shopify API.
 // https://help.shopify.com/api/reference/fulfillmentservice
-type FulfillmentServiceService interface {
-	List(interface{}) ([]FulfillmentServiceData, error)
-	Get(int64, interface{}) (*FulfillmentServiceData, error)
-	Create(FulfillmentServiceData) (*FulfillmentServiceData, error)
-	Update(FulfillmentServiceData) (*FulfillmentServiceData, error)
-	Delete(int64) error
+type FulfillmentServiceRepository interface {
+	ListFulfillment(interface{}) ([]FulfillmentService, error)
+	GetFulfillment(int64, interface{}) (*FulfillmentService, error)
+	CreateFulfillment(FulfillmentService) (*FulfillmentService, error)
+	UpdateFulfillment(FulfillmentService) (*FulfillmentService, error)
+	DeleteFulfillment(int64) error
 }
 
 // FIXME: Field Not Available In Model 23/04
 // TODO: Latest Field Available In Model 23/04
-type FulfillmentServiceData struct {
+type FulfillmentService struct {
 	Id                     int64  `json:"id,omitempty"` // FIXME: Field Not Available In Model 23/04
 	Name                   string `json:"name,omitempty"`
 	Email                  string `json:"email,omitempty"`        // FIXME: Field Not Available In Model 23/04
@@ -37,60 +37,60 @@ type FulfillmentServiceData struct {
 	RequiresShippingMethod bool   `json:"requires_shipping_method,omitempty"`
 }
 
-type FulfillmentServiceResource struct {
-	FulfillmentService *FulfillmentServiceData `json:"fulfillment_service,omitempty"`
+type SingleFulfillmentServiceResponse struct {
+	FulfillmentService *FulfillmentService `json:"fulfillment_service,omitempty"`
 }
 
-type FulfillmentServicesResource struct {
-	FulfillmentServices []FulfillmentServiceData `json:"fulfillment_services,omitempty"`
+type MultipleFulfillmentServicesResponse struct {
+	FulfillmentServices []FulfillmentService `json:"fulfillment_services,omitempty"`
 }
 
 type FulfillmentServiceOptions struct {
 	Scope string `url:"scope,omitempty"`
 }
 
-// FulfillmentServiceServiceOp handles communication with the FulfillmentServices
+// FulfillmentServiceClient handles communication with the FulfillmentServices
 // related methods of the Shopify API
-type FulfillmentServiceServiceOp struct {
+type FulfillmentServiceClient struct {
 	client *Client
 }
 
-// List Receive a list of all FulfillmentServiceData
-func (s *FulfillmentServiceServiceOp) List(options interface{}) ([]FulfillmentServiceData, error) {
+// List Receive a list of all FulfillmentService
+func (fc *FulfillmentServiceClient) ListFulfillment(options interface{}) ([]FulfillmentService, error) {
 	path := fmt.Sprintf("%s.json", fulfillmentServiceBasePath)
-	resource := new(FulfillmentServicesResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleFulfillmentServicesResponse)
+	err := fc.client.Get(path, resource, options)
 	return resource.FulfillmentServices, err
 }
 
-// Get Receive a single FulfillmentServiceData
-func (s *FulfillmentServiceServiceOp) Get(fulfillmentServiceId int64, options interface{}) (*FulfillmentServiceData, error) {
+// Get Receive a single FulfillmentService
+func (fc *FulfillmentServiceClient) GetFulfillment(fulfillmentServiceId int64, options interface{}) (*FulfillmentService, error) {
 	path := fmt.Sprintf("%s/%d.json", fulfillmentServiceBasePath, fulfillmentServiceId)
-	resource := new(FulfillmentServiceResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleFulfillmentServiceResponse)
+	err := fc.client.Get(path, resource, options)
 	return resource.FulfillmentService, err
 }
 
-// Create Create a new FulfillmentServiceData
-func (s *FulfillmentServiceServiceOp) Create(fulfillmentService FulfillmentServiceData) (*FulfillmentServiceData, error) {
+// Create Create a new FulfillmentService
+func (fc *FulfillmentServiceClient) CreateFulfillment(fulfillmentService FulfillmentService) (*FulfillmentService, error) {
 	path := fmt.Sprintf("%s.json", fulfillmentServiceBasePath)
-	wrappedData := FulfillmentServiceResource{FulfillmentService: &fulfillmentService}
-	resource := new(FulfillmentServiceResource)
-	err := s.client.Post(path, wrappedData, resource)
+	wrappedData := SingleFulfillmentServiceResponse{FulfillmentService: &fulfillmentService}
+	resource := new(SingleFulfillmentServiceResponse)
+	err := fc.client.Post(path, wrappedData, resource)
 	return resource.FulfillmentService, err
 }
 
-// Update Modify an existing FulfillmentServiceData
-func (s *FulfillmentServiceServiceOp) Update(fulfillmentService FulfillmentServiceData) (*FulfillmentServiceData, error) {
+// Update Modify an existing FulfillmentService
+func (fc *FulfillmentServiceClient) UpdateFulfillment(fulfillmentService FulfillmentService) (*FulfillmentService, error) {
 	path := fmt.Sprintf("%s/%d.json", fulfillmentServiceBasePath, fulfillmentService.Id)
-	wrappedData := FulfillmentServiceResource{FulfillmentService: &fulfillmentService}
-	resource := new(FulfillmentServiceResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleFulfillmentServiceResponse{FulfillmentService: &fulfillmentService}
+	resource := new(SingleFulfillmentServiceResponse)
+	err := fc.client.Put(path, wrappedData, resource)
 	return resource.FulfillmentService, err
 }
 
-// Delete Remove an existing FulfillmentServiceData
-func (s *FulfillmentServiceServiceOp) Delete(fulfillmentServiceId int64) error {
+// Delete Remove an existing FulfillmentService
+func (fc *FulfillmentServiceClient) DeleteFulfillment(fulfillmentServiceId int64) error {
 	path := fmt.Sprintf("%s/%d.json", fulfillmentServiceBasePath, fulfillmentServiceId)
-	return s.client.Delete(path)
+	return fc.client.Delete(path)
 }

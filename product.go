@@ -7,7 +7,7 @@ import (
 )
 
 const productsBasePath = "products"
-const productsResourceName = "products"
+const MultipleProductsResponseName = "products"
 
 // linkRegex is used to extract pagination links from product search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
@@ -15,22 +15,22 @@ var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 // ProductService is an interface for interfacing with the product endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/product
-type ProductService interface {
-	List(interface{}) ([]Product, error)
-	ListWithPagination(interface{}) ([]Product, *Pagination, error)
-	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*Product, error)
-	Create(Product) (*Product, error)
-	Update(Product) (*Product, error)
-	Delete(int64) error
+type ProductRepository interface {
+	ListProduct(interface{}) ([]Product, error)
+	ListProductWithPagination(interface{}) ([]Product, *Pagination, error)
+	CountProduct(interface{}) (int, error)
+	GetProduct(int64, interface{}) (*Product, error)
+	CreateProduct(Product) (*Product, error)
+	UpdateProduct(Product) (*Product, error)
+	DeleteProduct(int64) error
 
-	// MetafieldsService used for Product resource to communicate with Metafields resource
-	MetafieldsService
+	// MetaFieldsService used for Product resource to communicate with Metafields resource
+	MetaFieldsRepository
 }
 
-// ProductServiceOp handles communication with the product related methods of
+// ProductClient handles communication with the product related methods of
 // the Shopify API.
-type ProductServiceOp struct {
+type ProductClient struct {
 	client *Client
 }
 
@@ -53,10 +53,10 @@ type Product struct {
 	Image                          Image           `json:"image,omitempty"`
 	TemplateSuffix                 string          `json:"template_suffix,omitempty"`
 	Images                         []Image         `json:"images,omitempty"`                            // FIXME: Not Available In Latest Shopify Update
-	MetafieldsGlobalTitleTag       string          `json:"metafields_global_title_tag,omitempty"`       // FIXME: Not Available In Latest Shopify Update
-	MetafieldsGlobalDescriptionTag string          `json:"metafields_global_description_tag,omitempty"` // FIXME: Not Available In Latest Shopify Update
-	Metafields                     []MetaField     `json:"metafields,omitempty"`                        // FIXME: Not Available In Latest Shopify Update
-	AdminGraphqlAPIID              string          `json:"admin_graphql_api_id,omitempty"`              // FIXME: Not Available In Latest Shopify Update
+	MetaFieldsGlobalTitleTag       string          `json:"metafields_global_title_tag,omitempty"`       // FIXME: Not Available In Latest Shopify Update
+	MetaFieldsGlobalDescriptionTag string          `json:"metafields_global_description_tag,omitempty"` // FIXME: Not Available In Latest Shopify Update
+	MetaFields                     []MetaField     `json:"metafields,omitempty"`                        // FIXME: Not Available In Latest Shopify Update
+	AdminGraphqlApiId              string          `json:"admin_graphql_api_id,omitempty"`              // FIXME: Not Available In Latest Shopify Update
 }
 
 type ProductOption struct {
@@ -80,12 +80,12 @@ type ProductListOptions struct {
 }
 
 // Represents the result from the products/X.json endpoint
-type ProductResource struct {
+type SingleProductResponse struct {
 	Product *Product `json:"product"`
 }
 
 // Represents the result from the products.json endpoint
-type ProductsResource struct {
+type MultipleProductsResponse struct {
 	Products []Product `json:"products"`
 }
 
@@ -96,8 +96,8 @@ type Pagination struct {
 }
 
 // List products
-func (s *ProductServiceOp) List(options interface{}) ([]Product, error) {
-	products, _, err := s.ListWithPagination(options)
+func (pc *ProductClient) List(options interface{}) ([]Product, error) {
+	products, _, err := pc.ListWithPagination(options)
 	if err != nil {
 		return nil, err
 	}
@@ -105,11 +105,11 @@ func (s *ProductServiceOp) List(options interface{}) ([]Product, error) {
 }
 
 // ListWithPagination lists products and return pagination to retrieve next/previous results.
-func (s *ProductServiceOp) ListWithPagination(options interface{}) ([]Product, *Pagination, error) {
+func (pc *ProductClient) ListWithPagination(options interface{}) ([]Product, *Pagination, error) {
 	path := fmt.Sprintf("%s.json", productsBasePath)
-	resource := new(ProductsResource)
+	resource := new(MultipleProductsResponse)
 
-	pagination, err := s.client.ListWithPagination(path, resource, options)
+	pagination, err := pc.client.ListWithPagination(path, resource, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -118,74 +118,74 @@ func (s *ProductServiceOp) ListWithPagination(options interface{}) ([]Product, *
 }
 
 // Count products
-func (s *ProductServiceOp) Count(options interface{}) (int, error) {
+func (pc *ProductClient) Count(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", productsBasePath)
-	return s.client.Count(path, options)
+	return pc.client.Count(path, options)
 }
 
 // Get individual product
-func (s *ProductServiceOp) Get(productID int64, options interface{}) (*Product, error) {
+func (pc *ProductClient) Get(productID int64, options interface{}) (*Product, error) {
 	path := fmt.Sprintf("%s/%d.json", productsBasePath, productID)
-	resource := new(ProductResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleProductResponse)
+	err := pc.client.Get(path, resource, options)
 	return resource.Product, err
 }
 
 // Create a new product
-func (s *ProductServiceOp) Create(product Product) (*Product, error) {
+func (pc *ProductClient) Create(product Product) (*Product, error) {
 	path := fmt.Sprintf("%s.json", productsBasePath)
-	wrappedData := ProductResource{Product: &product}
-	resource := new(ProductResource)
-	err := s.client.Post(path, wrappedData, resource)
+	wrappedData := SingleProductResponse{Product: &product}
+	resource := new(SingleProductResponse)
+	err := pc.client.Post(path, wrappedData, resource)
 	return resource.Product, err
 }
 
 // Update an existing product
-func (s *ProductServiceOp) Update(product Product) (*Product, error) {
+func (pc *ProductClient) Update(product Product) (*Product, error) {
 	path := fmt.Sprintf("%s/%d.json", productsBasePath, product.ID)
-	wrappedData := ProductResource{Product: &product}
-	resource := new(ProductResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleProductResponse{Product: &product}
+	resource := new(SingleProductResponse)
+	err := pc.client.Put(path, wrappedData, resource)
 	return resource.Product, err
 }
 
 // Delete an existing product
-func (s *ProductServiceOp) Delete(productID int64) error {
-	return s.client.Delete(fmt.Sprintf("%s/%d.json", productsBasePath, productID))
+func (pc *ProductClient) Delete(productID int64) error {
+	return pc.client.Delete(fmt.Sprintf("%s/%d.json", productsBasePath, productID))
 }
 
 // ListMetafields for a product
-func (s *ProductServiceOp) ListMetafields(productID int64, options interface{}) ([]MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
+func (pc *ProductClient) ListMetafields(productID int64, options interface{}) ([]MetaField, error) {
+	metafieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
 	return metafieldService.List(options)
 }
 
 // Count metafields for a product
-func (s *ProductServiceOp) CountMetafields(productID int64, options interface{}) (int, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
+func (pc *ProductClient) CountMetafields(productID int64, options interface{}) (int, error) {
+	metafieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
 	return metafieldService.Count(options)
 }
 
 // GetMetafield for a product
-func (s *ProductServiceOp) GetMetafield(productID int64, metafieldID int64, options interface{}) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
+func (pc *ProductClient) GetMetafield(productID int64, metafieldID int64, options interface{}) (*MetaField, error) {
+	metafieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // CreateMetafield for a product
-func (s *ProductServiceOp) CreateMetafield(productID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
+func (pc *ProductClient) CreateMetafield(productID int64, metafield MetaField) (*MetaField, error) {
+	metafieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
 	return metafieldService.Create(metafield)
 }
 
 // UpdateMetafield for a product
-func (s *ProductServiceOp) UpdateMetafield(productID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
+func (pc *ProductClient) UpdateMetafield(productID int64, metafield MetaField) (*MetaField, error) {
+	metafieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
 	return metafieldService.Update(metafield)
 }
 
 // DeleteMetafield for a product
-func (s *ProductServiceOp) DeleteMetafield(productID int64, metafieldID int64) error {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: productsResourceName, resourceID: productID}
+func (pc *ProductClient) DeleteMetafield(productID int64, metafieldID int64) error {
+	metafieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
 	return metafieldService.Delete(metafieldID)
 }

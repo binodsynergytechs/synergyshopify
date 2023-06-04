@@ -7,16 +7,16 @@ import (
 
 const locationsBasePath = "locations"
 
-// LocationService is an interface for interfacing with the location endpoints
+// LocationRepository is an interface for interfacing with the location endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/en/api/reference/inventory/location
-type LocationService interface {
+type LocationRepository interface {
 	// Retrieves a list of locations
-	List(options interface{}) ([]Location, error)
+	ListLocation(options interface{}) ([]Location, error)
 	// Retrieves a single location by its ID
-	Get(ID int64, options interface{}) (*Location, error)
+	GetLocation(ID int64, options interface{}) (*Location, error)
 	// Retrieves a count of locations
-	Count(options interface{}) (int, error)
+	CountLocation(options interface{}) (int, error)
 }
 
 type Location struct {
@@ -70,43 +70,43 @@ type Location struct {
 
 	// The zip or postal code.
 	Zip                   string `json:"zip"`
-	LocalizedCountryName  string `json:"localized_country_name"`   //TODO: Field Available In Latest Shopify Model
+	LocalizedCountryName  string `json:"localized_country_name"`  //TODO: Field Available In Latest Shopify Model
 	LocalizedProvinceName string `json:"localized_province_name"` //TODO: Field Available In Latest Shopify Model
 
 	AdminGraphqlAPIID string `json:"admin_graphql_api_id"` //FIXME: Field Available In Latest Shopify Model
 }
 
-// LocationServiceOp handles communication with the location related methods of
+// LocationClient handles communication with the location related methods of
 // the Shopify API.
-type LocationServiceOp struct {
+type LocationClient struct {
 	client *Client
 }
 
-func (s *LocationServiceOp) List(options interface{}) ([]Location, error) {
+func (lc *LocationClient) ListLocation(options interface{}) ([]Location, error) {
 	path := fmt.Sprintf("%s.json", locationsBasePath)
-	resource := new(LocationsResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleLocationsResponse)
+	err := lc.client.Get(path, resource, options)
 	return resource.Locations, err
 }
 
-func (s *LocationServiceOp) Get(ID int64, options interface{}) (*Location, error) {
+func (lc *LocationClient) GetLocation(ID int64, options interface{}) (*Location, error) {
 	path := fmt.Sprintf("%s/%d.json", locationsBasePath, ID)
-	resource := new(LocationResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleLocationResponse)
+	err := lc.client.Get(path, resource, options)
 	return resource.Location, err
 }
 
-func (s *LocationServiceOp) Count(options interface{}) (int, error) {
+func (lc *LocationClient) CountLocation(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", locationsBasePath)
-	return s.client.Count(path, options)
+	return lc.client.Count(path, options)
 }
 
 // Represents the result from the locations/X.json endpoint
-type LocationResource struct {
+type SingleLocationResponse struct {
 	Location *Location `json:"location"`
 }
 
 // Represents the result from the locations.json endpoint
-type LocationsResource struct {
+type MultipleLocationsResponse struct {
 	Locations []Location `json:"locations"`
 }

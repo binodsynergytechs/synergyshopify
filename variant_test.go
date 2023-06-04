@@ -70,7 +70,7 @@ func TestVariantList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/variants.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"variants": [{"id":1},{"id":2}]}`))
 
-	variants, err := client.Variant.List(1, nil)
+	variants, err := client.Variant.ListVariant(1, nil)
 	if err != nil {
 		t.Errorf("Variant.List returned error: %v", err)
 	}
@@ -95,7 +95,7 @@ func TestVariantCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Variant.Count(1, nil)
+	cnt, err := client.Variant.CountVariant(1, nil)
 	if err != nil {
 		t.Errorf("Variant.Count returned error: %v", err)
 	}
@@ -106,7 +106,7 @@ func TestVariantCount(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Variant.Count(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.Variant.CountVariant(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Variant.Count returned %d, expected %d", cnt, expected)
 	}
@@ -124,7 +124,7 @@ func TestVariantGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"variant": {"id":1}}`))
 
-	variant, err := client.Variant.Get(1, nil)
+	variant, err := client.Variant.GetVariant(1, nil)
 	if err != nil {
 		t.Errorf("Variant.Get returned error: %v", err)
 	}
@@ -148,14 +148,14 @@ func TestVariantCreate(t *testing.T) {
 		Option1: "Yellow",
 		Price:   &price,
 	}
-	result, err := client.Variant.Create(1, variant)
+	result, err := client.Variant.CreateVariant(1, variant)
 	if err != nil {
 		t.Errorf("Variant.Create returned error: %v", err)
 	}
 	variantTests(t, *result)
 }
 
-func TestVariantCreateWithMetafields(t *testing.T) {
+func TestVariantCreateWithMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -168,7 +168,7 @@ func TestVariantCreateWithMetafields(t *testing.T) {
 		Option1: "Blue",
 		Price:   &price,
 	}
-	result, err := client.Variant.Create(1, variant)
+	result, err := client.Variant.CreateVariant(1, variant)
 	if err != nil {
 		t.Errorf("Variant.Create returned error: %v", err)
 	}
@@ -189,14 +189,14 @@ func TestVariantUpdate(t *testing.T) {
 
 	variant.Option1 = "Yellow"
 
-	returnedVariant, err := client.Variant.Update(variant)
+	returnedVariant, err := client.Variant.UpdateVariant(variant)
 	if err != nil {
 		t.Errorf("Variant.Update returned error: %v", err)
 	}
 	variantTests(t, *returnedVariant)
 }
 
-func TestVariantWithMetafieldsUpdate(t *testing.T) {
+func TestVariantWithMetaFieldsUpdate(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -217,7 +217,7 @@ func TestVariantWithMetafieldsUpdate(t *testing.T) {
 	variant.Option1 = "Blue"
 	variant.MetaFields[0].Description = "description"
 
-	returnedVariant, err := client.Variant.Update(variant)
+	returnedVariant, err := client.Variant.UpdateVariant(variant)
 	if err != nil {
 		t.Errorf("Variant.Update returned error: %v", err)
 	}
@@ -232,7 +232,7 @@ func TestVariantDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/variants/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Variant.Delete(1, 1)
+	err := client.Variant.DeleteVariant(1, 1)
 	if err != nil {
 		t.Errorf("Variant.Delete returned error: %v", err)
 	}
@@ -245,14 +245,14 @@ func TestVariantListMetafields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.Variant.ListMetafields(1, nil)
+	metaFields, err := client.Variant.ListMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("Variant.ListMetafields() returned error: %v", err)
+		t.Errorf("Variant.ListMetaFields() returned error: %v", err)
 	}
 
 	expected := []MetaField{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(metafields, expected) {
-		t.Errorf("Variant.ListMetafields() returned %+v, expected %+v", metafields, expected)
+	if !reflect.DeepEqual(metaFields, expected) {
+		t.Errorf("Variant.ListMetaFields() returned %+v, expected %+v", metaFields, expected)
 	}
 }
 
@@ -270,7 +270,7 @@ func TestVariantCountMetafields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Variant.CountMetafields(1, nil)
+	cnt, err := client.Variant.CountMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("Variant.CountMetafields() returned error: %v", err)
 	}
@@ -281,7 +281,7 @@ func TestVariantCountMetafields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Variant.CountMetafields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.Variant.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Variant.CountMetafields() returned error: %v", err)
 	}
@@ -299,7 +299,7 @@ func TestVariantGetMetafield(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.Variant.GetMetafield(1, 2, nil)
+	metafield, err := client.Variant.GetMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("Variant.GetMetafield() returned error: %v", err)
 	}
@@ -325,12 +325,12 @@ func TestVariantCreateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Variant.CreateMetafield(1, metafield)
+	returnedMetafield, err := client.Variant.CreateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Variant.CreateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestVariantUpdateMetafield(t *testing.T) {
@@ -349,12 +349,12 @@ func TestVariantUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Variant.UpdateMetafield(1, metafield)
+	returnedMetafield, err := client.Variant.UpdateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Variant.UpdateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestVariantDeleteMetafield(t *testing.T) {
@@ -364,7 +364,7 @@ func TestVariantDeleteMetafield(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Variant.DeleteMetafield(1, 2)
+	err := client.Variant.DeleteMetaField(1, 2)
 	if err != nil {
 		t.Errorf("Variant.DeleteMetafield() returned error: %v", err)
 	}
@@ -377,7 +377,7 @@ func TestVariantListWithTaxCode(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/variants.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"variants": [{"id":1, "tax_code":"P0000000"},{"id":2, "tax_code":"P0000000"}]}`))
 
-	variants, err := client.Variant.List(1, nil)
+	variants, err := client.Variant.ListVariant(1, nil)
 	if err != nil {
 		t.Errorf("Variant.List returned error: %v", err)
 	}
@@ -395,7 +395,7 @@ func TestVariantGetWithTaxCode(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"variant": {"id":1, "tax_code":"P0000000"}}`))
 
-	variant, err := client.Variant.Get(1, nil)
+	variant, err := client.Variant.GetVariant(1, nil)
 	if err != nil {
 		t.Errorf("Variant.Get returned error: %v", err)
 	}
@@ -420,7 +420,7 @@ func TestVariantCreateWithTaxCode(t *testing.T) {
 		Price:   &price,
 		TaxCode: "P0000000",
 	}
-	result, err := client.Variant.Create(1, variant)
+	result, err := client.Variant.CreateVariant(1, variant)
 	if err != nil {
 		t.Errorf("Variant.Create returned error: %v", err)
 	}

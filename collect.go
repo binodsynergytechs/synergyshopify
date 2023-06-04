@@ -7,20 +7,20 @@ import (
 
 const collectsBasePath = "collects"
 
-// CollectService is an interface for interfacing with the collect endpoints
+// CollectRepository is an interface for interfacing with the collect endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/products/collect
-type CollectService interface {
-	List(interface{}) ([]Collect, error)
-	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*Collect, error)
-	Create(Collect) (*Collect, error)
-	Delete(int64) error
+type CollectRepository interface {
+	ListCollect(interface{}) ([]Collect, error)
+	CountCollect(interface{}) (int, error)
+	GetCollect(int64, interface{}) (*Collect, error)
+	CreateCollect(Collect) (*Collect, error)
+	DeleteCollect(int64) error
 }
 
-// CollectServiceOp handles communication with the collect related methods of
+// CollectClient handles communication with the collect related methods of
 // the Shopify API.
-type CollectServiceOp struct {
+type CollectClient struct {
 	client *Client
 }
 
@@ -36,50 +36,48 @@ type Collect struct {
 	SortValue    string     `json:"sort_value,omitempty"`
 }
 
-
-
 // Represents the result from the collects/X.json endpoint
-type CollectResource struct {
+type SingleCollectResponse struct {
 	Collect *Collect `json:"collect"`
 }
 
 // Represents the result from the collects.json endpoint
-type CollectsResource struct {
+type MultipleCollectsResponse struct {
 	Collects []Collect `json:"collects"`
 }
 
 // List collects
-func (s *CollectServiceOp) List(options interface{}) ([]Collect, error) {
+func (s *CollectClient) ListCollect(options interface{}) ([]Collect, error) {
 	path := fmt.Sprintf("%s.json", collectsBasePath)
-	resource := new(CollectsResource)
+	resource := new(MultipleCollectsResponse)
 	err := s.client.Get(path, resource, options)
 	return resource.Collects, err
 }
 
 // Count collects
-func (s *CollectServiceOp) Count(options interface{}) (int, error) {
+func (s *CollectClient) CountCollect(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", collectsBasePath)
 	return s.client.Count(path, options)
 }
 
 // Get individual collect
-func (s *CollectServiceOp) Get(collectID int64, options interface{}) (*Collect, error) {
+func (s *CollectClient) GetCollect(collectID int64, options interface{}) (*Collect, error) {
 	path := fmt.Sprintf("%s/%d.json", collectsBasePath, collectID)
-	resource := new(CollectResource)
+	resource := new(SingleCollectResponse)
 	err := s.client.Get(path, resource, options)
 	return resource.Collect, err
 }
 
 // Create collects
-func (s *CollectServiceOp) Create(collect Collect) (*Collect, error) {
+func (s *CollectClient) CreateCollect(collect Collect) (*Collect, error) {
 	path := fmt.Sprintf("%s.json", collectsBasePath)
-	wrappedData := CollectResource{Collect: &collect}
-	resource := new(CollectResource)
+	wrappedData := SingleCollectResponse{Collect: &collect}
+	resource := new(SingleCollectResponse)
 	err := s.client.Post(path, wrappedData, resource)
 	return resource.Collect, err
 }
 
 // Delete an existing collect
-func (s *CollectServiceOp) Delete(collectID int64) error {
+func (s *CollectClient) DeleteCollect(collectID int64) error {
 	return s.client.Delete(fmt.Sprintf("%s/%d.json", collectsBasePath, collectID))
 }

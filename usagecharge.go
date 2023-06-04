@@ -10,18 +10,18 @@ import (
 
 const usageChargesPath = "usage_charges"
 
-// UsageChargeService is an interface for interacting with the
+// UsageChargeRepository is an interface for interacting with the
 // UsageCharge endpoints of the Shopify API.
 // See https://help.shopify.com/en/api/reference/billing/usagecharge#endpoints
-type UsageChargeService interface {
-	Create(int64, UsageCharge) (*UsageCharge, error)
-	Get(int64, int64, interface{}) (*UsageCharge, error)
-	List(int64, interface{}) ([]UsageCharge, error)
+type UsageChargeRepository interface {
+	CreateUsageCharge(int64, UsageCharge) (*UsageCharge, error)
+	GetUsageCharge(int64, int64, interface{}) (*UsageCharge, error)
+	ListUsageCharge(int64, interface{}) ([]UsageCharge, error)
 }
 
-// UsageChargeServiceOp handles communication with the
+// UsageChargeClient handles communication with the
 // UsageCharge related methods of the Shopify API.
-type UsageChargeServiceOp struct {
+type UsageChargeClient struct {
 	client *Client
 }
 
@@ -40,7 +40,7 @@ type UsageCharge struct {
 	Currency                     string           `json:"currency"`                        //TODO: New Field Added In Shopify
 }
 
-func (r *UsageCharge) UnmarshalJSON(data []byte) error {
+func (u *UsageCharge) UnmarshalJSON(data []byte) error {
 	// This is a workaround for the API returning BillingOn date in the format of "YYYY-MM-DD"
 	// https://help.shopify.com/en/api/reference/billing/usagecharge#endpoints
 	// For a longer explanation of the hack check:
@@ -49,12 +49,12 @@ func (r *UsageCharge) UnmarshalJSON(data []byte) error {
 	aux := &struct {
 		BillingOn *string `json:"billing_on"`
 		*alias
-	}{alias: (*alias)(r)}
+	}{alias: (*alias)(u)}
 
 	if err := json.Unmarshal(data, &aux); err != nil {
 		return err
 	}
-	if err := parse(&r.BillingOn, aux.BillingOn); err != nil {
+	if err := parse(&u.BillingOn, aux.BillingOn); err != nil {
 		return err
 	}
 	return nil
@@ -73,32 +73,32 @@ type UsageChargesResource struct {
 }
 
 // Create creates new usage charge given a recurring charge. *required fields: price and description
-func (r *UsageChargeServiceOp) Create(chargeID int64, usageCharge UsageCharge) (
+func (uc *UsageChargeClient) CreateUsageCharge(chargeID int64, usageCharge UsageCharge) (
 	*UsageCharge, error) {
 
 	path := fmt.Sprintf("%s/%d/%s.json", recurringApplicationChargesBasePath, chargeID, usageChargesPath)
 	wrappedData := UsageChargeResource{Charge: &usageCharge}
 	resource := &UsageChargeResource{}
-	err := r.client.Post(path, wrappedData, resource)
+	err := uc.client.Post(path, wrappedData, resource)
 	return resource.Charge, err
 }
 
 // Get gets individual usage charge.
-func (r *UsageChargeServiceOp) Get(chargeID int64, usageChargeID int64, options interface{}) (
+func (uc *UsageChargeClient) GetUsageCharge(chargeID int64, usageChargeID int64, options interface{}) (
 	*UsageCharge, error) {
 
 	path := fmt.Sprintf("%s/%d/%s/%d.json", recurringApplicationChargesBasePath, chargeID, usageChargesPath, usageChargeID)
 	resource := &UsageChargeResource{}
-	err := r.client.Get(path, resource, options)
+	err := uc.client.Get(path, resource, options)
 	return resource.Charge, err
 }
 
 // List gets all usage charges associated with the recurring charge.
-func (r *UsageChargeServiceOp) List(chargeID int64, options interface{}) (
+func (uc *UsageChargeClient) ListUsageCharge(chargeID int64, options interface{}) (
 	[]UsageCharge, error) {
 
 	path := fmt.Sprintf("%s/%d/%s.json", recurringApplicationChargesBasePath, chargeID, usageChargesPath)
 	resource := &UsageChargesResource{}
-	err := r.client.Get(path, resource, options)
+	err := uc.client.Get(path, resource, options)
 	return resource.Charges, err
 }

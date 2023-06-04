@@ -25,8 +25,8 @@ type DraftOrderService interface {
 	Invoice(int64, DraftOrderInvoice) (*DraftOrderInvoice, error)
 	Complete(int64, bool) (*DraftOrder, error)
 
-	// MetafieldsService used for DrafT Order resource to communicate with Metafields resource
-	MetafieldsService
+	// MetaFieldsRepository used for DrafT Order resource to communicate with Metafields resource
+	MetaFieldsRepository
 }
 
 // DraftOrderServiceOp handles communication with the draft order related methods of the
@@ -254,36 +254,36 @@ func (s *DraftOrderServiceOp) Complete(draftOrderID int64, paymentPending bool) 
 
 // List metafields for an order
 func (s *DraftOrderServiceOp) ListMetafields(draftOrderID int64, options interface{}) ([]MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.List(options)
 }
 
 // Count metafields for an order
 func (s *DraftOrderServiceOp) CountMetafields(draftOrderID int64, options interface{}) (int, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Count(options)
 }
 
 // Get individual metafield for an order
 func (s *DraftOrderServiceOp) GetMetafield(draftOrderID int64, metafieldID int64, options interface{}) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Get(metafieldID, options)
 }
 
 // Create a new metafield for an order
 func (s *DraftOrderServiceOp) CreateMetafield(draftOrderID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Create(metafield)
 }
 
 // Update an existing metafield for an order
 func (s *DraftOrderServiceOp) UpdateMetafield(draftOrderID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Update(metafield)
 }
 
 // Delete an existing metafield for an order
 func (s *DraftOrderServiceOp) DeleteMetafield(draftOrderID int64, metafieldID int64) error {
-	metafieldService := &MetafieldServiceOp{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return metafieldService.Delete(metafieldID)
 }

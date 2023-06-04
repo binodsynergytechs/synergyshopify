@@ -9,7 +9,7 @@ import (
 	"github.com/jarcoal/httpmock"
 )
 
-func MetafieldTests(t *testing.T, metafield MetaField) {
+func MetaFieldTests(t *testing.T, metafield MetaField) {
 	// Check that ID is assigned to the returned metafield
 	expectedInt := int64(1)
 	if metafield.ID != expectedInt {
@@ -24,7 +24,7 @@ func TestMetafieldList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.Metafield.List(nil)
+	metafields, err := client.MetaField.List(nil)
 	if err != nil {
 		t.Errorf("Metafield.List returned error: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestMetafieldCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Metafield.Count(nil)
+	cnt, err := client.MetaField.Count(nil)
 	if err != nil {
 		t.Errorf("Metafield.Count returned error: %v", err)
 	}
@@ -60,7 +60,7 @@ func TestMetafieldCount(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Metafield.Count(CountOptions{CreatedAtMin: date})
+	cnt, err = client.MetaField.Count(CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Metafield.Count returned error: %v", err)
 	}
@@ -78,7 +78,7 @@ func TestMetafieldGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields/1.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield, err := client.Metafield.Get(1, nil)
+	metafield, err := client.MetaField.Get(1, nil)
 	if err != nil {
 		t.Errorf("Metafield.Get returned error: %v", err)
 	}
@@ -97,7 +97,7 @@ func TestMetafieldGet(t *testing.T) {
 		CreatedAt:         &createdAt,
 		UpdatedAt:         &updatedAt,
 		OwnerResource:     "shop",
-		AdminGraphqlAPIID: "gid://shopify/Metafield/1",
+		AdminGraphqlApiID: "gid://shopify/Metafield/1",
 	}
 	if !reflect.DeepEqual(metafield, expected) {
 		t.Errorf("Metafield.Get returned %+v, expected %+v", metafield, expected)
@@ -119,12 +119,12 @@ func TestMetafieldCreate(t *testing.T) {
 		Type:      "single_line_text_field",
 	}
 
-	returnedMetafield, err := client.Metafield.Create(metafield)
+	returnedMetafield, err := client.MetaField.Create(metafield)
 	if err != nil {
 		t.Errorf("Metafield.Create returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestMetafieldUpdate(t *testing.T) {
@@ -141,12 +141,12 @@ func TestMetafieldUpdate(t *testing.T) {
 		Type:      "single_line_text_field",
 	}
 
-	returnedMetafield, err := client.Metafield.Update(metafield)
+	returnedMetafield, err := client.MetaField.Update(metafield)
 	if err != nil {
 		t.Errorf("Metafield.Update returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestMetafieldDelete(t *testing.T) {
@@ -156,7 +156,7 @@ func TestMetafieldDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Metafield.Delete(1)
+	err := client.MetaField.Delete(1)
 	if err != nil {
 		t.Errorf("Metafield.Delete returned error: %v", err)
 	}

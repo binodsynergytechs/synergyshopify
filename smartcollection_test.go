@@ -250,7 +250,7 @@ func TestSmartCollectionCreateMetafield(t *testing.T) {
 		t.Errorf("SmartCollection.CreateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestSmartCollectionUpdateMetafield(t *testing.T) {
@@ -274,7 +274,7 @@ func TestSmartCollectionUpdateMetafield(t *testing.T) {
 		t.Errorf("SmartCollection.UpdateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestSmartCollectionDeleteMetafield(t *testing.T) {

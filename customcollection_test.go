@@ -38,7 +38,7 @@ func TestCustomCollectionList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/custom_collections.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"custom_collections": [{"id":1},{"id":2}]}`))
 
-	products, err := client.CustomCollection.List(nil)
+	products, err := client.CustomCollection.ListCustomCollection(nil)
 	if err != nil {
 		t.Errorf("CustomCollection.List returned error: %v", err)
 	}
@@ -63,7 +63,7 @@ func TestCustomCollectionCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.CustomCollection.Count(nil)
+	cnt, err := client.CustomCollection.CountCustomCollection(nil)
 	if err != nil {
 		t.Errorf("CustomCollection.Count returned error: %v", err)
 	}
@@ -74,7 +74,7 @@ func TestCustomCollectionCount(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.CustomCollection.Count(CountOptions{CreatedAtMin: date})
+	cnt, err = client.CustomCollection.CountCustomCollection(CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("CustomCollection.Count returned error: %v", err)
 	}
@@ -92,7 +92,7 @@ func TestCustomCollectionGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/custom_collections/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"custom_collection": {"id":1}}`))
 
-	product, err := client.CustomCollection.Get(1, nil)
+	product, err := client.CustomCollection.GetCustomCollection(1, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.Get returned error: %v", err)
 	}
@@ -114,7 +114,7 @@ func TestCustomCollectionCreate(t *testing.T) {
 		Title: "Macbooks",
 	}
 
-	returnedCollection, err := client.CustomCollection.Create(collection)
+	returnedCollection, err := client.CustomCollection.CreateCustomCollection(collection)
 	if err != nil {
 		t.Errorf("CustomCollection.Create returned error: %v", err)
 	}
@@ -134,7 +134,7 @@ func TestCustomCollectionUpdate(t *testing.T) {
 		Title: "Macbooks",
 	}
 
-	returnedCollection, err := client.CustomCollection.Update(collection)
+	returnedCollection, err := client.CustomCollection.UpdateCustomCollection(collection)
 	if err != nil {
 		t.Errorf("CustomCollection.Update returned error: %v", err)
 	}
@@ -149,7 +149,7 @@ func TestCustomCollectionDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/custom_collections/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.CustomCollection.Delete(1)
+	err := client.CustomCollection.DeleteCustomCollection(1)
 	if err != nil {
 		t.Errorf("CustomCollection.Delete returned error: %v", err)
 	}
@@ -162,7 +162,7 @@ func TestCustomCollectionListMetafields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.CustomCollection.ListMetafields(1, nil)
+	metafields, err := client.CustomCollection.ListMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.ListMetafields() returned error: %v", err)
 	}
@@ -187,7 +187,7 @@ func TestCustomCollectionCountMetafields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.CustomCollection.CountMetafields(1, nil)
+	cnt, err := client.CustomCollection.CountMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.CountMetafields() returned error: %v", err)
 	}
@@ -198,7 +198,7 @@ func TestCustomCollectionCountMetafields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.CustomCollection.CountMetafields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.CustomCollection.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("CustomCollection.CountMetafields() returned error: %v", err)
 	}
@@ -216,7 +216,7 @@ func TestCustomCollectionGetMetafield(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.CustomCollection.GetMetafield(1, 2, nil)
+	metafield, err := client.CustomCollection.GetMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.GetMetafield() returned error: %v", err)
 	}
@@ -242,12 +242,12 @@ func TestCustomCollectionCreateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.CustomCollection.CreateMetafield(1, metafield)
+	returnedMetafield, err := client.CustomCollection.CreateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("CustomCollection.CreateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestCustomCollectionUpdateMetafield(t *testing.T) {
@@ -266,12 +266,12 @@ func TestCustomCollectionUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.CustomCollection.UpdateMetafield(1, metafield)
+	returnedMetafield, err := client.CustomCollection.UpdateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("CustomCollection.UpdateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestCustomCollectionDeleteMetafield(t *testing.T) {
@@ -281,7 +281,7 @@ func TestCustomCollectionDeleteMetafield(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.CustomCollection.DeleteMetafield(1, 2)
+	err := client.CustomCollection.DeleteMetaField(1, 2)
 	if err != nil {
 		t.Errorf("CustomCollection.DeleteMetafield() returned error: %v", err)
 	}

@@ -7,21 +7,21 @@ import (
 
 const blogsBasePath = "blogs"
 
-// BlogService is an interface for interfacing with the blogs endpoints
+// BlogRepository is an interface for interfacing with the blogs endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/online_store/blog
-type BlogService interface {
-	List(interface{}) ([]Blog, error)
-	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*Blog, error)
-	Create(Blog) (*Blog, error)
-	Update(Blog) (*Blog, error)
-	Delete(int64) error
+type BlogRepository interface {
+	ListBlog(interface{}) ([]Blog, error)
+	CountBlog(interface{}) (int, error)
+	GetBlog(int64, interface{}) (*Blog, error)
+	CreateBlog(Blog) (*Blog, error)
+	UpdateBlog(Blog) (*Blog, error)
+	DeleteBlog(int64) error
 }
 
-// BlogServiceOp handles communication with the blog related methods of
+// BlogClient handles communication with the blog related methods of
 // the Shopify API.
-type BlogServiceOp struct {
+type BlogClient struct {
 	client *Client
 }
 
@@ -41,57 +41,57 @@ type Blog struct {
 	AdminGraphqlApiID  string     `json:"admin_graphql_api_id,omitempty"`
 }
 
-// BlogsResource is the result from the blogs.json endpoint
-type BlogsResource struct {
+// MultipleBlogsResponse is the result from the blogs.json endpoint
+type MultipleBlogsResponse struct {
 	Blogs []Blog `json:"blogs"`
 }
 
 // Represents the result from the blogs/X.json endpoint
-type BlogResource struct {
+type SingleBlogResponse struct {
 	Blog *Blog `json:"blog"`
 }
 
 // List all blogs
-func (s *BlogServiceOp) List(options interface{}) ([]Blog, error) {
+func (bc *BlogClient) ListBlog(options interface{}) ([]Blog, error) {
 	path := fmt.Sprintf("%s.json", blogsBasePath)
-	resource := new(BlogsResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleBlogsResponse)
+	err := bc.client.Get(path, resource, options)
 	return resource.Blogs, err
 }
 
 // Count blogs
-func (s *BlogServiceOp) Count(options interface{}) (int, error) {
+func (bc *BlogClient) CountBlog(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", blogsBasePath)
-	return s.client.Count(path, options)
+	return bc.client.Count(path, options)
 }
 
 // Get single blog
-func (s *BlogServiceOp) Get(blogId int64, options interface{}) (*Blog, error) {
+func (bc *BlogClient) GetBlog(blogId int64, options interface{}) (*Blog, error) {
 	path := fmt.Sprintf("%s/%d.json", blogsBasePath, blogId)
-	resource := new(BlogResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleBlogResponse)
+	err := bc.client.Get(path, resource, options)
 	return resource.Blog, err
 }
 
 // Create a new blog
-func (s *BlogServiceOp) Create(blog Blog) (*Blog, error) {
+func (bc *BlogClient) CreateBlog(blog Blog) (*Blog, error) {
 	path := fmt.Sprintf("%s.json", blogsBasePath)
-	wrappedData := BlogResource{Blog: &blog}
-	resource := new(BlogResource)
-	err := s.client.Post(path, wrappedData, resource)
+	wrappedData := SingleBlogResponse{Blog: &blog}
+	resource := new(SingleBlogResponse)
+	err := bc.client.Post(path, wrappedData, resource)
 	return resource.Blog, err
 }
 
 // Update an existing blog
-func (s *BlogServiceOp) Update(blog Blog) (*Blog, error) {
+func (bc *BlogClient) UpdateBlog(blog Blog) (*Blog, error) {
 	path := fmt.Sprintf("%s/%d.json", blogsBasePath, blog.ID)
-	wrappedData := BlogResource{Blog: &blog}
-	resource := new(BlogResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleBlogResponse{Blog: &blog}
+	resource := new(SingleBlogResponse)
+	err := bc.client.Put(path, wrappedData, resource)
 	return resource.Blog, err
 }
 
 // Delete an blog
-func (s *BlogServiceOp) Delete(blogId int64) error {
-	return s.client.Delete(fmt.Sprintf("%s/%d.json", blogsBasePath, blogId))
+func (bc *BlogClient) Delete(blogId int64) error {
+	return bc.client.Delete(fmt.Sprintf("%s/%d.json", blogsBasePath, blogId))
 }

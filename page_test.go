@@ -233,7 +233,7 @@ func TestPageCreateMetafield(t *testing.T) {
 		t.Errorf("Page.CreateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestPageUpdateMetafield(t *testing.T) {
@@ -257,7 +257,7 @@ func TestPageUpdateMetafield(t *testing.T) {
 		t.Errorf("Page.UpdateMetafield() returned error: %v", err)
 	}
 
-	MetafieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestPageDeleteMetafield(t *testing.T) {

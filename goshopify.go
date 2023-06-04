@@ -111,45 +111,45 @@ type Client struct {
 	RateLimits RateLimitInfo
 
 	// Services used for communicating with the API
-	Product                    ProductService
-	CustomCollection           CustomCollectionService
-	SmartCollection            SmartCollectionService
-	Customer                   CustomerService
-	CustomerAddress            CustomerAddressService
-	Order                      OrderService
-	Fulfillment                FulfillmentService
-	DraftOrder                 DraftOrderService
-	AbandonedCheckout          AbandonedCheckoutService
-	Shop                       ShopService
-	Webhook                    WebhookService
-	Variant                    VariantService
-	Image                      ImageService
-	Transaction                TransactionService
-	Theme                      ThemeService
-	Asset                      AssetService
-	ScriptTag                  ScriptTagService
-	RecurringApplicationCharge RecurringApplicationChargeService
-	UsageCharge                UsageChargeService
-	Metafield                  MetafieldService
-	Blog                       BlogService
-	ApplicationCharge          ApplicationChargeService
-	Redirect                   RedirectService
-	Page                       PageService
-	StorefrontAccessToken      StorefrontAccessTokenService
-	Collect                    CollectService
-	Collection                 CollectionService
-	Location                   LocationService
-	DiscountCode               DiscountCodeService
-	PriceRule                  PriceRuleService
-	InventoryItem              InventoryItemService
-	ShippingZone               ShippingZoneService
-	ProductListing             ProductListingService
-	InventoryLevel             InventoryLevelService
-	AccessScopes               AccessScopesService
-	FulfillmentService         FulfillmentServiceService
-	CarrierService             CarrierServiceService
-	Payouts                    PayoutsService
-	GiftCard                   GiftCardService
+	Product                    ProductRepository
+	CustomCollection           CustomCollectionRepository
+	SmartCollection            SmartCollectionRepository
+	Customer                   CustomerRepository
+	CustomerAddress            CustomerAddressRepository
+	Order                      OrderRepository
+	Fulfillment                FulfillmentRepository
+	DraftOrder                 DraftOrderRepository
+	AbandonedCheckout          AbandonedCheckoutRepository
+	Shop                       ShopRepository
+	Webhook                    WebhookRepository
+	Variant                    VariantRepository
+	Image                      ImageRepository
+	Transaction                TransactionRepository
+	Theme                      ThemeRepository
+	Asset                      AssetRepository
+	ScriptTag                  ScriptTagRepository
+	RecurringApplicationCharge RecurringApplicationChargeRepository
+	UsageCharge                UsageChargeRepository
+	MetaField                  MetaFieldRepository
+	Blog                       BlogRepository
+	ApplicationCharge          ApplicationChargeRepository
+	Redirect                   RedirectRepository
+	Page                       PageRepository
+	StorefrontAccessToken      StorefrontAccessTokenRepository
+	Collect                    CollectRepository
+	Collection                 CollectionRepository
+	Location                   LocationRepository
+	DiscountCode               DiscountCodeRepository
+	PriceRule                  PriceRuleRepository
+	InventoryItem              InventoryItemRepository
+	ShippingZone               ShippingZoneRepository
+	ProductListing             ProductListingRepository
+	InventoryLevel             InventoryLevelRepository
+	AccessScopes               AccessScopesRepository
+	Fulfillment                FulfillmentRepository
+	Carrier                    CarrierRepository
+	Payouts                    PayoutsRepository
+	GiftCard                   GiftCardRepository
 }
 
 // A general response error that follows a similar layout to Shopify's response
@@ -292,45 +292,45 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 		pathPrefix: defaultApiPathPrefix,
 	}
 
-	c.Product = &ProductServiceOp{client: c}
-	c.CustomCollection = &CustomCollectionServiceOp{client: c}
-	c.SmartCollection = &SmartCollectionServiceOp{client: c}
-	c.Customer = &CustomerServiceOp{client: c}
-	c.CustomerAddress = &CustomerAddressServiceOp{client: c}
-	c.Order = &OrderServiceOp{client: c}
-	c.Fulfillment = &FulfillmentServiceOp{client: c}
-	c.DraftOrder = &DraftOrderServiceOp{client: c}
-	c.AbandonedCheckout = &AbandonedCheckoutServiceOp{client: c}
-	c.Shop = &ShopServiceOp{client: c}
-	c.Webhook = &WebhookServiceOp{client: c}
-	c.Variant = &VariantServiceOp{client: c}
-	c.Image = &ImageServiceOp{client: c}
-	c.Transaction = &TransactionServiceOp{client: c}
-	c.Theme = &ThemeServiceOp{client: c}
-	c.Asset = &AssetServiceOp{client: c}
-	c.ScriptTag = &ScriptTagServiceOp{client: c}
-	c.RecurringApplicationCharge = &RecurringApplicationChargeServiceOp{client: c}
-	c.Metafield = &MetafieldServiceOp{client: c}
-	c.Blog = &BlogServiceOp{client: c}
-	c.ApplicationCharge = &ApplicationChargeServiceOp{client: c}
-	c.Redirect = &RedirectServiceOp{client: c}
-	c.Page = &PageServiceOp{client: c}
-	c.StorefrontAccessToken = &StorefrontAccessTokenServiceOp{client: c}
-	c.UsageCharge = &UsageChargeServiceOp{client: c}
-	c.Collect = &CollectServiceOp{client: c}
-	c.Collection = &CollectionServiceOp{client: c}
-	c.Location = &LocationServiceOp{client: c}
-	c.DiscountCode = &DiscountCodeServiceOp{client: c}
-	c.PriceRule = &PriceRuleServiceOp{client: c}
-	c.InventoryItem = &InventoryItemServiceOp{client: c}
-	c.ShippingZone = &ShippingZoneServiceOp{client: c}
-	c.ProductListing = &ProductListingServiceOp{client: c}
-	c.InventoryLevel = &InventoryLevelServiceOp{client: c}
-	c.AccessScopes = &AccessScopesServiceOp{client: c}
-	c.FulfillmentService = &FulfillmentServiceServiceOp{client: c}
-	c.CarrierService = &CarrierServiceOp{client: c}
-	c.Payouts = &PayoutsServiceOp{client: c}
-	c.GiftCard = &GiftCardServiceOp{client: c}
+	c.Product = &ProductClient{client: c}
+	c.CustomCollection = &CustomCollectionClient{client: c}
+	c.SmartCollection = &SmartCollectionClient{client: c}
+	c.Customer = &CustomerClient{client: c}
+	c.CustomerAddress = &CustomerAddressClient{client: c}
+	c.Order = &OrderClient{client: c}
+	c.Fulfillment = &FulfillmentClient{client: c}
+	c.DraftOrder = &DraftOrderClient{client: c}
+	c.AbandonedCheckout = &AbandonedCheckoutClient{client: c}
+	c.Shop = &ShopClient{client: c}
+	c.Webhook = &WebhookClient{client: c}
+	c.Variant = &VariantClient{client: c}
+	c.Image = &ImageClient{client: c}
+	c.Transaction = &TransactionClient{client: c}
+	c.Theme = &ThemeClient{client: c}
+	c.Asset = &AssetClient{client: c}
+	c.ScriptTag = &ScriptTagClient{client: c}
+	c.RecurringApplicationCharge = &RecurringApplicationChargeClient{client: c}
+	c.MetaField = &MetaFieldClient{client: c}
+	c.Blog = &BlogClient{client: c}
+	c.ApplicationCharge = &ApplicationChargeClient{client: c}
+	c.Redirect = &RedirectClient{client: c}
+	c.Page = &PageClient{client: c}
+	c.StorefrontAccessToken = &StorefrontAccessTokenClient{client: c}
+	c.UsageCharge = &UsageChargeClient{client: c}
+	c.Collect = &CollectClient{client: c}
+	c.Collection = &CollectionClient{client: c}
+	c.Location = &LocationClient{client: c}
+	c.DiscountCode = &DiscountCodeClient{client: c}
+	c.PriceRule = &PriceRuleClient{client: c}
+	c.InventoryItem = &InventoryItemClient{client: c}
+	c.ShippingZone = &ShippingZoneClient{client: c}
+	c.ProductListing = &ProductListingClient{client: c}
+	c.InventoryLevel = &InventoryLevelClient{client: c}
+	c.AccessScopes = &AccessScopesClient{client: c}
+	c.Fulfillment = &FulfillmentServiceClient{client: c}
+	c.Carrier = &CarrierClient{client: c}
+	c.Payouts = &PayoutsClient{client: c}
+	c.GiftCard = &GiftCardClient{client: c}
 
 	// apply any options
 	for _, opt := range opts {

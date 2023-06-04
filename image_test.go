@@ -77,7 +77,7 @@ func TestImageList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/images.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("images.json")))
 
-	images, err := client.Image.List(1, nil)
+	images, err := client.Image.ListImage(1, nil)
 	if err != nil {
 		t.Errorf("Images.List returned error: %v", err)
 	}
@@ -104,7 +104,7 @@ func TestImageCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 1}`))
 
-	cnt, err := client.Image.Count(1, nil)
+	cnt, err := client.Image.CountImage(1, nil)
 	if err != nil {
 		t.Errorf("Image.Count returned error: %v", err)
 	}
@@ -115,7 +115,7 @@ func TestImageCount(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Image.Count(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.Image.CountImage(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Image.Count returned %d, expected %d", cnt, expected)
 	}
@@ -133,7 +133,7 @@ func TestImageGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/images/1.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("image.json")))
 
-	image, err := client.Image.Get(1, 1, nil)
+	image, err := client.Image.GetImage(1, 1, nil)
 	if err != nil {
 		t.Errorf("Image.Get returned error: %v", err)
 	}
@@ -156,7 +156,7 @@ func TestImageCreate(t *testing.T) {
 		Src:        "https://cdn.shopify.com/s/files/1/0006/9093/3842/products/ipod-nano.png?v=1500937783",
 		VariantIds: variantIds,
 	}
-	returnedImage, err := client.Image.Create(1, image)
+	returnedImage, err := client.Image.CreateImage(1, image)
 	if err != nil {
 		t.Errorf("Image.Create returned error %v", err)
 	}
@@ -181,7 +181,7 @@ func TestImageUpdate(t *testing.T) {
 	}
 	// And update it
 	existingImage.VariantIds[1] = 808950811
-	returnedImage, err := client.Image.Update(1, existingImage)
+	returnedImage, err := client.Image.UpdateImage(1, existingImage)
 	if err != nil {
 		t.Errorf("Image.Update returned error %v", err)
 	}
@@ -196,7 +196,7 @@ func TestImageDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/images/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Image.Delete(1, 1)
+	err := client.Image.DeleteImage(1, 1)
 	if err != nil {
 		t.Errorf("Image.Delete returned error: %v", err)
 	}
