@@ -15,7 +15,7 @@ func TestScriptTagList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/script_tags.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"script_tags": [{"id": 1},{"id": 2}]}`))
 
-	scriptTags, err := client.ScriptTag.List(nil)
+	scriptTags, err := client.ScriptTag.ListScriptTag(nil)
 	if err != nil {
 		t.Errorf("ScriptTag.List returned error: %v", err)
 	}
@@ -33,7 +33,7 @@ func TestScriptTagCount(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/script_tags/count.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"count": 3}`))
 
-	cnt, err := client.ScriptTag.Count(nil)
+	cnt, err := client.ScriptTag.CountScriptTag(nil)
 	if err != nil {
 		t.Errorf("ScriptTag.Count returned error: %v", err)
 	}
@@ -51,7 +51,7 @@ func TestScriptTagGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/script_tags/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"script_tag": {"id": 1}}`))
 
-	scriptTag, err := client.ScriptTag.Get(1, nil)
+	scriptTag, err := client.ScriptTag.GetScriptTag(1, nil)
 	if err != nil {
 		t.Errorf("ScriptTag.Get returned error: %v", err)
 	}
@@ -82,7 +82,7 @@ func TestScriptTagCreate(t *testing.T) {
 		DisplayScope: "all",
 	}
 
-	returnedTag, err := client.ScriptTag.Create(tag0)
+	returnedTag, err := client.ScriptTag.CreateScriptTag(tag0)
 	if err != nil {
 		t.Errorf("ScriptTag.Create returned error: %v", err)
 	}
@@ -101,7 +101,7 @@ func TestScriptTagUpdate(t *testing.T) {
 		Src: "https://djavaskripped.org/fancy.js",
 	}
 
-	returnedTag, err := client.ScriptTag.Update(tag)
+	returnedTag, err := client.ScriptTag.UpdateScriptTag(tag)
 	if err != nil {
 		t.Errorf("ScriptTag.Update returned error: %v", err)
 	}
@@ -115,7 +115,7 @@ func TestScriptTagDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/script_tags/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	if err := client.ScriptTag.Delete(1); err != nil {
+	if err := client.ScriptTag.DeleteScriptTag(1); err != nil {
 		t.Errorf("ScriptTag.Delete returned error: %v", err)
 	}
 }

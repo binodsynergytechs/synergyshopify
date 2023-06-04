@@ -13,20 +13,20 @@ type ThemeListOptions struct {
 	Fields string `url:"fields,omitempty"`
 }
 
-// ThemeService is an interface for interfacing with the themes endpoints
+// ThemeRepository is an interface for interfacing with the themes endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/theme
-type ThemeService interface {
-	List(interface{}) ([]Theme, error)
-	Create(Theme) (*Theme, error)
-	Get(int64, interface{}) (*Theme, error)
-	Update(Theme) (*Theme, error)
-	Delete(int64) error
+type ThemeRepository interface {
+	ListTheme(interface{}) ([]Theme, error)
+	CreateTheme(Theme) (*Theme, error)
+	GetTheme(int64, interface{}) (*Theme, error)
+	UpdateTheme(Theme) (*Theme, error)
+	DeleteTheme(int64) error
 }
 
-// ThemeServiceOp handles communication with the theme related methods of
+// ThemeClient handles communication with the theme related methods of
 // the Shopify API.
-type ThemeServiceOp struct {
+type ThemeClient struct {
 	client *Client
 }
 
@@ -55,7 +55,7 @@ type ThemesResource struct {
 }
 
 // List all themes
-func (s *ThemeServiceOp) List(options interface{}) ([]Theme, error) {
+func (s *ThemeClient) ListTheme(options interface{}) ([]Theme, error) {
 	path := fmt.Sprintf("%s.json", themesBasePath)
 	resource := new(ThemesResource)
 	err := s.client.Get(path, resource, options)
@@ -63,7 +63,7 @@ func (s *ThemeServiceOp) List(options interface{}) ([]Theme, error) {
 }
 
 // Update a theme
-func (s *ThemeServiceOp) Create(theme Theme) (*Theme, error) {
+func (s *ThemeClient) CreateTheme(theme Theme) (*Theme, error) {
 	path := fmt.Sprintf("%s.json", themesBasePath)
 	wrappedData := ThemeResource{Theme: &theme}
 	resource := new(ThemeResource)
@@ -72,7 +72,7 @@ func (s *ThemeServiceOp) Create(theme Theme) (*Theme, error) {
 }
 
 // Get a theme
-func (s *ThemeServiceOp) Get(themeID int64, options interface{}) (*Theme, error) {
+func (s *ThemeClient) GetTheme(themeID int64, options interface{}) (*Theme, error) {
 	path := fmt.Sprintf("%s/%d.json", themesBasePath, themeID)
 	resource := new(ThemeResource)
 	err := s.client.Get(path, resource, options)
@@ -80,7 +80,7 @@ func (s *ThemeServiceOp) Get(themeID int64, options interface{}) (*Theme, error)
 }
 
 // Update a theme
-func (s *ThemeServiceOp) Update(theme Theme) (*Theme, error) {
+func (s *ThemeClient) UpdateTheme(theme Theme) (*Theme, error) {
 	path := fmt.Sprintf("%s/%d.json", themesBasePath, theme.ID)
 	wrappedData := ThemeResource{Theme: &theme}
 	resource := new(ThemeResource)
@@ -89,7 +89,7 @@ func (s *ThemeServiceOp) Update(theme Theme) (*Theme, error) {
 }
 
 // Delete a theme
-func (s *ThemeServiceOp) Delete(themeID int64) error {
+func (s *ThemeClient) DeleteTheme(themeID int64) error {
 	path := fmt.Sprintf("%s/%d.json", themesBasePath, themeID)
 	return s.client.Delete(path)
 }

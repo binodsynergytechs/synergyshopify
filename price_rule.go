@@ -9,19 +9,19 @@ import (
 
 const priceRulesBasePath = "price_rules"
 
-// PriceRuleService is an interface for interfacing with the price rule endpoints
+// PriceRuleRepository is an interface for interfacing with the price rule endpoints
 // of the Shopify API.
 // See: https://shopify.dev/docs/admin-api/rest/reference/discounts/pricerule
-type PriceRuleService interface {
-	Get(int64) (*PriceRule, error)
-	Create(PriceRule) (*PriceRule, error)
-	Update(PriceRule) (*PriceRule, error)
-	List() ([]PriceRule, error)
-	Delete(int64) error
+type PriceRuleRepository interface {
+	GetPriceRule(int64) (*PriceRule, error)
+	CreatePriceRule(PriceRule) (*PriceRule, error)
+	UpdatePriceRule(PriceRule) (*PriceRule, error)
+	ListPriceRule() ([]PriceRule, error)
+	DeletePriceRule(int64) error
 }
 
-// PriceRuleServiceOp handles communication with the price rule related methods of the Shopify API.
-type PriceRuleServiceOp struct {
+// PriceRuleClient handles communication with the price rule related methods of the Shopify API.
+type PriceRuleClient struct {
 	client *Client
 }
 
@@ -58,8 +58,6 @@ type PriceRule struct {
 	CustomerSegmentPrerequisiteIds         []string                                `json:"customer_segment_prerequisite_ids"` // TODO: Latest Added From Shopify 23/04
 }
 
-
-
 type prerequisiteSubtotalRange struct {
 	GreaterThanOrEqualTo string `json:"greater_than_or_equal_to,omitempty"`
 }
@@ -77,13 +75,13 @@ type prerequisiteToEntitlementQuantityRatio struct {
 	EntitledQuantity     int `json:"entitled_quantity,omitempty"`
 }
 
-// PriceRuleResource represents the result from the price_rules/X.json endpoint
-type PriceRuleResource struct {
+// SinglePriceRuleResponse represents the result from the price_rules/X.json endpoint
+type SinglePriceRuleResponse struct {
 	PriceRule *PriceRule `json:"price_rule"`
 }
 
-// PriceRulesResource represents the result from the price_rules.json endpoint
-type PriceRulesResource struct {
+// MultiplePriceRulesResponse represents the result from the price_rules.json endpoint
+type MultiplePriceRulesResponse struct {
 	PriceRules []PriceRule `json:"price_rules"`
 }
 
@@ -155,41 +153,41 @@ func (pr *PriceRule) SetPrerequisiteToEntitlementQuantityRatio(prerequisiteQuant
 }
 
 // Get retrieves a single price rules
-func (s *PriceRuleServiceOp) Get(priceRuleID int64) (*PriceRule, error) {
+func (s *PriceRuleClient) GetPriceRule(priceRuleID int64) (*PriceRule, error) {
 	path := fmt.Sprintf("%s/%d.json", priceRulesBasePath, priceRuleID)
-	resource := new(PriceRuleResource)
+	resource := new(SinglePriceRuleResponse)
 	err := s.client.Get(path, resource, nil)
 	return resource.PriceRule, err
 }
 
 // List retrieves a list of price rules
-func (s *PriceRuleServiceOp) List() ([]PriceRule, error) {
+func (s *PriceRuleClient) ListPriceRule() ([]PriceRule, error) {
 	path := fmt.Sprintf("%s.json", priceRulesBasePath)
-	resource := new(PriceRulesResource)
+	resource := new(MultiplePriceRulesResponse)
 	err := s.client.Get(path, resource, nil)
 	return resource.PriceRules, err
 }
 
 // Create creates a price rule
-func (s *PriceRuleServiceOp) Create(pr PriceRule) (*PriceRule, error) {
+func (s *PriceRuleClient) CreatePriceRule(pr PriceRule) (*PriceRule, error) {
 	path := fmt.Sprintf("%s.json", priceRulesBasePath)
-	resource := new(PriceRuleResource)
-	wrappedData := PriceRuleResource{PriceRule: &pr}
+	resource := new(SinglePriceRuleResponse)
+	wrappedData := SinglePriceRuleResponse{PriceRule: &pr}
 	err := s.client.Post(path, wrappedData, resource)
 	return resource.PriceRule, err
 }
 
 // Update updates an existing a price rule
-func (s *PriceRuleServiceOp) Update(pr PriceRule) (*PriceRule, error) {
+func (s *PriceRuleClient) UpdatePriceRule(pr PriceRule) (*PriceRule, error) {
 	path := fmt.Sprintf("%s/%d.json", priceRulesBasePath, pr.ID)
-	resource := new(PriceRuleResource)
-	wrappedData := PriceRuleResource{PriceRule: &pr}
+	resource := new(SinglePriceRuleResponse)
+	wrappedData := SinglePriceRuleResponse{PriceRule: &pr}
 	err := s.client.Put(path, wrappedData, resource)
 	return resource.PriceRule, err
 }
 
 // Delete deletes a price rule
-func (s *PriceRuleServiceOp) Delete(priceRuleID int64) error {
+func (s *PriceRuleClient) DeletePriceRule(priceRuleID int64) error {
 	path := fmt.Sprintf("%s/%d.json", priceRulesBasePath, priceRuleID)
 	err := s.client.Delete(path)
 	return err

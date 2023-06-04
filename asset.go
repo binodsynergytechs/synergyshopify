@@ -7,19 +7,19 @@ import (
 
 const assetsBasePath = "themes"
 
-// AssetService is an interface for interfacing with the asset endpoints
+// AssetRepository is an interface for interfacing with the asset endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/asset
-type AssetService interface {
-	List(int64, interface{}) ([]Asset, error)
-	Get(int64, string) (*Asset, error)
-	Update(int64, Asset) (*Asset, error)
-	Delete(int64, string) error
+type AssetRepository interface {
+	ListAsset(int64, interface{}) ([]Asset, error)
+	GetAsset(int64, string) (*Asset, error)
+	UpdateAsset(int64, Asset) (*Asset, error)
+	DeleteAsset(int64, string) error
 }
 
-// AssetServiceOp handles communication with the asset related methods of
+// AssetClient handles communication with the asset related methods of
 // the Shopify API.
-type AssetServiceOp struct {
+type AssetClient struct {
 	client *Client
 }
 
@@ -55,7 +55,7 @@ type assetGetOptions struct {
 }
 
 // List the metadata for all assets in the given theme
-func (s *AssetServiceOp) List(themeID int64, options interface{}) ([]Asset, error) {
+func (s *AssetClient) ListAsset(themeID int64, options interface{}) ([]Asset, error) {
 	path := fmt.Sprintf("%s/%d/assets.json", assetsBasePath, themeID)
 	resource := new(AssetsResource)
 	err := s.client.Get(path, resource, options)
@@ -63,7 +63,7 @@ func (s *AssetServiceOp) List(themeID int64, options interface{}) ([]Asset, erro
 }
 
 // Get an asset by key from the given theme
-func (s *AssetServiceOp) Get(themeID int64, key string) (*Asset, error) {
+func (s *AssetClient) GetAsset(themeID int64, key string) (*Asset, error) {
 	path := fmt.Sprintf("%s/%d/assets.json", assetsBasePath, themeID)
 	options := assetGetOptions{
 		Key:     key,
@@ -75,7 +75,7 @@ func (s *AssetServiceOp) Get(themeID int64, key string) (*Asset, error) {
 }
 
 // Update an asset
-func (s *AssetServiceOp) Update(themeID int64, asset Asset) (*Asset, error) {
+func (s *AssetClient) UpdateAsset(themeID int64, asset Asset) (*Asset, error) {
 	path := fmt.Sprintf("%s/%d/assets.json", assetsBasePath, themeID)
 	wrappedData := AssetResource{Asset: &asset}
 	resource := new(AssetResource)
@@ -84,7 +84,7 @@ func (s *AssetServiceOp) Update(themeID int64, asset Asset) (*Asset, error) {
 }
 
 // Delete an asset
-func (s *AssetServiceOp) Delete(themeID int64, key string) error {
+func (s *AssetClient) DeleteAsset(themeID int64, key string) error {
 	path := fmt.Sprintf("%s/%d/assets.json?asset[key]=%s", assetsBasePath, themeID, key)
 	return s.client.Delete(path)
 }

@@ -42,7 +42,7 @@ func TestStorefrontAccessTokenList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/storefront_access_tokens.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("storefront_access_tokens.json")))
 
-	storefrontAccessTokens, err := client.StorefrontAccessToken.List(nil)
+	storefrontAccessTokens, err := client.StorefrontAccessToken.ListStorefrontAccessToken(nil)
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.List returned error: %v", err)
 	}
@@ -65,7 +65,7 @@ func TestStorefrontAccessTokenCreate(t *testing.T) {
 		Title: "API Client Extension",
 	}
 
-	returnedStorefrontAccessToken, err := client.StorefrontAccessToken.Create(storefrontAccessToken)
+	returnedStorefrontAccessToken, err := client.StorefrontAccessToken.CreateStorefrontAccessToken(storefrontAccessToken)
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.Create returned error: %v", err)
 	}
@@ -80,7 +80,7 @@ func TestStorefrontAccessTokenDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/storefront_access_tokens/755357713.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.StorefrontAccessToken.Delete(755357713)
+	err := client.StorefrontAccessToken.DeleteStorefrontAccessToken(755357713)
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.Delete returned error: %v", err)
 	}

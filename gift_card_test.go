@@ -20,7 +20,7 @@ func TestGiftCardGet(t *testing.T) {
 		),
 	)
 
-	giftCard, err := client.GiftCard.Get(1)
+	giftCard, err := client.GiftCard.GetGiftCard(1)
 	if err != nil {
 		t.Errorf("GiftCard.Get returned error: %v", err)
 	}
@@ -44,7 +44,7 @@ func TestGiftCardList(t *testing.T) {
 		),
 	)
 
-	giftCard, err := client.GiftCard.List()
+	giftCard, err := client.GiftCard.ListGiftCard()
 	if err != nil {
 		t.Errorf("GiftCard.List returned error: %v", err)
 	}
@@ -68,7 +68,7 @@ func TestGiftCardCreate(t *testing.T) {
 		),
 	)
 
-	giftCard, err := client.GiftCard.Create(GiftCard{})
+	giftCard, err := client.GiftCard.CreateGiftCard(GiftCard{})
 	if err != nil {
 		t.Errorf("GiftCard.Create returned error: %v", err)
 	}
@@ -92,7 +92,7 @@ func TestGiftCardUpdate(t *testing.T) {
 		),
 	)
 
-	giftCard, err := client.GiftCard.Update(GiftCard{ID: 1})
+	giftCard, err := client.GiftCard.UpdateGiftCard(GiftCard{ID: 1})
 	if err != nil {
 		t.Errorf("GiftCard.Update returned error: %v", err)
 	}
@@ -116,7 +116,7 @@ func TestGiftCardDisable(t *testing.T) {
 		),
 	)
 
-	giftCard, err := client.GiftCard.Disable(1)
+	giftCard, err := client.GiftCard.DisableGiftCard(1)
 	if err != nil {
 		t.Errorf("GiftCard.Disable returned error: %v", err)
 	}
@@ -140,7 +140,7 @@ func TestGiftCardCount(t *testing.T) {
 		),
 	)
 
-	cnt, err := client.GiftCard.Count(nil)
+	cnt, err := client.GiftCard.CountGiftCard(nil)
 	if err != nil {
 		t.Errorf("GiftCard.Count returned error: %v", err)
 	}

@@ -27,10 +27,10 @@ type OrderRepository interface {
 	DeleteOrder(int64) error
 
 	// MetaFieldsRepository used for Order resource to communicate with MetaFields resource
-	MetaFieldsRepository
+	MetaFieldRepository
 
 	// FulfillmentsService used for Order resource to communicate with Fulfillments resource
-	FulfillmentsRepository
+	FulfillmentRepository
 }
 
 // OrderClient handles communication with the order related methods of the
@@ -602,7 +602,7 @@ func (oc *OrderClient) CountOrders(options interface{}) (int, error) {
 }
 
 // Get individual order
-func (oc *OrderClient) Get(orderID int64, options interface{}) (*Order, error) {
+func (oc *OrderClient) GetOrders(orderID int64, options interface{}) (*Order, error) {
 	path := fmt.Sprintf("%s/%d.json", ordersBasePath, orderID)
 	resource := new(OrderResource)
 	err := oc.client.Get(path, resource, options)
@@ -661,83 +661,83 @@ func (oc *OrderClient) DeleteOrders(orderID int64) error {
 // List metaFields for an order
 func (oc *OrderClient) ListMetaFields(orderID int64, options interface{}) ([]MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return metaFieldService.List(options)
+	return metaFieldService.ListMetaFields(options)
 }
 
 // Count metaFields for an order
 func (oc *OrderClient) CountMetaFields(orderID int64, options interface{}) (int, error) {
 	metaFieldService := &MetaFieldClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return metaFieldService.Count(options)
+	return metaFieldService.CountMetaFields(options)
 }
 
 // Get individual metaField for an order
 func (oc *OrderClient) GetMetaField(orderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return metaFieldService.Get(metaFieldID, options)
+	return metaFieldService.GetMetaFields(metaFieldID, options)
 }
 
 // Create a new metaField for an order
 func (oc *OrderClient) CreateMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return metaFieldService.Create(metaField)
+	return metaFieldService.CreateMetaFields(metaField)
 }
 
 // Update an existing metaField for an order
 func (oc *OrderClient) UpdateMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return metaFieldService.Update(metaField)
+	return metaFieldService.UpdateMetaFields(metaField)
 }
 
 // Delete an existing metaField for an order
 func (oc *OrderClient) DeleteMetaField(orderID int64, metaFieldID int64) error {
 	metaFieldService := &MetaFieldClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return metaFieldService.Delete(metaFieldID)
+	return metaFieldService.DeleteMetaFields(metaFieldID)
 }
 
 // List fulfillments for an order
 func (oc *OrderClient) ListFulfillments(orderID int64, options interface{}) ([]Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.List(options)
+	return fulfillmentService.ListFulfillments(options)
 }
 
 // Count fulfillments for an order
 func (oc *OrderClient) CountFulfillments(orderID int64, options interface{}) (int, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Count(options)
+	return fulfillmentService.CountFulfillments(options)
 }
 
 // Get individual fulfillment for an order
 func (oc *OrderClient) GetFulfillment(orderID int64, fulfillmentID int64, options interface{}) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Get(fulfillmentID, options)
+	return fulfillmentService.GetFulfillments(fulfillmentID, options)
 }
 
 // Create a new fulfillment for an order
 func (oc *OrderClient) CreateFulfillment(orderID int64, fulfillment Fulfillment) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Create(fulfillment)
+	return fulfillmentService.CreateFulfillments(fulfillment)
 }
 
 // Update an existing fulfillment for an order
 func (oc *OrderClient) UpdateFulfillment(orderID int64, fulfillment Fulfillment) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Update(fulfillment)
+	return fulfillmentService.UpdateFulfillments(fulfillment)
 }
 
 // Complete an existing fulfillment for an order
 func (oc *OrderClient) CompleteFulfillment(orderID int64, fulfillmentID int64) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Complete(fulfillmentID)
+	return fulfillmentService.CompleteFulfillments(fulfillmentID)
 }
 
 // Transition an existing fulfillment for an order
 func (oc *OrderClient) TransitionFulfillment(orderID int64, fulfillmentID int64) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Transition(fulfillmentID)
+	return fulfillmentService.TransitionFulfillments(fulfillmentID)
 }
 
 // Cancel an existing fulfillment for an order
 func (oc *OrderClient) CancelFulfillment(orderID int64, fulfillmentID int64) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentClient{client: oc.client, resource: ordersResourceName, resourceID: orderID}
-	return fulfillmentService.Cancel(fulfillmentID)
+	return fulfillmentService.CancelFulfillments(fulfillmentID)
 }

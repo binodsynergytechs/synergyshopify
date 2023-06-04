@@ -7,21 +7,21 @@ import (
 
 const webhooksBasePath = "webhooks"
 
-// WebhookService is an interface for interfacing with the webhook endpoints of
+// WebhookRepository is an interface for interfacing with the webhook endpoints of
 // the Shopify API.
 // See: https://help.shopify.com/api/reference/webhook
-type WebhookService interface {
-	List(interface{}) ([]Webhook, error)
-	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*Webhook, error)
-	Create(Webhook) (*Webhook, error)
-	Update(Webhook) (*Webhook, error)
-	Delete(int64) error
+type WebhookRepository interface {
+	ListWebhook(interface{}) ([]Webhook, error)
+	CountWebhook(interface{}) (int, error)
+	GetWebhook(int64, interface{}) (*Webhook, error)
+	CreateWebhook(Webhook) (*Webhook, error)
+	UpdateWebhook(Webhook) (*Webhook, error)
+	DeleteWebhook(int64) error
 }
 
-// WebhookServiceOp handles communication with the webhook-related methods of
+// WebhookClient handles communication with the webhook-related methods of
 // the Shopify API.
-type WebhookServiceOp struct {
+type WebhookClient struct {
 	client *Client
 }
 
@@ -45,57 +45,57 @@ type WebhookOptions struct {
 	Topic   string `url:"topic,omitempty"`
 }
 
-// WebhookResource represents the result from the admin/webhooks.json endpoint
-type WebhookResource struct {
+// SingleWebhookResponse represents the result from the admin/webhooks.json endpoint
+type SingleWebhookResponse struct {
 	Webhook *Webhook `json:"webhook"`
 }
 
-// WebhooksResource is the root object for a webhook get request.
-type WebhooksResource struct {
+// MultipleWebhooksResponse is the root object for a webhook get request.
+type MultipleWebhooksResponse struct {
 	Webhooks []Webhook `json:"webhooks"`
 }
 
 // List webhooks
-func (s *WebhookServiceOp) List(options interface{}) ([]Webhook, error) {
+func (wc *WebhookClient) ListWebhook(options interface{}) ([]Webhook, error) {
 	path := fmt.Sprintf("%s.json", webhooksBasePath)
-	resource := new(WebhooksResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleWebhooksResponse)
+	err := wc.client.Get(path, resource, options)
 	return resource.Webhooks, err
 }
 
 // Count webhooks
-func (s *WebhookServiceOp) Count(options interface{}) (int, error) {
+func (wc *WebhookClient) CountWebhook(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", webhooksBasePath)
-	return s.client.Count(path, options)
+	return wc.client.Count(path, options)
 }
 
 // Get individual webhook
-func (s *WebhookServiceOp) Get(webhookdID int64, options interface{}) (*Webhook, error) {
+func (wc *WebhookClient) GetWebhook(webhookdID int64, options interface{}) (*Webhook, error) {
 	path := fmt.Sprintf("%s/%d.json", webhooksBasePath, webhookdID)
-	resource := new(WebhookResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleWebhookResponse)
+	err := wc.client.Get(path, resource, options)
 	return resource.Webhook, err
 }
 
 // Create a new webhook
-func (s *WebhookServiceOp) Create(webhook Webhook) (*Webhook, error) {
+func (wc *WebhookClient) CreateWebhook(webhook Webhook) (*Webhook, error) {
 	path := fmt.Sprintf("%s.json", webhooksBasePath)
-	wrappedData := WebhookResource{Webhook: &webhook}
-	resource := new(WebhookResource)
-	err := s.client.Post(path, wrappedData, resource)
+	wrappedData := SingleWebhookResponse{Webhook: &webhook}
+	resource := new(SingleWebhookResponse)
+	err := wc.client.Post(path, wrappedData, resource)
 	return resource.Webhook, err
 }
 
 // Update an existing webhook.
-func (s *WebhookServiceOp) Update(webhook Webhook) (*Webhook, error) {
+func (wc *WebhookClient) UpdateWebhook(webhook Webhook) (*Webhook, error) {
 	path := fmt.Sprintf("%s/%d.json", webhooksBasePath, webhook.ID)
-	wrappedData := WebhookResource{Webhook: &webhook}
-	resource := new(WebhookResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleWebhookResponse{Webhook: &webhook}
+	resource := new(SingleWebhookResponse)
+	err := wc.client.Put(path, wrappedData, resource)
 	return resource.Webhook, err
 }
 
 // Delete an existing webhooks
-func (s *WebhookServiceOp) Delete(ID int64) error {
-	return s.client.Delete(fmt.Sprintf("%s/%d.json", webhooksBasePath, ID))
+func (wc *WebhookClient) DeleteWebhook(ID int64) error {
+	return wc.client.Delete(fmt.Sprintf("%s/%d.json", webhooksBasePath, ID))
 }

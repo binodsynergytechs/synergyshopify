@@ -20,7 +20,7 @@ type CustomCollectionRepository interface {
 	DeleteCustomCollection(int64) error
 
 	// MetaFieldsRepository used for CustomCollection resource to communicate with MetaFields resource
-	MetaFieldsRepository
+	MetaFieldRepository
 }
 
 // CustomCollectionClient handles communication with the custom collection
@@ -104,35 +104,35 @@ func (ccc *CustomCollectionClient) Delete(collectionID int64) error {
 // List metaFields for a custom collection
 func (ccc *CustomCollectionClient) ListMetaFields(customCollectionID int64, options interface{}) ([]MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: ccc.client, resource: MultipleCustomCollectionsResponseName, resourceID: customCollectionID}
-	return metaFieldService.List(options)
+	return metaFieldService.ListMetaFields(options)
 }
 
 // Count metaFields for a custom collection
 func (ccc *CustomCollectionClient) CountMetaFields(customCollectionID int64, options interface{}) (int, error) {
 	metaFieldService := &MetaFieldClient{client: ccc.client, resource: MultipleCustomCollectionsResponseName, resourceID: customCollectionID}
-	return metaFieldService.Count(options)
+	return metaFieldService.CountMetaFields(options)
 }
 
 // Get individual metaField for a custom collection
 func (ccc *CustomCollectionClient) GetMetaField(customCollectionID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: ccc.client, resource: MultipleCustomCollectionsResponseName, resourceID: customCollectionID}
-	return metaFieldService.Get(metaFieldID, options)
+	return metaFieldService.GetMetaFields(metaFieldID, options)
 }
 
 // Create a new metaField for a custom collection
 func (ccc *CustomCollectionClient) CreateMetaField(customCollectionID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: ccc.client, resource: MultipleCustomCollectionsResponseName, resourceID: customCollectionID}
-	return metaFieldService.Create(metaField)
+	return metaFieldService.CreateMetaFields(metaField)
 }
 
 // Update an existing metaField for a custom collection
 func (ccc *CustomCollectionClient) UpdateMetaField(customCollectionID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: ccc.client, resource: MultipleCustomCollectionsResponseName, resourceID: customCollectionID}
-	return metaFieldService.Update(metaField)
+	return metaFieldService.UpdateMetaFields(metaField)
 }
 
 // // Delete an existing metaField for a custom collection
 func (ccc *CustomCollectionClient) DeleteMetaField(customCollectionID int64, metaFieldID int64) error {
 	metaFieldService := &MetaFieldClient{client: ccc.client, resource: MultipleCustomCollectionsResponseName, resourceID: customCollectionID}
-	return metaFieldService.Delete(metaFieldID)
+	return metaFieldService.DeleteMetaFields(metaFieldID)
 }

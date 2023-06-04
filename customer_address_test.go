@@ -100,7 +100,7 @@ func TestList(t *testing.T) {
 
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/addresses.json", client.pathPrefix), httpmock.NewBytesResponder(200, loadFixture("customer_addresses.json")))
 
-	addresses, err := client.CustomerAddress.List(1, nil)
+	addresses, err := client.CustomerAddress.ListCustomerAddress(1, nil)
 	if err != nil {
 		t.Errorf("CustomerAddress.List returned error: %v", err)
 	}
@@ -117,7 +117,7 @@ func TestGet(t *testing.T) {
 
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/addresses/1.json", client.pathPrefix), httpmock.NewBytesResponder(200, loadFixture("customer_address.json")))
 
-	address, err := client.CustomerAddress.Get(1, 1, nil)
+	address, err := client.CustomerAddress.GetCustomerAddress(1, 1, nil)
 	if err != nil {
 		t.Errorf("CustomerAddress.Get returned error: %v", err)
 	}
@@ -131,7 +131,7 @@ func TestCreate(t *testing.T) {
 
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/addresses.json", client.pathPrefix), httpmock.NewBytesResponder(200, loadFixture("customer_address.json")))
 
-	address, err := client.CustomerAddress.Create(1, CustomerAddress{})
+	address, err := client.CustomerAddress.CreateCustomerAddress(1, CustomerAddress{})
 	if err != nil {
 		t.Errorf("CustomerAddress.Create returned error: %v", err)
 	}
@@ -145,7 +145,7 @@ func TestUpdate(t *testing.T) {
 
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/addresses/1.json", client.pathPrefix), httpmock.NewBytesResponder(200, loadFixture("customer_address.json")))
 
-	address, err := client.CustomerAddress.Update(1, CustomerAddress{ID: 1})
+	address, err := client.CustomerAddress.UpdateCustomerAddress(1, CustomerAddress{ID: 1})
 	if err != nil {
 		t.Errorf("CustomerAddress.Update returned error: %v", err)
 	}
@@ -159,7 +159,7 @@ func TestDelete(t *testing.T) {
 
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/addresses/1.json", client.pathPrefix), httpmock.NewStringResponder(200, "{}"))
 
-	err := client.CustomerAddress.Delete(1, 1)
+	err := client.CustomerAddress.DeleteCustomerAddress(1, 1)
 	if err != nil {
 		t.Errorf("CustomerAddress.Update returned error: %v", err)
 	}

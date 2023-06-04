@@ -41,7 +41,7 @@ func TestSmartCollectionList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/smart_collections.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"smart_collections": [{"id":1},{"id":2}]}`))
 
-	collections, err := client.SmartCollection.List(nil)
+	collections, err := client.SmartCollection.ListSmartCollection(nil)
 	if err != nil {
 		t.Errorf("SmartCollection.List returned error: %v", err)
 	}
@@ -66,7 +66,7 @@ func TestSmartCollectionCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.SmartCollection.Count(nil)
+	cnt, err := client.SmartCollection.CountSmartCollection(nil)
 	if err != nil {
 		t.Errorf("SmartCollection.Count returned error: %v", err)
 	}
@@ -77,7 +77,7 @@ func TestSmartCollectionCount(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.SmartCollection.Count(CountOptions{CreatedAtMin: date})
+	cnt, err = client.SmartCollection.CountSmartCollection(CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("SmartCollection.Count returned error: %v", err)
 	}
@@ -95,7 +95,7 @@ func TestSmartCollectionGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/smart_collections/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"smart_collection": {"id":1}}`))
 
-	collection, err := client.SmartCollection.Get(1, nil)
+	collection, err := client.SmartCollection.GetSmartCollection(1, nil)
 	if err != nil {
 		t.Errorf("SmartCollection.Get returned error: %v", err)
 	}
@@ -117,7 +117,7 @@ func TestSmartCollectionCreate(t *testing.T) {
 		Title: "Macbooks",
 	}
 
-	returnedCollection, err := client.SmartCollection.Create(collection)
+	returnedCollection, err := client.SmartCollection.CreateSmartCollection(collection)
 	if err != nil {
 		t.Errorf("SmartCollection.Create returned error: %v", err)
 	}
@@ -137,7 +137,7 @@ func TestSmartCollectionUpdate(t *testing.T) {
 		Title: "Macbooks",
 	}
 
-	returnedCollection, err := client.SmartCollection.Update(collection)
+	returnedCollection, err := client.SmartCollection.UpdateSmartCollection(collection)
 	if err != nil {
 		t.Errorf("SmartCollection.Update returned error: %v", err)
 	}
@@ -152,20 +152,20 @@ func TestSmartCollectionDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/smart_collections/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.SmartCollection.Delete(1)
+	err := client.SmartCollection.DeleteSmartCollection(1)
 	if err != nil {
 		t.Errorf("SmartCollection.Delete returned error: %v", err)
 	}
 }
 
-func TestSmartCollectionListMetafields(t *testing.T) {
+func TestSmartCollectionListMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.SmartCollection.ListMetafields(1, nil)
+	metafields, err := client.SmartCollection.ListMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("SmartCollection.ListMetafields() returned error: %v", err)
 	}
@@ -190,7 +190,7 @@ func TestSmartCollectionCountMetafields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.SmartCollection.CountMetafields(1, nil)
+	cnt, err := client.SmartCollection.CountMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("SmartCollection.CountMetafields() returned error: %v", err)
 	}
@@ -201,7 +201,7 @@ func TestSmartCollectionCountMetafields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.SmartCollection.CountMetafields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.SmartCollection.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("SmartCollection.CountMetafields() returned error: %v", err)
 	}
@@ -212,25 +212,25 @@ func TestSmartCollectionCountMetafields(t *testing.T) {
 	}
 }
 
-func TestSmartCollectionGetMetafield(t *testing.T) {
+func TestSmartCollectionGetMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.SmartCollection.GetMetafield(1, 2, nil)
+	metafield, err := client.SmartCollection.GetMetaField(1, 2, nil)
 	if err != nil {
-		t.Errorf("SmartCollection.GetMetafield() returned error: %v", err)
+		t.Errorf("SmartCollection.GetMetaField() returned error: %v", err)
 	}
 
 	expected := &MetaField{ID: 2}
 	if !reflect.DeepEqual(metafield, expected) {
-		t.Errorf("SmartCollection.GetMetafield() returned %+v, expected %+v", metafield, expected)
+		t.Errorf("SmartCollection.GetMetaField() returned %+v, expected %+v", metafield, expected)
 	}
 }
 
-func TestSmartCollectionCreateMetafield(t *testing.T) {
+func TestSmartCollectionCreateMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -245,7 +245,7 @@ func TestSmartCollectionCreateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.SmartCollection.CreateMetafield(1, metafield)
+	returnedMetafield, err := client.SmartCollection.CreateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("SmartCollection.CreateMetafield() returned error: %v", err)
 	}
@@ -269,7 +269,7 @@ func TestSmartCollectionUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.SmartCollection.UpdateMetafield(1, metafield)
+	returnedMetafield, err := client.SmartCollection.UpdateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("SmartCollection.UpdateMetafield() returned error: %v", err)
 	}
@@ -284,7 +284,7 @@ func TestSmartCollectionDeleteMetafield(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.SmartCollection.DeleteMetafield(1, 2)
+	err := client.SmartCollection.DeleteMetaField(1, 2)
 	if err != nil {
 		t.Errorf("SmartCollection.DeleteMetafield() returned error: %v", err)
 	}

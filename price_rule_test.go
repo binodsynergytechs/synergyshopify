@@ -20,7 +20,7 @@ func TestPriceRuleGet(t *testing.T) {
 		),
 	)
 
-	rules, err := client.PriceRule.Get(1)
+	rules, err := client.PriceRule.GetPriceRule(1)
 	if err != nil {
 		t.Errorf("PriceRule.Get returned error: %v", err)
 	}
@@ -44,7 +44,7 @@ func TestPriceRuleList(t *testing.T) {
 		),
 	)
 
-	rules, err := client.PriceRule.List()
+	rules, err := client.PriceRule.ListPriceRule()
 	if err != nil {
 		t.Errorf("PriceRule.List returned error: %v", err)
 	}
@@ -68,7 +68,7 @@ func TestPriceRuleCreate(t *testing.T) {
 		),
 	)
 
-	rules, err := client.PriceRule.Create(PriceRule{})
+	rules, err := client.PriceRule.CreatePriceRule(PriceRule{})
 	if err != nil {
 		t.Errorf("PriceRule.Create returned error: %v", err)
 	}
@@ -92,7 +92,7 @@ func TestPriceRuleUpdate(t *testing.T) {
 		),
 	)
 
-	rules, err := client.PriceRule.Update(PriceRule{ID: 1})
+	rules, err := client.PriceRule.UpdatePriceRule(PriceRule{ID: 1})
 	if err != nil {
 		t.Errorf("PriceRule.Update returned error: %v", err)
 	}
@@ -116,7 +116,7 @@ func TestPriceRuleDelete(t *testing.T) {
 		),
 	)
 
-	err := client.PriceRule.Delete(1)
+	err := client.PriceRule.DeletePriceRule(1)
 	if err != nil {
 		t.Errorf("PriceRule.Delete returned error: %v", err)
 	}

@@ -7,20 +7,20 @@ import (
 
 const discountCodeBasePath = "price_rules/%d/discount_codes"
 
-// DiscountCodeService is an interface for interfacing with the discount endpoints
+// DiscountCodeRepository is an interface for interfacing with the discount endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/en/api/reference/discounts/PriceRuleDiscountCode
-type DiscountCodeService interface {
-	Create(int64, PriceRuleDiscountCode) (*PriceRuleDiscountCode, error)
-	Update(int64, PriceRuleDiscountCode) (*PriceRuleDiscountCode, error)
-	List(int64) ([]PriceRuleDiscountCode, error)
-	Get(int64, int64) (*PriceRuleDiscountCode, error)
-	Delete(int64, int64) error
+type DiscountCodeRepository interface {
+	CreateDiscountCode(int64, PriceRuleDiscountCode) (*PriceRuleDiscountCode, error)
+	UpdateDiscountCode(int64, PriceRuleDiscountCode) (*PriceRuleDiscountCode, error)
+	ListDiscountCode(int64) ([]PriceRuleDiscountCode, error)
+	GetDiscountCode(int64, int64) (*PriceRuleDiscountCode, error)
+	DeleteDiscountCode(int64, int64) error
 }
 
-// DiscountCodeServiceOp handles communication with the discount code
+// DiscountCodeClient handles communication with the discount code
 // related methods of the Shopify API.
-type DiscountCodeServiceOp struct {
+type DiscountCodeClient struct {
 	client *Client
 }
 
@@ -38,51 +38,51 @@ type PriceRuleDiscountCode struct {
 // FIXME: Field Not Available In Model 23/04
 // TODO: Latest Field Available In Model 23/04
 
-// DiscountCodesResource is the result from the discount_codes.json endpoint
-type DiscountCodesResource struct {
+// MultipleDiscountCodesResponse is the result from the discount_codes.json endpoint
+type MultipleDiscountCodesResponse struct {
 	DiscountCodes []PriceRuleDiscountCode `json:"discount_codes"`
 }
 
-// DiscountCodeResource represents the result from the discount_codes/X.json endpoint
-type DiscountCodeResource struct {
+// SingleDiscountCodeResponse represents the result from the discount_codes/X.json endpoint
+type SingleDiscountCodeResponse struct {
 	PriceRuleDiscountCode *PriceRuleDiscountCode `json:"discount_code"`
 }
 
 // Create a discount code
-func (s *DiscountCodeServiceOp) Create(priceRuleID int64, dc PriceRuleDiscountCode) (*PriceRuleDiscountCode, error) {
+func (dcc *DiscountCodeClient) CreateDiscountCode(priceRuleID int64, dc PriceRuleDiscountCode) (*PriceRuleDiscountCode, error) {
 	path := fmt.Sprintf(discountCodeBasePath+".json", priceRuleID)
-	wrappedData := DiscountCodeResource{PriceRuleDiscountCode: &dc}
-	resource := new(DiscountCodeResource)
-	err := s.client.Post(path, wrappedData, resource)
+	wrappedData := SingleDiscountCodeResponse{PriceRuleDiscountCode: &dc}
+	resource := new(SingleDiscountCodeResponse)
+	err := dcc.client.Post(path, wrappedData, resource)
 	return resource.PriceRuleDiscountCode, err
 }
 
 // Update an existing discount code
-func (s *DiscountCodeServiceOp) Update(priceRuleID int64, dc PriceRuleDiscountCode) (*PriceRuleDiscountCode, error) {
+func (dcc *DiscountCodeClient) UpdateDiscountCode(priceRuleID int64, dc PriceRuleDiscountCode) (*PriceRuleDiscountCode, error) {
 	path := fmt.Sprintf(discountCodeBasePath+"/%d.json", priceRuleID, dc.ID)
-	wrappedData := DiscountCodeResource{PriceRuleDiscountCode: &dc}
-	resource := new(DiscountCodeResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleDiscountCodeResponse{PriceRuleDiscountCode: &dc}
+	resource := new(SingleDiscountCodeResponse)
+	err := dcc.client.Put(path, wrappedData, resource)
 	return resource.PriceRuleDiscountCode, err
 }
 
 // List of discount codes
-func (s *DiscountCodeServiceOp) List(priceRuleID int64) ([]PriceRuleDiscountCode, error) {
+func (dcc *DiscountCodeClient) ListDiscountCode(priceRuleID int64) ([]PriceRuleDiscountCode, error) {
 	path := fmt.Sprintf(discountCodeBasePath+".json", priceRuleID)
-	resource := new(DiscountCodesResource)
-	err := s.client.Get(path, resource, nil)
+	resource := new(MultipleDiscountCodesResponse)
+	err := dcc.client.Get(path, resource, nil)
 	return resource.DiscountCodes, err
 }
 
 // Get a single discount code
-func (s *DiscountCodeServiceOp) Get(priceRuleID int64, discountCodeID int64) (*PriceRuleDiscountCode, error) {
+func (dcc *DiscountCodeClient) GetDiscountCode(priceRuleID int64, discountCodeID int64) (*PriceRuleDiscountCode, error) {
 	path := fmt.Sprintf(discountCodeBasePath+"/%d.json", priceRuleID, discountCodeID)
-	resource := new(DiscountCodeResource)
-	err := s.client.Get(path, resource, nil)
+	resource := new(SingleDiscountCodeResponse)
+	err := dcc.client.Get(path, resource, nil)
 	return resource.PriceRuleDiscountCode, err
 }
 
 // Delete a discount code
-func (s *DiscountCodeServiceOp) Delete(priceRuleID int64, discountCodeID int64) error {
-	return s.client.Delete(fmt.Sprintf(discountCodeBasePath+"/%d.json", priceRuleID, discountCodeID))
+func (dcc *DiscountCodeClient) DeleteDiscountCode(priceRuleID int64, discountCodeID int64) error {
+	return dcc.client.Delete(fmt.Sprintf(discountCodeBasePath+"/%d.json", priceRuleID, discountCodeID))
 }

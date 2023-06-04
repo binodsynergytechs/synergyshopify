@@ -92,6 +92,6 @@ func (bc *BlogClient) UpdateBlog(blog Blog) (*Blog, error) {
 }
 
 // Delete an blog
-func (bc *BlogClient) Delete(blogId int64) error {
+func (bc *BlogClient) DeleteBlog(blogId int64) error {
 	return bc.client.Delete(fmt.Sprintf("%s/%d.json", blogsBasePath, blogId))
 }

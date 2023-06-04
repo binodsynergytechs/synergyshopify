@@ -8,18 +8,18 @@ import (
 
 const payoutsBasePath = "shopify_payments/payouts"
 
-// PayoutsService is an interface for interfacing with the payouts endpoints of
+// PayoutsRepository is an interface for interfacing with the payouts endpoints of
 // the Shopify API.
 // See: https://shopify.dev/docs/api/admin-rest/2023-01/resources/payouts
-type PayoutsService interface {
-	List(interface{}) ([]Payout, error)
-	ListWithPagination(interface{}) ([]Payout, *Pagination, error)
-	Get(int64, interface{}) (*Payout, error)
+type PayoutsRepository interface {
+	ListPayouts(interface{}) ([]Payout, error)
+	ListWithPaginationPayouts(interface{}) ([]Payout, *Pagination, error)
+	GetPayouts(int64, interface{}) (*Payout, error)
 }
 
-// PayoutsServiceOp handles communication with the payout related methods of the
+// PayoutsClient handles communication with the payout related methods of the
 // Shopify API.
-type PayoutsServiceOp struct {
+type PayoutsClient struct {
 	client *Client
 }
 
@@ -66,19 +66,19 @@ type PayoutsResource struct {
 }
 
 // List payouts
-func (s *PayoutsServiceOp) List(options interface{}) ([]Payout, error) {
-	payouts, _, err := s.ListWithPagination(options)
+func (pc *PayoutsClient) ListPayouts(options interface{}) ([]Payout, error) {
+	payouts, _, err := pc.ListWithPaginationPayouts(options)
 	if err != nil {
 		return nil, err
 	}
 	return payouts, nil
 }
 
-func (s *PayoutsServiceOp) ListWithPagination(options interface{}) ([]Payout, *Pagination, error) {
+func (pc *PayoutsClient) ListWithPaginationPayouts(options interface{}) ([]Payout, *Pagination, error) {
 	path := fmt.Sprintf("%s.json", payoutsBasePath)
 	resource := new(PayoutsResource)
 
-	pagination, err := s.client.ListWithPagination(path, resource, options)
+	pagination, err := pc.client.ListWithPagination(path, resource, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -87,9 +87,9 @@ func (s *PayoutsServiceOp) ListWithPagination(options interface{}) ([]Payout, *P
 }
 
 // Get individual payout
-func (s *PayoutsServiceOp) Get(id int64, options interface{}) (*Payout, error) {
+func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
 	resource := new(PayoutResource)
-	err := s.client.Get(path, resource, options)
+	err := pc.client.Get(path, resource, options)
 	return resource.Payout, err
 }

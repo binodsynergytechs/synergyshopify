@@ -109,7 +109,7 @@ func (ic *ImageClient) CreateImage(productID int64, image Image) (*Image, error)
 }
 
 // Update an existing image
-func (ic *ImageClient) Update(productID int64, image Image) (*Image, error) {
+func (ic *ImageClient) UpdateImage(productID int64, image Image) (*Image, error) {
 	path := fmt.Sprintf("%s/%d/images/%d.json", productsBasePath, productID, image.ID)
 	wrappedData := SingleImageResponse{Image: &image}
 	resource := new(SingleImageResponse)

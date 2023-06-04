@@ -24,7 +24,7 @@ func TestRedirectList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/redirects.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"redirects": [{"id":1},{"id":2}]}`))
 
-	redirects, err := client.Redirect.List(nil)
+	redirects, err := client.Redirect.ListRedirect(nil)
 	if err != nil {
 		t.Errorf("Redirect.List returned error: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestRedirectCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Redirect.Count(nil)
+	cnt, err := client.Redirect.CountRedirect(nil)
 	if err != nil {
 		t.Errorf("Redirect.Count returned error: %v", err)
 	}
@@ -60,7 +60,7 @@ func TestRedirectCount(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Redirect.Count(CountOptions{CreatedAtMin: date})
+	cnt, err = client.Redirect.CountRedirect(CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Redirect.Count returned error: %v", err)
 	}
@@ -78,7 +78,7 @@ func TestRedirectGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/redirects/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"redirect": {"id":1}}`))
 
-	redirect, err := client.Redirect.Get(1, nil)
+	redirect, err := client.Redirect.GetRedirect(1, nil)
 	if err != nil {
 		t.Errorf("Redirect.Get returned error: %v", err)
 	}
@@ -101,7 +101,7 @@ func TestRedirectCreate(t *testing.T) {
 		Target: "/to",
 	}
 
-	returnedRedirect, err := client.Redirect.Create(redirect)
+	returnedRedirect, err := client.Redirect.CreateRedirect(redirect)
 	if err != nil {
 		t.Errorf("Redirect.Create returned error: %v", err)
 	}
@@ -120,7 +120,7 @@ func TestRedirectUpdate(t *testing.T) {
 		ID: 1,
 	}
 
-	returnedRedirect, err := client.Redirect.Update(redirect)
+	returnedRedirect, err := client.Redirect.UpdateRedirect(redirect)
 	if err != nil {
 		t.Errorf("Redirect.Update returned error: %v", err)
 	}
@@ -135,7 +135,7 @@ func TestRedirectDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/redirects/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Redirect.Delete(1)
+	err := client.Redirect.DeleteRedirect(1)
 	if err != nil {
 		t.Errorf("Redirect.Delete returned error: %v", err)
 	}

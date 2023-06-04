@@ -4,16 +4,16 @@ import (
 	"time"
 )
 
-// ShopService is an interface for interfacing with the shop endpoint of the
+// ShopRepository is an interface for interfacing with the shop endpoint of the
 // Shopify API.
 // See: https://help.shopify.com/api/reference/shop
-type ShopService interface {
-	Get(options interface{}) (*Shop, error)
+type ShopRepository interface {
+	GetShop(options interface{}) (*Shop, error)
 }
 
-// ShopServiceOp handles communication with the shop related methods of the
+// ShopClient handles communication with the shop related methods of the
 // Shopify API.
-type ShopServiceOp struct {
+type ShopClient struct {
 	client *Client
 }
 
@@ -76,13 +76,13 @@ type Shop struct {
 }
 
 // Represents the result from the admin/shop.json endpoint
-type ShopResource struct {
+type SingleShopResponse struct {
 	Shop *Shop `json:"shop"`
 }
 
 // Get shop
-func (s *ShopServiceOp) Get(options interface{}) (*Shop, error) {
-	resource := new(ShopResource)
-	err := s.client.Get("shop.json", resource, options)
+func (sc *ShopClient) GetShop(options interface{}) (*Shop, error) {
+	resource := new(SingleShopResponse)
+	err := sc.client.Get("shop.json", resource, options)
 	return resource.Shop, err
 }

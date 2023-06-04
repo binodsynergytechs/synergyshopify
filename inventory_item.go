@@ -9,17 +9,17 @@ import (
 
 const inventoryItemsBasePath = "inventory_items"
 
-// InventoryItemService is an interface for interacting with the
+// InventoryItemRepository is an interface for interacting with the
 // inventory items endpoints of the Shopify API
 // See https://help.shopify.com/en/api/reference/inventory/inventoryitem
-type InventoryItemService interface {
-	List(interface{}) ([]InventoryItem, error)
-	Get(int64, interface{}) (*InventoryItem, error)
-	Update(InventoryItem) (*InventoryItem, error)
+type InventoryItemRepository interface {
+	ListInventoryItem(interface{}) ([]InventoryItem, error)
+	GetInventoryItem(int64, interface{}) (*InventoryItem, error)
+	UpdateInventoryItem(InventoryItem) (*InventoryItem, error)
 }
 
-// InventoryItemServiceOp is the default implementation of the InventoryItemService interface
-type InventoryItemServiceOp struct {
+// InventoryItemClient is the default implementation of the InventoryItemRepository interface
+type InventoryItemClient struct {
 	client *Client
 }
 
@@ -42,37 +42,37 @@ type InventoryItem struct {
 //FIXME: Field Available In Latest Shopify Model
 //TODO: Field Available In Latest Shopify Model
 
-// InventoryItemResource is used for handling single item requests and responses
-type InventoryItemResource struct {
+// SingleInventoryItemResponse is used for handling single item requests and responses
+type SingleInventoryItemResponse struct {
 	InventoryItem *InventoryItem `json:"inventory_item"`
 }
 
-// InventoryItemsResource is used for handling multiple item responsees
-type InventoryItemsResource struct {
+// MultipleInventoryItemsResponse is used for handling multiple item responsees
+type MultipleInventoryItemsResponse struct {
 	InventoryItems []InventoryItem `json:"inventory_items"`
 }
 
 // List inventory items
-func (s *InventoryItemServiceOp) List(options interface{}) ([]InventoryItem, error) {
+func (ic *InventoryItemClient) ListInventoryItem(options interface{}) ([]InventoryItem, error) {
 	path := fmt.Sprintf("%s.json", inventoryItemsBasePath)
-	resource := new(InventoryItemsResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleInventoryItemsResponse)
+	err := ic.client.Get(path, resource, options)
 	return resource.InventoryItems, err
 }
 
 // Get a inventory item
-func (s *InventoryItemServiceOp) Get(id int64, options interface{}) (*InventoryItem, error) {
+func (ic *InventoryItemClient) GetInventoryItem(id int64, options interface{}) (*InventoryItem, error) {
 	path := fmt.Sprintf("%s/%d.json", inventoryItemsBasePath, id)
-	resource := new(InventoryItemResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleInventoryItemResponse)
+	err := ic.client.Get(path, resource, options)
 	return resource.InventoryItem, err
 }
 
 // Update a inventory item
-func (s *InventoryItemServiceOp) Update(item InventoryItem) (*InventoryItem, error) {
+func (ic *InventoryItemClient) UpdateInventoryItem(item InventoryItem) (*InventoryItem, error) {
 	path := fmt.Sprintf("%s/%d.json", inventoryItemsBasePath, item.ID)
-	wrappedData := InventoryItemResource{InventoryItem: &item}
-	resource := new(InventoryItemResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleInventoryItemResponse{InventoryItem: &item}
+	resource := new(SingleInventoryItemResponse)
+	err := ic.client.Put(path, wrappedData, resource)
 	return resource.InventoryItem, err
 }

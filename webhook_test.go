@@ -54,7 +54,7 @@ func TestWebhookList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/webhooks.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("webhooks.json")))
 
-	webhooks, err := client.Webhook.List(nil)
+	webhooks, err := client.Webhook.ListWebhook(nil)
 	if err != nil {
 		t.Errorf("Webhook.List returned error: %v", err)
 	}
@@ -74,7 +74,7 @@ func TestWebhookGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/webhooks/4759306.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("webhook.json")))
 
-	webhook, err := client.Webhook.Get(4759306, nil)
+	webhook, err := client.Webhook.GetWebhook(4759306, nil)
 	if err != nil {
 		t.Errorf("Webhook.Get returned error: %v", err)
 	}
@@ -96,7 +96,7 @@ func TestWebhookCount(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Webhook.Count(nil)
+	cnt, err := client.Webhook.CountWebhook(nil)
 	if err != nil {
 		t.Errorf("Webhook.Count returned error: %v", err)
 	}
@@ -107,7 +107,7 @@ func TestWebhookCount(t *testing.T) {
 	}
 
 	options := WebhookOptions{Topic: "orders/paid"}
-	cnt, err = client.Webhook.Count(options)
+	cnt, err = client.Webhook.CountWebhook(options)
 	if err != nil {
 		t.Errorf("Webhook.Count returned error: %v", err)
 	}
@@ -130,7 +130,7 @@ func TestWebhookCreate(t *testing.T) {
 		Address: "http://example.com",
 	}
 
-	returnedWebhook, err := client.Webhook.Create(webhook)
+	returnedWebhook, err := client.Webhook.CreateWebhook(webhook)
 	if err != nil {
 		t.Errorf("Webhook.Create returned error: %v", err)
 	}
@@ -151,7 +151,7 @@ func TestWebhookUpdate(t *testing.T) {
 		Address: "http://example.com",
 	}
 
-	returnedWebhook, err := client.Webhook.Update(webhook)
+	returnedWebhook, err := client.Webhook.UpdateWebhook(webhook)
 	if err != nil {
 		t.Errorf("Webhook.Update returned error: %v", err)
 	}
@@ -166,7 +166,7 @@ func TestWebhookDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/webhooks/4759306.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Webhook.Delete(4759306)
+	err := client.Webhook.DeleteWebhook(4759306)
 	if err != nil {
 		t.Errorf("Webhook.Delete returned error: %v", err)
 	}

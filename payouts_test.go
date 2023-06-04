@@ -20,7 +20,7 @@ func TestPayoutsList(t *testing.T) {
 		httpmock.NewBytesResponder(200, loadFixture("payouts_filtered.json")))
 
 	date1 := OnlyDate{time.Date(2013, 11, 01, 0, 0, 0, 0, time.UTC)}
-	payouts, err := client.Payouts.List(PayoutsListOptions{Date: &date1})
+	payouts, err := client.Payouts.ListPayouts(PayoutsListOptions{Date: &date1})
 	if err != nil {
 		t.Errorf("Payouts.List returned error: %v", err)
 	}
@@ -39,7 +39,7 @@ func TestPayoutsListIncorrectDate(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"payouts": [{"id":1, "date":"20-02-2"}]}`))
 
 	date1 := OnlyDate{time.Date(2022, 02, 03, 0, 0, 0, 0, time.Local)}
-	_, err := client.Payouts.List(PayoutsListOptions{Date: &date1})
+	_, err := client.Payouts.ListPayouts(PayoutsListOptions{Date: &date1})
 	if err == nil {
 		t.Errorf("Payouts.List returned success, expected error: %v", err)
 	}
@@ -54,7 +54,7 @@ func TestPayoutsListError(t *testing.T) {
 
 	expectedErrMessage := "Unknown Error"
 
-	payouts, err := client.Payouts.List(nil)
+	payouts, err := client.Payouts.ListPayouts(nil)
 	if payouts != nil {
 		t.Errorf("Payouts.List returned payouts, expected nil: %v", err)
 	}
@@ -156,7 +156,7 @@ func TestPayoutsListWithPagination(t *testing.T) {
 
 		httpmock.RegisterResponder("GET", listURL, httpmock.ResponderFromResponse(response))
 
-		payouts, pagination, err := client.Payouts.ListWithPagination(nil)
+		payouts, pagination, err := client.Payouts.ListWithPaginationPayouts(nil)
 		if !reflect.DeepEqual(payouts, c.expectedPayouts) {
 			t.Errorf("test %d Payouts.ListWithPagination payouts returned %+v, expected %+v", i, payouts, c.expectedPayouts)
 		}
@@ -188,7 +188,7 @@ func TestPayoutsGet(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/shopify_payments/payouts/623721858.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("payout.json")))
 
-	payout, err := client.Payouts.Get(623721858, nil)
+	payout, err := client.Payouts.GetPayouts(623721858, nil)
 	if err != nil {
 		t.Errorf("Payouts.Get returned error: %v", err)
 	}

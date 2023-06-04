@@ -1,6 +1,6 @@
 package goshopify
 
-type AccessScopesService interface {
+type AccessScopesRepository interface {
 	ListAccessScopes(interface{}) ([]AccessScope, error)
 }
 
@@ -9,27 +9,27 @@ type AccessScope struct {
 	Description string `json:"description,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 }
 
-// AccessScopesResource represents the result from the oauth/access_scopes.json endpoint
-type AccessScopesResource struct {
+// AccessScopesResponse represents the result from the oauth/access_scopes.json endpoint
+type AccessScopesResponse struct {
 	AccessScopes []AccessScope `json:"access_scopes,omitempty"`
 }
 
-// AccessScopesServiceOp handles communication with the Access Scopes
+// AccessScopesClient handles communication with the Access Scopes
 // related methods of the Shopify API
-type AccessScopesServiceOp struct {
+type AccessScopesClient struct {
 	client *Client
 }
 
 // List gets access scopes based on used oauth token
-func (s *AccessScopesServiceOp) ListAccessScopes(options interface{}) ([]AccessScope, error) {
+func (asc *AccessScopesClient) ListAccessScopes(options interface{}) ([]AccessScope, error) {
 	// Assuming the path is relative to some base URL
 	path := "/oauth/access_scopes.json"
 
 	// Create a new instance of the resource struct to hold the response
-	resource := new(AccessScopesResource)
+	resource := new(AccessScopesResponse)
 
 	// Use the HTTP client to send a GET request to the specified path
-	err := s.client.Get(path, resource, options)
+	err := asc.client.Get(path, resource, options)
 
 	// Return the access scopes and any potential error from the request
 	return resource.AccessScopes, err

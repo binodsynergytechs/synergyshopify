@@ -8,30 +8,30 @@ import (
 )
 
 const customersBasePath = "customers"
-const customersResourceName = "customers"
+const MultipleCustomersResponseName = "customers"
 
-// CustomerService is an interface for interfacing with the customers endpoints
+// CustomerRepository is an interface for interfacing with the customers endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/customer
-type CustomerService interface {
-	List(interface{}) ([]Customer, error)
-	ListWithPagination(options interface{}) ([]Customer, *Pagination, error)
-	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*Customer, error)
-	Search(interface{}) ([]Customer, error)
-	Create(Customer) (*Customer, error)
-	Update(Customer) (*Customer, error)
-	Delete(int64) error
+type CustomerRepository interface {
+	ListCustomer(interface{}) ([]Customer, error)
+	ListWithPaginationCustomer(options interface{}) ([]Customer, *Pagination, error)
+	CountCustomer(interface{}) (int, error)
+	GetCustomer(int64, interface{}) (*Customer, error)
+	SearchCustomer(interface{}) ([]Customer, error)
+	CreateCustomer(Customer) (*Customer, error)
+	UpdateCustomer(Customer) (*Customer, error)
+	DeleteCustomer(int64) error
 	ListOrders(int64, interface{}) ([]Order, error)
 	ListTags(interface{}) ([]string, error)
 
-	// MetaFieldsRepository used for Customer resource to communicate with Metafields resource
-	MetaFieldsRepository
+	// MetaFieldsRepository used for Customer resource to communicate with MetaFields resource
+	MetaFieldRepository
 }
 
-// CustomerServiceOp handles communication with the product related methods of
+// CustomerClient handles communication with the product related methods of
 // the Shopify API.
-type CustomerServiceOp struct {
+type CustomerClient struct {
 	client *Client
 }
 
@@ -57,7 +57,7 @@ type Customer struct {
 	Addresses             []*CustomerAddress `json:"addresses,omitempty"`
 	CreatedAt             *time.Time         `json:"created_at,omitempty"`
 	UpdatedAt             *time.Time         `json:"updated_at,omitempty"`
-	MetaFields            []MetaField        `json:"metafields,omitempty"`
+	MetaFields            []MetaField        `json:"metaFields,omitempty"`
 	Currency              string             `json:"currency"`                 // TODO: Field Available In Latest Shopify Model 23/04
 	Password              string             `json:"password"`                 // TODO: Field Available In Latest Shopify Model 23/04
 	PasswordConfirmation  string             `json:"password_confirmation"`    // TODO: Field Available In Latest Shopify Model 23/04
@@ -67,17 +67,17 @@ type Customer struct {
 }
 
 // Represents the result from the customers/X.json endpoint
-type CustomerResource struct {
+type SingleCustomerResponse struct {
 	Customer *Customer `json:"customer"`
 }
 
 // Represents the result from the customers.json endpoint
-type CustomersResource struct {
+type MultipleCustomersResponse struct {
 	Customers []Customer `json:"customers"`
 }
 
 // Represents the result from the customers/tags.json endpoint
-type CustomerTagsResource struct {
+type CustomerTagsResponse struct {
 	Tags []string `json:"tags"`
 }
 
@@ -91,19 +91,19 @@ type CustomerSearchOptions struct {
 }
 
 // List customers
-func (s *CustomerServiceOp) List(options interface{}) ([]Customer, error) {
+func (cc *CustomerClient) ListCustomer(options interface{}) ([]Customer, error) {
 	path := fmt.Sprintf("%s.json", customersBasePath)
-	resource := new(CustomersResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleCustomersResponse)
+	err := cc.client.Get(path, resource, options)
 	return resource.Customers, err
 }
 
 // ListWithPagination lists customers and return pagination to retrieve next/previous results.
-func (s *CustomerServiceOp) ListWithPagination(options interface{}) ([]Customer, *Pagination, error) {
+func (cc *CustomerClient) ListWithPaginationCustomer(options interface{}) ([]Customer, *Pagination, error) {
 	path := fmt.Sprintf("%s.json", customersBasePath)
-	resource := new(CustomersResource)
+	resource := new(MultipleCustomersResponse)
 
-	pagination, err := s.client.ListWithPagination(path, resource, options)
+	pagination, err := cc.client.ListWithPagination(path, resource, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -112,99 +112,99 @@ func (s *CustomerServiceOp) ListWithPagination(options interface{}) ([]Customer,
 }
 
 // Count customers
-func (s *CustomerServiceOp) Count(options interface{}) (int, error) {
+func (cc *CustomerClient) CountCustomer(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", customersBasePath)
-	return s.client.Count(path, options)
+	return cc.client.Count(path, options)
 }
 
 // Get customer
-func (s *CustomerServiceOp) Get(customerID int64, options interface{}) (*Customer, error) {
+func (cc *CustomerClient) GetCustomer(customerID int64, options interface{}) (*Customer, error) {
 	path := fmt.Sprintf("%s/%v.json", customersBasePath, customerID)
-	resource := new(CustomerResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(SingleCustomerResponse)
+	err := cc.client.Get(path, resource, options)
 	return resource.Customer, err
 }
 
 // Create a new customer
-func (s *CustomerServiceOp) Create(customer Customer) (*Customer, error) {
+func (cc *CustomerClient) CreateCustomer(customer Customer) (*Customer, error) {
 	path := fmt.Sprintf("%s.json", customersBasePath)
-	wrappedData := CustomerResource{Customer: &customer}
-	resource := new(CustomerResource)
-	err := s.client.Post(path, wrappedData, resource)
+	wrappedData := SingleCustomerResponse{Customer: &customer}
+	resource := new(SingleCustomerResponse)
+	err := cc.client.Post(path, wrappedData, resource)
 	return resource.Customer, err
 }
 
 // Update an existing customer
-func (s *CustomerServiceOp) Update(customer Customer) (*Customer, error) {
+func (cc *CustomerClient) UpdateCustomer(customer Customer) (*Customer, error) {
 	path := fmt.Sprintf("%s/%d.json", customersBasePath, customer.ID)
-	wrappedData := CustomerResource{Customer: &customer}
-	resource := new(CustomerResource)
-	err := s.client.Put(path, wrappedData, resource)
+	wrappedData := SingleCustomerResponse{Customer: &customer}
+	resource := new(SingleCustomerResponse)
+	err := cc.client.Put(path, wrappedData, resource)
 	return resource.Customer, err
 }
 
 // Delete an existing customer
-func (s *CustomerServiceOp) Delete(customerID int64) error {
+func (cc *CustomerClient) DeleteCustomer(customerID int64) error {
 	path := fmt.Sprintf("%s/%d.json", customersBasePath, customerID)
-	return s.client.Delete(path)
+	return cc.client.Delete(path)
 }
 
 // Search customers
-func (s *CustomerServiceOp) Search(options interface{}) ([]Customer, error) {
+func (cc *CustomerClient) SearchCustomer(options interface{}) ([]Customer, error) {
 	path := fmt.Sprintf("%s/search.json", customersBasePath)
-	resource := new(CustomersResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(MultipleCustomersResponse)
+	err := cc.client.Get(path, resource, options)
 	return resource.Customers, err
 }
 
 // ListOrders retrieves all orders from a customer
-func (s *CustomerServiceOp) ListOrders(customerID int64, options interface{}) ([]Order, error) {
+func (cc *CustomerClient) ListOrders(customerID int64, options interface{}) ([]Order, error) {
 	path := fmt.Sprintf("%s/%d/orders.json", customersBasePath, customerID)
 	resource := new(OrdersResource)
-	err := s.client.Get(path, resource, options)
+	err := cc.client.Get(path, resource, options)
 	return resource.Orders, err
 }
 
 // ListTags retrieves all unique tags across all customers
-func (s *CustomerServiceOp) ListTags(options interface{}) ([]string, error) {
+func (cc *CustomerClient) ListTags(options interface{}) ([]string, error) {
 	path := fmt.Sprintf("%s/tags.json", customersBasePath)
-	resource := new(CustomerTagsResource)
-	err := s.client.Get(path, resource, options)
+	resource := new(CustomerTagsResponse)
+	err := cc.client.Get(path, resource, options)
 	return resource.Tags, err
 }
 
-// List metafields for a customer
-func (s *CustomerServiceOp) ListMetafields(customerID int64, options interface{}) ([]MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: customersResourceName, resourceID: customerID}
-	return metafieldService.List(options)
+// List metaFields for a customer
+func (cc *CustomerClient) ListMetaFields(customerID int64, options interface{}) ([]MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
+	return metaFieldService.ListMetaFields(options)
 }
 
-// Count metafields for a customer
-func (s *CustomerServiceOp) CountMetafields(customerID int64, options interface{}) (int, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: customersResourceName, resourceID: customerID}
-	return metafieldService.Count(options)
+// Count metaFields for a customer
+func (cc *CustomerClient) CountMetaFields(customerID int64, options interface{}) (int, error) {
+	metaFieldService := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
+	return metaFieldService.CountMetaFields(options)
 }
 
-// Get individual metafield for a customer
-func (s *CustomerServiceOp) GetMetafield(customerID int64, metafieldID int64, options interface{}) (*MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: customersResourceName, resourceID: customerID}
-	return metafieldService.Get(metafieldID, options)
+// Get individual metaField for a customer
+func (cc *CustomerClient) GetMetaField(customerID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
+	return metaFieldService.GetMetaFields(metaFieldID, options)
 }
 
-// Create a new metafield for a customer
-func (s *CustomerServiceOp) CreateMetafield(customerID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: customersResourceName, resourceID: customerID}
-	return metafieldService.Create(metafield)
+// Create a new metaField for a customer
+func (cc *CustomerClient) CreateMetaField(customerID int64, metaField MetaField) (*MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
+	return metaFieldService.CreateMetaFields(metaField)
 }
 
-// Update an existing metafield for a customer
-func (s *CustomerServiceOp) UpdateMetafield(customerID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: customersResourceName, resourceID: customerID}
-	return metafieldService.Update(metafield)
+// Update an existing metaField for a customer
+func (cc *CustomerClient) UpdateMetaField(customerID int64, metaField MetaField) (*MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
+	return metaFieldService.UpdateMetaFields(metaField)
 }
 
-// // Delete an existing metafield for a customer
-func (s *CustomerServiceOp) DeleteMetafield(customerID int64, metafieldID int64) error {
-	metafieldService := &MetaFieldClient{client: s.client, resource: customersResourceName, resourceID: customerID}
-	return metafieldService.Delete(metafieldID)
+// // Delete an existing metaField for a customer
+func (cc *CustomerClient) DeleteMetaField(customerID int64, metaFieldID int64) error {
+	metaFieldService := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
+	return metaFieldService.DeleteMetaFields(metaFieldID)
 }

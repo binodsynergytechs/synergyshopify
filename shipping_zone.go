@@ -4,16 +4,16 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-// ShippingZoneService is an interface for interfacing with the shipping zones endpoint
+// ShippingZoneRepository is an interface for interfacing with the shipping zones endpoint
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/store-properties/shippingzone
-type ShippingZoneService interface {
-	List() ([]ShippingZone, error)
+type ShippingZoneRepository interface {
+	ListShippingZone() ([]ShippingZone, error)
 }
 
-// ShippingZoneServiceOp handles communication with the shipping zone related methods
+// ShippingZoneClient handles communication with the shipping zone related methods
 // of the Shopify API.
-type ShippingZoneServiceOp struct {
+type ShippingZoneClient struct {
 	client *Client
 }
 
@@ -91,7 +91,7 @@ type ShippingZonesResource struct {
 }
 
 // List shipping zones
-func (s *ShippingZoneServiceOp) List() ([]ShippingZone, error) {
+func (s *ShippingZoneClient) ListShippingZone() ([]ShippingZone, error) {
 	resource := new(ShippingZonesResource)
 	err := s.client.Get("shipping_zones.json", resource, nil)
 	return resource.ShippingZones, err

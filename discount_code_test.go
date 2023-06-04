@@ -20,7 +20,7 @@ func TestDiscountCodeList(t *testing.T) {
 		),
 	)
 
-	codes, err := client.DiscountCode.List(507328175)
+	codes, err := client.DiscountCode.ListDiscountCode(507328175)
 	if err != nil {
 		t.Errorf("DiscountCode.List returned error: %v", err)
 	}
@@ -45,7 +45,7 @@ func TestDiscountCodeGet(t *testing.T) {
 		),
 	)
 
-	dc, err := client.DiscountCode.Get(507328175, 507328175)
+	dc, err := client.DiscountCode.GetDiscountCode(507328175, 507328175)
 	if err != nil {
 		t.Errorf("DiscountCode.Get returned error: %v", err)
 	}
@@ -75,7 +75,7 @@ func TestDiscountCodeCreate(t *testing.T) {
 		Code: "SUMMERSALE10OFF",
 	}
 
-	returnedDC, err := client.DiscountCode.Create(507328175, dc)
+	returnedDC, err := client.DiscountCode.CreateDiscountCode(507328175, dc)
 	if err != nil {
 		t.Errorf("DiscountCode.Create returned error: %v", err)
 	}
@@ -105,7 +105,7 @@ func TestDiscountCodeUpdate(t *testing.T) {
 		Code: "SUMMERSALE10OFF",
 	}
 
-	returnedDC, err := client.DiscountCode.Update(507328175, dc)
+	returnedDC, err := client.DiscountCode.UpdateDiscountCode(507328175, dc)
 	if err != nil {
 		t.Errorf("DiscountCode.Update returned error: %v", err)
 	}
@@ -123,7 +123,7 @@ func TestDiscountCodeDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/price_rules/507328175/discount_codes/507328175.json", client.pathPrefix),
 		httpmock.NewStringResponder(204, "{}"))
 
-	err := client.DiscountCode.Delete(507328175, 507328175)
+	err := client.DiscountCode.DeleteDiscountCode(507328175, 507328175)
 	if err != nil {
 		t.Errorf("DiscountCode.Delete returned error: %v", err)
 	}

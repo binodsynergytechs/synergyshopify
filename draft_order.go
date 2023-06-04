@@ -12,26 +12,26 @@ const (
 	draftOrdersResourceName = "draft_orders"
 )
 
-// DraftOrderService is an interface for interfacing with the draft orders endpoints of
+// DraftOrderRepository is an interface for interfacing with the draft orders endpoints of
 // the Shopify API.
 // See: https://help.shopify.com/api/reference/orders/draftorder
-type DraftOrderService interface {
-	List(interface{}) ([]DraftOrder, error)
-	Count(interface{}) (int, error)
-	Get(int64, interface{}) (*DraftOrder, error)
-	Create(DraftOrder) (*DraftOrder, error)
-	Update(DraftOrder) (*DraftOrder, error)
-	Delete(int64) error
-	Invoice(int64, DraftOrderInvoice) (*DraftOrderInvoice, error)
-	Complete(int64, bool) (*DraftOrder, error)
+type DraftOrderRepository interface {
+	ListDraftOrder(interface{}) ([]DraftOrder, error)
+	CountDraftOrder(interface{}) (int, error)
+	GetDraftOrder(int64, interface{}) (*DraftOrder, error)
+	CreateDraftOrder(DraftOrder) (*DraftOrder, error)
+	UpdateDraftOrder(DraftOrder) (*DraftOrder, error)
+	DeleteDraftOrder(int64) error
+	InvoiceDraftOrder(int64, DraftOrderInvoice) (*DraftOrderInvoice, error)
+	CompleteDraftOrder(int64, bool) (*DraftOrder, error)
 
-	// MetaFieldsRepository used for DrafT Order resource to communicate with Metafields resource
-	MetaFieldsRepository
+	// MetaFieldsRepository used for DrafT Order resource to communicate with MetaFields resource
+	MetaFieldRepository
 }
 
-// DraftOrderServiceOp handles communication with the draft order related methods of the
+// DraftOrderClient handles communication with the draft order related methods of the
 // Shopify API.
-type DraftOrderServiceOp struct {
+type DraftOrderClient struct {
 	client *Client
 }
 
@@ -190,7 +190,7 @@ type DraftOrderCountOptions struct {
 }
 
 // Create draft order
-func (s *DraftOrderServiceOp) Create(draftOrder DraftOrder) (*DraftOrder, error) {
+func (s *DraftOrderClient) CreateDraftOrder(draftOrder DraftOrder) (*DraftOrder, error) {
 	path := fmt.Sprintf("%s.json", draftOrdersBasePath)
 	wrappedData := DraftOrderResource{DraftOrder: &draftOrder}
 	resource := new(DraftOrderResource)
@@ -199,7 +199,7 @@ func (s *DraftOrderServiceOp) Create(draftOrder DraftOrder) (*DraftOrder, error)
 }
 
 // List draft orders
-func (s *DraftOrderServiceOp) List(options interface{}) ([]DraftOrder, error) {
+func (s *DraftOrderClient) ListDraftOrder(options interface{}) ([]DraftOrder, error) {
 	path := fmt.Sprintf("%s.json", draftOrdersBasePath)
 	resource := new(DraftOrdersResource)
 	err := s.client.Get(path, resource, options)
@@ -207,19 +207,19 @@ func (s *DraftOrderServiceOp) List(options interface{}) ([]DraftOrder, error) {
 }
 
 // Count draft orders
-func (s *DraftOrderServiceOp) Count(options interface{}) (int, error) {
+func (s *DraftOrderClient) CountDraftOrder(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", draftOrdersBasePath)
 	return s.client.Count(path, options)
 }
 
 // Delete draft orders
-func (s *DraftOrderServiceOp) Delete(draftOrderID int64) error {
+func (s *DraftOrderClient) DeleteDraftOrder(draftOrderID int64) error {
 	path := fmt.Sprintf("%s/%d.json", draftOrdersBasePath, draftOrderID)
 	return s.client.Delete(path)
 }
 
 // Invoice a draft order
-func (s *DraftOrderServiceOp) Invoice(draftOrderID int64, draftOrderInvoice DraftOrderInvoice) (*DraftOrderInvoice, error) {
+func (s *DraftOrderClient) InvoiceDraftOrder(draftOrderID int64, draftOrderInvoice DraftOrderInvoice) (*DraftOrderInvoice, error) {
 	path := fmt.Sprintf("%s/%d/send_invoice.json", draftOrdersBasePath, draftOrderID)
 	wrappedData := DraftOrderInvoiceResource{DraftOrderInvoice: &draftOrderInvoice}
 	resource := new(DraftOrderInvoiceResource)
@@ -228,7 +228,7 @@ func (s *DraftOrderServiceOp) Invoice(draftOrderID int64, draftOrderInvoice Draf
 }
 
 // Get individual draft order
-func (s *DraftOrderServiceOp) Get(draftOrderID int64, options interface{}) (*DraftOrder, error) {
+func (s *DraftOrderClient) GetDraftOrder(draftOrderID int64, options interface{}) (*DraftOrder, error) {
 	path := fmt.Sprintf("%s/%d.json", draftOrdersBasePath, draftOrderID)
 	resource := new(DraftOrderResource)
 	err := s.client.Get(path, resource, options)
@@ -236,7 +236,7 @@ func (s *DraftOrderServiceOp) Get(draftOrderID int64, options interface{}) (*Dra
 }
 
 // Update draft order
-func (s *DraftOrderServiceOp) Update(draftOrder DraftOrder) (*DraftOrder, error) {
+func (s *DraftOrderClient) UpdateDraftOrder(draftOrder DraftOrder) (*DraftOrder, error) {
 	path := fmt.Sprintf("%s/%d.json", draftOrdersBasePath, draftOrder.ID)
 	wrappedData := DraftOrderResource{DraftOrder: &draftOrder}
 	resource := new(DraftOrderResource)
@@ -245,45 +245,45 @@ func (s *DraftOrderServiceOp) Update(draftOrder DraftOrder) (*DraftOrder, error)
 }
 
 // Complete draft order
-func (s *DraftOrderServiceOp) Complete(draftOrderID int64, paymentPending bool) (*DraftOrder, error) {
+func (s *DraftOrderClient) CompleteDraftOrder(draftOrderID int64, paymentPending bool) (*DraftOrder, error) {
 	path := fmt.Sprintf("%s/%d/complete.json?payment_pending=%t", draftOrdersBasePath, draftOrderID, paymentPending)
 	resource := new(DraftOrderResource)
 	err := s.client.Put(path, nil, resource)
 	return resource.DraftOrder, err
 }
 
-// List metafields for an order
-func (s *DraftOrderServiceOp) ListMetafields(draftOrderID int64, options interface{}) ([]MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
-	return metafieldService.List(options)
+// List metaFields for an order
+func (s *DraftOrderClient) ListMetaFields(draftOrderID int64, options interface{}) ([]MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	return metaFieldService.ListMetaFields(options)
 }
 
-// Count metafields for an order
-func (s *DraftOrderServiceOp) CountMetafields(draftOrderID int64, options interface{}) (int, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
-	return metafieldService.Count(options)
+// Count metaFields for an order
+func (s *DraftOrderClient) CountMetaFields(draftOrderID int64, options interface{}) (int, error) {
+	metaFieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	return metaFieldService.CountMetaFields(options)
 }
 
-// Get individual metafield for an order
-func (s *DraftOrderServiceOp) GetMetafield(draftOrderID int64, metafieldID int64, options interface{}) (*MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
-	return metafieldService.Get(metafieldID, options)
+// Get individual metaField for an order
+func (s *DraftOrderClient) GetMetaField(draftOrderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	return metaFieldService.GetMetaFields(metaFieldID, options)
 }
 
-// Create a new metafield for an order
-func (s *DraftOrderServiceOp) CreateMetafield(draftOrderID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
-	return metafieldService.Create(metafield)
+// Create a new metaField for an order
+func (s *DraftOrderClient) CreateMetaField(draftOrderID int64, metaField MetaField) (*MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	return metaFieldService.CreateMetaFields(metaField)
 }
 
-// Update an existing metafield for an order
-func (s *DraftOrderServiceOp) UpdateMetafield(draftOrderID int64, metafield MetaField) (*MetaField, error) {
-	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
-	return metafieldService.Update(metafield)
+// Update an existing metaField for an order
+func (s *DraftOrderClient) UpdateMetaField(draftOrderID int64, metaField MetaField) (*MetaField, error) {
+	metaFieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	return metaFieldService.UpdateMetaFields(metaField)
 }
 
-// Delete an existing metafield for an order
-func (s *DraftOrderServiceOp) DeleteMetafield(draftOrderID int64, metafieldID int64) error {
-	metafieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
-	return metafieldService.Delete(metafieldID)
+// Delete an existing metaField for an order
+func (s *DraftOrderClient) DeleteMetaField(draftOrderID int64, metaFieldID int64) error {
+	metaFieldService := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
+	return metaFieldService.DeleteMetaFields(metaFieldID)
 }

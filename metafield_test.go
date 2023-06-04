@@ -24,7 +24,7 @@ func TestMetafieldList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.MetaField.List(nil)
+	metafields, err := client.MetaFieldc.List(nil)
 	if err != nil {
 		t.Errorf("Metafield.List returned error: %v", err)
 	}
@@ -141,7 +141,7 @@ func TestMetafieldUpdate(t *testing.T) {
 		Type:      "single_line_text_field",
 	}
 
-	returnedMetafield, err := client.MetaField.Update(metafield)
+	returnedMetafield, err := client.MetaFields.Updatem(metafield)
 	if err != nil {
 		t.Errorf("Metafield.Update returned error: %v", err)
 	}
@@ -156,7 +156,7 @@ func TestMetafieldDelete(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/metafields/1.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.MetaField.Delete(1)
+	err := client.MetaFields.Delete(1)
 	if err != nil {
 		t.Errorf("Metafield.Delete returned error: %v", err)
 	}

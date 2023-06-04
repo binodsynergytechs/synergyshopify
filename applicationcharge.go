@@ -9,17 +9,17 @@ import (
 
 const applicationChargesBasePath = "application_charges"
 
-// ApplicationChargeService is an interface for interacting with the
+// ApplicationChargeRepository is an interface for interacting with the
 // ApplicationCharge endpoints of the Shopify API.
 // See https://help.shopify.com/api/reference/billing/applicationcharge
-type ApplicationChargeService interface {
+type ApplicationChargeRepository interface {
 	CreateApplicationCharge(ApplicationCharge) (*ApplicationCharge, error)
 	GetApplicationCharge(int64, interface{}) (*ApplicationCharge, error)
 	ListApplicationCharges(interface{}) ([]ApplicationCharge, error)
 	ActivateApplicationCharge(ApplicationCharge) (*ApplicationCharge, error)
 }
 
-type ApplicationChargeServiceOp struct {
+type ApplicationChargeClient struct {
 	client *Client
 }
 
@@ -38,48 +38,48 @@ type ApplicationCharge struct {
 	ConfirmationURL    string           `json:"confirmation_url"`
 }
 
-// ApplicationChargeResource represents the result from the
+// ApplicationChargeResponse represents the result from the
 // admin/application_charges{/X{/activate.json}.json}.json endpoints.
-type ApplicationChargeResource struct {
+type ApplicationChargeResponse struct {
 	Charge *ApplicationCharge `json:"application_charge"`
 }
 
 // ApplicationChargesResource represents the result from the
 // admin/application_charges.json endpoint.
-type ApplicationChargesResource struct {
+type ApplicationChargesResponse struct {
 	Charges []ApplicationCharge `json:"application_charges"`
 }
 
 // CreateApplicationCharge creates a new application charge.
 // It takes an ApplicationCharge parameter and returns a pointer to the created ApplicationCharge and an error, if any.
-func (a ApplicationChargeServiceOp) CreateApplicationCharge(charge ApplicationCharge) (*ApplicationCharge, error) {
+func (a ApplicationChargeClient) CreateApplicationCharge(charge ApplicationCharge) (*ApplicationCharge, error) {
 	path := fmt.Sprintf("%s.json", applicationChargesBasePath)
-	resource := &ApplicationChargeResource{}
-	return resource.Charge, a.client.Post(path, ApplicationChargeResource{Charge: &charge}, resource)
+	resource := &ApplicationChargeResponse{}
+	return resource.Charge, a.client.Post(path, ApplicationChargeResponse{Charge: &charge}, resource)
 }
 
 // GetApplicationCharge retrieves an individual application charge.
 // It takes the chargeID as an int64 and options as an interface{} parameter.
 // It returns a pointer to the retrieved ApplicationCharge and an error, if any.
-func (a ApplicationChargeServiceOp) GetApplicationCharge(chargeID int64, options interface{}) (*ApplicationCharge, error) {
+func (a ApplicationChargeClient) GetApplicationCharge(chargeID int64, options interface{}) (*ApplicationCharge, error) {
 	path := fmt.Sprintf("%s/%d.json", applicationChargesBasePath, chargeID)
-	resource := &ApplicationChargeResource{}
+	resource := &ApplicationChargeResponse{}
 	return resource.Charge, a.client.Get(path, resource, options)
 }
 
 // ListApplicationCharges retrieves all application charges.
 // It takes options as an interface{} parameter.
 // It returns a slice of ApplicationCharge and an error, if any.
-func (a ApplicationChargeServiceOp) ListApplicationCharges(options interface{}) ([]ApplicationCharge, error) {
+func (a ApplicationChargeClient) ListApplicationCharges(options interface{}) ([]ApplicationCharge, error) {
 	path := fmt.Sprintf("%s.json", applicationChargesBasePath)
-	resource := &ApplicationChargesResource{}
+	resource := &ApplicationChargesResponse{}
 	return resource.Charges, a.client.Get(path, resource, options)
 }
 
 // ActivateApplicationCharge activates an application charge.
 // It takes an ApplicationCharge parameter and returns a pointer to the activated ApplicationCharge and an error, if any.
-func (a ApplicationChargeServiceOp) ActivateApplicationCharge(charge ApplicationCharge) (*ApplicationCharge, error) {
+func (a ApplicationChargeClient) ActivateApplicationCharge(charge ApplicationCharge) (*ApplicationCharge, error) {
 	path := fmt.Sprintf("%s/%d/activate.json", applicationChargesBasePath, charge.ID)
-	resource := &ApplicationChargeResource{}
-	return resource.Charge, a.client.Post(path, ApplicationChargeResource{Charge: &charge}, resource)
+	resource := &ApplicationChargeResponse{}
+	return resource.Charge, a.client.Post(path, ApplicationChargeResponse{Charge: &charge}, resource)
 }

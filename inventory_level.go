@@ -7,19 +7,19 @@ import (
 
 const inventoryLevelsBasePath = "inventory_levels"
 
-// InventoryLevelService is an interface for interacting with the
+// InventoryLevelRepository is an interface for interacting with the
 // inventory items endpoints of the Shopify API
 // See https://help.shopify.com/en/api/reference/inventory/inventorylevel
-type InventoryLevelService interface {
-	List(interface{}) ([]InventoryLevel, error)
-	Adjust(interface{}) (*InventoryLevel, error)
-	Delete(int64, int64) error
-	Connect(InventoryLevel) (*InventoryLevel, error)
-	Set(InventoryLevel) (*InventoryLevel, error)
+type InventoryLevelRepository interface {
+	ListInventoryLevel(interface{}) ([]InventoryLevel, error)
+	AdjustInventoryLevel(interface{}) (*InventoryLevel, error)
+	DeleteInventoryLevel(int64, int64) error
+	ConnectInventoryLevel(InventoryLevel) (*InventoryLevel, error)
+	SetInventoryLevel(InventoryLevel) (*InventoryLevel, error)
 }
 
-// InventoryLevelServiceOp is the default implementation of the InventoryLevelService interface
-type InventoryLevelServiceOp struct {
+// InventoryLevelClient is the default implementation of the InventoryLevelRepository interface
+type InventoryLevelClient struct {
 	client *Client
 }
 
@@ -32,7 +32,6 @@ type InventoryLevel struct {
 	UpdatedAt         *time.Time `json:"updated_at,omitempty"`
 	AdminGraphqlApiId string     `json:"admin_graphql_api_id,omitempty"` //FIXME: Field Not Available In Latest Shopify Model
 }
-
 
 // InventoryLevelResource is used for handling single level requests and responses
 type InventoryLevelResource struct {
@@ -60,37 +59,37 @@ type InventoryLevelAdjustOptions struct {
 }
 
 // List inventory levels
-func (s *InventoryLevelServiceOp) List(options interface{}) ([]InventoryLevel, error) {
+func (ic *InventoryLevelClient) ListInventoryLevel(options interface{}) ([]InventoryLevel, error) {
 	path := fmt.Sprintf("%s.json", inventoryLevelsBasePath)
 	resource := new(InventoryLevelsResource)
-	err := s.client.Get(path, resource, options)
+	err := ic.client.Get(path, resource, options)
 	return resource.InventoryLevels, err
 }
 
 // Delete an inventory level
-func (s *InventoryLevelServiceOp) Delete(itemId, locationId int64) error {
+func (ic *InventoryLevelClient) DeleteInventoryLevel(itemId, locationId int64) error {
 	path := fmt.Sprintf("%s.json?inventory_item_id=%v&location_id=%v",
 		inventoryLevelsBasePath, itemId, locationId)
-	return s.client.Delete(path)
+	return ic.client.Delete(path)
 }
 
 // Connect an inventory level
-func (s *InventoryLevelServiceOp) Connect(level InventoryLevel) (*InventoryLevel, error) {
-	return s.post(fmt.Sprintf("%s/connect.json", inventoryLevelsBasePath), level)
+func (ic *InventoryLevelClient) ConnectInventoryLevel(level InventoryLevel) (*InventoryLevel, error) {
+	return ic.PostInventoryLevel(fmt.Sprintf("%s/connect.json", inventoryLevelsBasePath), level)
 }
 
 // Set an inventory level
-func (s *InventoryLevelServiceOp) Set(level InventoryLevel) (*InventoryLevel, error) {
-	return s.post(fmt.Sprintf("%s/set.json", inventoryLevelsBasePath), level)
+func (ic *InventoryLevelClient) SetInventoryLevel(level InventoryLevel) (*InventoryLevel, error) {
+	return ic.PostInventoryLevel(fmt.Sprintf("%s/set.json", inventoryLevelsBasePath), level)
 }
 
 // Adjust the inventory level of an inventory item at a single location
-func (s *InventoryLevelServiceOp) Adjust(options interface{}) (*InventoryLevel, error) {
-	return s.post(fmt.Sprintf("%s/adjust.json", inventoryLevelsBasePath), options)
+func (ic *InventoryLevelClient) AdjustInventoryLevel(options interface{}) (*InventoryLevel, error) {
+	return ic.PostInventoryLevel(fmt.Sprintf("%s/adjust.json", inventoryLevelsBasePath), options)
 }
 
-func (s *InventoryLevelServiceOp) post(path string, options interface{}) (*InventoryLevel, error) {
+func (ic *InventoryLevelClient) PostInventoryLevel(path string, options interface{}) (*InventoryLevel, error) {
 	resource := new(InventoryLevelResource)
-	err := s.client.Post(path, options, resource)
+	err := ic.client.Post(path, options, resource)
 	return resource.InventoryLevel, err
 }

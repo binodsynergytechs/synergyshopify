@@ -130,7 +130,7 @@ type Client struct {
 	ScriptTag                  ScriptTagRepository
 	RecurringApplicationCharge RecurringApplicationChargeRepository
 	UsageCharge                UsageChargeRepository
-	MetaField                  MetaFieldRepository
+	MetaFields                 MetaFieldsRepository
 	Blog                       BlogRepository
 	ApplicationCharge          ApplicationChargeRepository
 	Redirect                   RedirectRepository
@@ -146,7 +146,7 @@ type Client struct {
 	ProductListing             ProductListingRepository
 	InventoryLevel             InventoryLevelRepository
 	AccessScopes               AccessScopesRepository
-	Fulfillment                FulfillmentRepository
+	FulfillmentService         FulfillmentServiceRepository
 	Carrier                    CarrierRepository
 	Payouts                    PayoutsRepository
 	GiftCard                   GiftCardRepository
@@ -310,7 +310,7 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 	c.Asset = &AssetClient{client: c}
 	c.ScriptTag = &ScriptTagClient{client: c}
 	c.RecurringApplicationCharge = &RecurringApplicationChargeClient{client: c}
-	c.MetaField = &MetaFieldClient{client: c}
+	c.MetaFields = &MetaFieldClient{client: c}
 	c.Blog = &BlogClient{client: c}
 	c.ApplicationCharge = &ApplicationChargeClient{client: c}
 	c.Redirect = &RedirectClient{client: c}
@@ -327,7 +327,7 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 	c.ProductListing = &ProductListingClient{client: c}
 	c.InventoryLevel = &InventoryLevelClient{client: c}
 	c.AccessScopes = &AccessScopesClient{client: c}
-	c.Fulfillment = &FulfillmentServiceClient{client: c}
+	c.FulfillmentService = &FulfillmentServiceClient{client: c}
 	c.Carrier = &CarrierClient{client: c}
 	c.Payouts = &PayoutsClient{client: c}
 	c.GiftCard = &GiftCardClient{client: c}

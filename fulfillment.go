@@ -8,15 +8,15 @@ import (
 // FulfillmentsService is an interface for other Shopify resources
 // to interface with the fulfillment endpoints of the Shopify API.
 // https://help.shopify.com/api/reference/fulfillment
-type FulfillmentsRepository interface {
+type FulfillmentRepository interface {
 	ListFulfillments(int64, interface{}) ([]Fulfillment, error)
 	CountFulfillments(int64, interface{}) (int, error)
-	GetFulfillment(int64, int64, interface{}) (*Fulfillment, error)
-	CreateFulfillment(int64, Fulfillment) (*Fulfillment, error)
-	UpdateFulfillment(int64, Fulfillment) (*Fulfillment, error)
-	CompleteFulfillment(int64, int64) (*Fulfillment, error)
-	TransitionFulfillment(int64, int64) (*Fulfillment, error)
-	CancelFulfillment(int64, int64) (*Fulfillment, error)
+	GetFulfillments(int64, int64, interface{}) (*Fulfillment, error)
+	CreateFulfillments(int64, Fulfillment) (*Fulfillment, error)
+	UpdateFulfillments(int64, Fulfillment) (*Fulfillment, error)
+	CompleteFulfillments(int64, int64) (*Fulfillment, error)
+	TransitionFulfillments(int64, int64) (*Fulfillment, error)
+	CancelFulfillments(int64, int64) (*Fulfillment, error)
 }
 
 // FulfillmentClient handles communication with the fulfillment
@@ -75,7 +75,7 @@ type MultipleFulfillmentsResponse struct {
 }
 
 // List fulfillments
-func (fc *FulfillmentClient) List(options interface{}) ([]Fulfillment, error) {
+func (fc *FulfillmentClient) ListFulfillments(options interface{}) ([]Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%fc.json", prefix)
 	resource := new(MultipleFulfillmentsResponse)
@@ -84,14 +84,14 @@ func (fc *FulfillmentClient) List(options interface{}) ([]Fulfillment, error) {
 }
 
 // Count fulfillments
-func (fc *FulfillmentClient) Count(options interface{}) (int, error) {
+func (fc *FulfillmentClient) CountFulfillments(options interface{}) (int, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/count.json", prefix)
 	return fc.client.Count(path, options)
 }
 
 // Get individual fulfillment
-func (fc *FulfillmentClient) Get(fulfillmentID int64, options interface{}) (*Fulfillment, error) {
+func (fc *FulfillmentClient) GetFulfillments(fulfillmentID int64, options interface{}) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/%d.json", prefix, fulfillmentID)
 	resource := new(SingleFulfillmentResponse)
@@ -100,7 +100,7 @@ func (fc *FulfillmentClient) Get(fulfillmentID int64, options interface{}) (*Ful
 }
 
 // Create a new fulfillment
-func (fc *FulfillmentClient) Create(fulfillment Fulfillment) (*Fulfillment, error) {
+func (fc *FulfillmentClient) CreateFulfillments(fulfillment Fulfillment) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%fc.json", prefix)
 	wrappedData := SingleFulfillmentResponse{Fulfillment: &fulfillment}
@@ -110,7 +110,7 @@ func (fc *FulfillmentClient) Create(fulfillment Fulfillment) (*Fulfillment, erro
 }
 
 // Update an existing fulfillment
-func (fc *FulfillmentClient) Update(fulfillment Fulfillment) (*Fulfillment, error) {
+func (fc *FulfillmentClient) UpdateFulfillments(fulfillment Fulfillment) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/%d.json", prefix, fulfillment.ID)
 	wrappedData := SingleFulfillmentResponse{Fulfillment: &fulfillment}
@@ -120,7 +120,7 @@ func (fc *FulfillmentClient) Update(fulfillment Fulfillment) (*Fulfillment, erro
 }
 
 // Complete an existing fulfillment
-func (fc *FulfillmentClient) Complete(fulfillmentID int64) (*Fulfillment, error) {
+func (fc *FulfillmentClient) CompleteFulfillments(fulfillmentID int64) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/%d/complete.json", prefix, fulfillmentID)
 	resource := new(SingleFulfillmentResponse)
@@ -129,7 +129,7 @@ func (fc *FulfillmentClient) Complete(fulfillmentID int64) (*Fulfillment, error)
 }
 
 // Transition an existing fulfillment
-func (fc *FulfillmentClient) Transition(fulfillmentID int64) (*Fulfillment, error) {
+func (fc *FulfillmentClient) TransitionFulfillments(fulfillmentID int64) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/%d/open.json", prefix, fulfillmentID)
 	resource := new(SingleFulfillmentResponse)
@@ -138,7 +138,7 @@ func (fc *FulfillmentClient) Transition(fulfillmentID int64) (*Fulfillment, erro
 }
 
 // Cancel an existing fulfillment
-func (fc *FulfillmentClient) Cancel(fulfillmentID int64) (*Fulfillment, error) {
+func (fc *FulfillmentClient) CancelFulfillments(fulfillmentID int64) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/%d/cancel.json", prefix, fulfillmentID)
 	resource := new(SingleFulfillmentResponse)

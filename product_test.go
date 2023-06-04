@@ -421,12 +421,12 @@ func TestProductUpdateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Product.UpdateMetaField(1, metafield)
+	returnedMetaField, err := client.Product.UpdateMetaField(1, metafield)
 	if err != nil {
-		t.Errorf("Product.UpdateMetafield() returned error: %v", err)
+		t.Errorf("Product.UpdateMetaField() returned error: %v", err)
 	}
 
-	MetaFieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetaField)
 }
 
 func TestProductDeleteMetaField(t *testing.T) {
@@ -438,6 +438,6 @@ func TestProductDeleteMetaField(t *testing.T) {
 
 	err := client.Product.DeleteMetaField(1, 2)
 	if err != nil {
-		t.Errorf("Product.DeleteMetafield() returned error: %v", err)
+		t.Errorf("Product.DeleteMetaField() returned error: %v", err)
 	}
 }
