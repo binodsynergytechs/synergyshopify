@@ -128,7 +128,7 @@ func TestOrderListWithPagination(t *testing.T) {
 
 		httpmock.RegisterResponder("GET", listURL, httpmock.ResponderFromResponse(response))
 
-		orders, pagination, err := client.Order.ListWithPaginationOrder(nil)
+		orders, pagination, err := client.Order.ListOrderWithPagination(nil)
 		if !reflect.DeepEqual(orders, c.expectedOrders) {
 			t.Errorf("test %d Order.ListWithPagination orders returned %+v, expected %+v", i, orders, c.expectedOrders)
 		}
@@ -370,7 +370,7 @@ func TestOrderCreate(t *testing.T) {
 
 	order := Order{
 		LineItems: []LineItem{
-			{
+			LineItem{
 				VariantID: 1,
 				Quantity:  1,
 			},
@@ -471,25 +471,25 @@ func TestOrderOpen(t *testing.T) {
 	}
 }
 
-func TestOrderListMetafields(t *testing.T) {
+func TestOrderListMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.Order.ListMetaFields(1, nil)
+	metaFields, err := client.Order.ListMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("Order.ListMetafields() returned error: %v", err)
+		t.Errorf("Order.ListMetaFields() returned error: %v", err)
 	}
 
 	expected := []MetaField{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(metafields, expected) {
-		t.Errorf("Order.ListMetafields() returned %+v, expected %+v", metafields, expected)
+	if !reflect.DeepEqual(metaFields, expected) {
+		t.Errorf("Order.ListMetaFields() returned %+v, expected %+v", metaFields, expected)
 	}
 }
 
-func TestOrderCountMetafields(t *testing.T) {
+func TestOrderCountMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -505,23 +505,23 @@ func TestOrderCountMetafields(t *testing.T) {
 
 	cnt, err := client.Order.CountMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("Order.CountMetafields() returned error: %v", err)
+		t.Errorf("Order.CountMetaFields() returned error: %v", err)
 	}
 
 	expected := 3
 	if cnt != expected {
-		t.Errorf("Order.CountMetafields() returned %d, expected %d", cnt, expected)
+		t.Errorf("Order.CountMetaFields() returned %d, expected %d", cnt, expected)
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
 	cnt, err = client.Order.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
-		t.Errorf("Order.CountMetafields() returned error: %v", err)
+		t.Errorf("Order.CountMetaFields() returned error: %v", err)
 	}
 
 	expected = 2
 	if cnt != expected {
-		t.Errorf("Order.CountMetafields() returned %d, expected %d", cnt, expected)
+		t.Errorf("Order.CountMetaFields() returned %d, expected %d", cnt, expected)
 	}
 }
 
@@ -532,18 +532,18 @@ func TestOrderGetMetaField(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.Order.GetMetaField(1, 2, nil)
+	metaField, err := client.Order.GetMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("Order.GetMetaField() returned error: %v", err)
 	}
 
 	expected := &MetaField{ID: 2}
-	if !reflect.DeepEqual(metafield, expected) {
-		t.Errorf("Order.GetMetaField() returned %+v, expected %+v", metafield, expected)
+	if !reflect.DeepEqual(metaField, expected) {
+		t.Errorf("Order.GetMetaField() returned %+v, expected %+v", metaField, expected)
 	}
 }
 
-func TestOrderCreateMetaField(t *testing.T) {
+func TestOrderCreateMetafield(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -558,15 +558,15 @@ func TestOrderCreateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Order.CreateMetaField(1, metafield)
+	returnedMetaField, err := client.Order.CreateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Order.CreateMetaField() returned error: %v", err)
 	}
 
-	MetaFieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetaField)
 }
 
-func TestOrderUpdateMetaField(t *testing.T) {
+func TestOrderUpdateMetafield(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -582,12 +582,12 @@ func TestOrderUpdateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Order.UpdateMetaField(1, metafield)
+	returnedMetaField, err := client.Order.UpdateMetaField(1, metafield)
 	if err != nil {
-		t.Errorf("Order.UpdateMetaField() returned error: %v", err)
+		t.Errorf("Order.UpdateMetafield() returned error: %v", err)
 	}
 
-	MetaFieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetaField)
 }
 
 func TestOrderDeleteMetaField(t *testing.T) {
@@ -664,7 +664,7 @@ func TestOrderGetFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"fulfillment": {"id":2}}`))
 
-	fulfillment, err := client.Order.GetFulfillment(1, 2, nil)
+	fulfillment, err := client.Order.GetFulfillments(1, 2, nil)
 	if err != nil {
 		t.Errorf("Order.GetFulfillment() returned error: %v", err)
 	}
@@ -692,7 +692,7 @@ func TestOrderCreateFulfillment(t *testing.T) {
 		NotifyCustomer: true,
 	}
 
-	returnedFulfillment, err := client.Order.CreateFulfillment(1, fulfillment)
+	returnedFulfillment, err := client.Order.CreateFulfillments(1, fulfillment)
 	if err != nil {
 		t.Errorf("Order.CreateFulfillment() returned error: %v", err)
 	}
@@ -711,7 +711,7 @@ func TestOrderUpdateFulfillment(t *testing.T) {
 		ID:             1022782888,
 		TrackingNumber: "987654321",
 	}
-	returnedFulfillment, err := client.Order.UpdateFulfillment(1, fulfillment)
+	returnedFulfillment, err := client.Order.UpdateFulfillments(1, fulfillment)
 	if err != nil {
 		t.Errorf("Order.UpdateFulfillment() returned error: %v", err)
 	}
@@ -726,7 +726,7 @@ func TestOrderCompleteFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2/complete.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	returnedFulfillment, err := client.Order.CompleteFulfillment(1, 2)
+	returnedFulfillment, err := client.Order.CompleteFulfillments(1, 2)
 	if err != nil {
 		t.Errorf("Order.CompleteFulfillment() returned error: %v", err)
 	}
@@ -741,7 +741,7 @@ func TestOrderTransitionFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2/open.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	returnedFulfillment, err := client.Order.TransitionFulfillment(1, 2)
+	returnedFulfillment, err := client.Order.TransitionFulfillments(1, 2)
 	if err != nil {
 		t.Errorf("Order.TransitionFulfillment() returned error: %v", err)
 	}
@@ -756,7 +756,7 @@ func TestOrderCancelFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2/cancel.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	returnedFulfillment, err := client.Order.CancelFulfillment(1, 2)
+	returnedFulfillment, err := client.Order.CancelFulfillments(1, 2)
 	if err != nil {
 		t.Errorf("Order.CancelFulfillment() returned error: %v", err)
 	}
@@ -1045,8 +1045,8 @@ func testLineItem(t *testing.T, expected, actual LineItem) {
 		t.Errorf("LineItem.ProductExists should be (%v), was (%v)", expected.ProductExists, actual.ProductExists)
 	}
 
-	if actual.FullFillableQuantity != expected.FullFillableQuantity {
-		t.Errorf("LineItem.FulfillableQuantity should be (%v), was (%v)", expected.FullFillableQuantity, actual.FullFillableQuantity)
+	if actual.FulfillableQuantity != expected.FulfillableQuantity {
+		t.Errorf("LineItem.FulfillableQuantity should be (%v), was (%v)", expected.FulfillableQuantity, actual.FulfillableQuantity)
 	}
 
 	if actual.Grams != expected.Grams {
@@ -1175,7 +1175,7 @@ func propertiesEmptyStructLientItem() LineItem {
 func propertiesStructLientItem() LineItem {
 	return LineItem{
 		Properties: []NoteAttribute{
-			{
+			NoteAttribute{
 				Name:  "property 1",
 				Value: float64(3),
 			},
@@ -1211,26 +1211,26 @@ func validLineItem() LineItem {
 		VariantInventoryManagement: "shopify",
 		PreTaxPrice:                &preTaxPrice,
 		Properties: []NoteAttribute{
-			{
+			NoteAttribute{
 				Name:  "note 1",
 				Value: "one",
 			},
-			{
+			NoteAttribute{
 				Name:  "note 2",
 				Value: float64(2),
 			},
 		},
-		ProductExists:        true,
-		FullFillableQuantity: 1,
-		Grams:                100,
-		FulfillmentStatus:    "partial",
+		ProductExists:       true,
+		FulfillableQuantity: 1,
+		Grams:               100,
+		FulfillmentStatus:   "partial",
 		TaxLines: []TaxLine{
-			{
+			TaxLine{
 				Title: "State tax",
 				Price: &tl1Price,
 				Rate:  &tl1Rate,
 			},
-			{
+			TaxLine{
 				Title: "Federal tax",
 				Price: &tl2Price,
 				Rate:  &tl2Rate,

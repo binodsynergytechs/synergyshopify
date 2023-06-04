@@ -158,7 +158,7 @@ func TestSmartCollectionDelete(t *testing.T) {
 	}
 }
 
-func TestSmartCollectionListMetaFields(t *testing.T) {
+func TestSmartCollectionListMetafields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -176,7 +176,7 @@ func TestSmartCollectionListMetaFields(t *testing.T) {
 	}
 }
 
-func TestSmartCollectionCountMetafields(t *testing.T) {
+func TestSmartCollectionCountMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -192,23 +192,23 @@ func TestSmartCollectionCountMetafields(t *testing.T) {
 
 	cnt, err := client.SmartCollection.CountMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("SmartCollection.CountMetafields() returned error: %v", err)
+		t.Errorf("SmartCollection.CountMetaFields() returned error: %v", err)
 	}
 
 	expected := 3
 	if cnt != expected {
-		t.Errorf("SmartCollection.CountMetafields() returned %d, expected %d", cnt, expected)
+		t.Errorf("SmartCollection.CountMetaFields() returned %d, expected %d", cnt, expected)
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
 	cnt, err = client.SmartCollection.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
-		t.Errorf("SmartCollection.CountMetafields() returned error: %v", err)
+		t.Errorf("SmartCollection.CountMetaFields() returned error: %v", err)
 	}
 
 	expected = 2
 	if cnt != expected {
-		t.Errorf("SmartCollection.CountMetafields() returned %d, expected %d", cnt, expected)
+		t.Errorf("SmartCollection.CountMetaFields() returned %d, expected %d", cnt, expected)
 	}
 }
 
@@ -219,14 +219,14 @@ func TestSmartCollectionGetMetaField(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.SmartCollection.GetMetaField(1, 2, nil)
+	metaField, err := client.SmartCollection.GetMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("SmartCollection.GetMetaField() returned error: %v", err)
 	}
 
 	expected := &MetaField{ID: 2}
-	if !reflect.DeepEqual(metafield, expected) {
-		t.Errorf("SmartCollection.GetMetaField() returned %+v, expected %+v", metafield, expected)
+	if !reflect.DeepEqual(metaField, expected) {
+		t.Errorf("SmartCollection.GetMetaField() returned %+v, expected %+v", metaField, expected)
 	}
 }
 
@@ -245,15 +245,15 @@ func TestSmartCollectionCreateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.SmartCollection.CreateMetaField(1, metafield)
+	returnedMetaField, err := client.SmartCollection.CreateMetaField(1, metafield)
 	if err != nil {
-		t.Errorf("SmartCollection.CreateMetafield() returned error: %v", err)
+		t.Errorf("SmartCollection.CreateMetaField() returned error: %v", err)
 	}
 
-	MetaFieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetaField)
 }
 
-func TestSmartCollectionUpdateMetafield(t *testing.T) {
+func TestSmartCollectionUpdateMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -269,15 +269,15 @@ func TestSmartCollectionUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.SmartCollection.UpdateMetaField(1, metafield)
+	returnedMetaField, err := client.SmartCollection.UpdateMetaField(1, metafield)
 	if err != nil {
-		t.Errorf("SmartCollection.UpdateMetafield() returned error: %v", err)
+		t.Errorf("SmartCollection.UpdateMetaField() returned error: %v", err)
 	}
 
-	MetaFieldTests(t, *returnedMetafield)
+	MetaFieldTests(t, *returnedMetaField)
 }
 
-func TestSmartCollectionDeleteMetafield(t *testing.T) {
+func TestSmartCollectionDeleteMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -286,6 +286,6 @@ func TestSmartCollectionDeleteMetafield(t *testing.T) {
 
 	err := client.SmartCollection.DeleteMetaField(1, 2)
 	if err != nil {
-		t.Errorf("SmartCollection.DeleteMetafield() returned error: %v", err)
+		t.Errorf("SmartCollection.DeleteMetaField() returned error: %v", err)
 	}
 }

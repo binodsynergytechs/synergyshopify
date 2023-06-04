@@ -310,7 +310,7 @@ func TestProductDelete(t *testing.T) {
 	}
 }
 
-func TestProductListMetafields(t *testing.T) {
+func TestProductListMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -319,16 +319,16 @@ func TestProductListMetafields(t *testing.T) {
 
 	metafields, err := client.Product.ListMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("Product.ListMetafields() returned error: %v", err)
+		t.Errorf("Product.ListMetaFields() returned error: %v", err)
 	}
 
 	expected := []MetaField{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(metafields, expected) {
-		t.Errorf("Product.ListMetafields() returned %+v, expected %+v", metafields, expected)
+		t.Errorf("Product.ListMetaFields() returned %+v, expected %+v", metafields, expected)
 	}
 }
 
-func TestProductCountMetafields(t *testing.T) {
+func TestProductCountMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -344,23 +344,23 @@ func TestProductCountMetafields(t *testing.T) {
 
 	cnt, err := client.Product.CountMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("Product.CountMetafields() returned error: %v", err)
+		t.Errorf("Product.CountMetaFields() returned error: %v", err)
 	}
 
 	expected := 3
 	if cnt != expected {
-		t.Errorf("Product.CountMetafields() returned %d, expected %d", cnt, expected)
+		t.Errorf("Product.CountMetaFields() returned %d, expected %d", cnt, expected)
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
 	cnt, err = client.Product.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
-		t.Errorf("Product.CountMetafields() returned error: %v", err)
+		t.Errorf("Product.CountMetaFields() returned error: %v", err)
 	}
 
 	expected = 2
 	if cnt != expected {
-		t.Errorf("Product.CountMetafields() returned %d, expected %d", cnt, expected)
+		t.Errorf("Product.CountMetaFields() returned %d, expected %d", cnt, expected)
 	}
 }
 
@@ -412,7 +412,7 @@ func TestProductUpdateMetaField(t *testing.T) {
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metafield.json")))
 
-	metafield := MetaField{
+	metaField := MetaField{
 		ID:        2,
 		Key:       "app_key",
 		Value:     "app_value",
@@ -421,7 +421,7 @@ func TestProductUpdateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.Product.UpdateMetaField(1, metafield)
+	returnedMetaField, err := client.Product.UpdateMetaField(1, metaField)
 	if err != nil {
 		t.Errorf("Product.UpdateMetaField() returned error: %v", err)
 	}

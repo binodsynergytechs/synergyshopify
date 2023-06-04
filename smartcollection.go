@@ -6,7 +6,7 @@ import (
 )
 
 const smartCollectionsBasePath = "smart_collections"
-const smartCollectionsResourceName = "collections"
+const MultiplesmartCollectionsResponseName = "collections"
 
 // SmartCollectionRepository is an interface for interacting with the smart
 // collection endpoints of the Shopify API.
@@ -19,8 +19,8 @@ type SmartCollectionRepository interface {
 	UpdateSmartCollection(SmartCollection) (*SmartCollection, error)
 	DeleteSmartCollection(int64) error
 
-	// MetafieldsService used for SmartCollection resource to communicate with Metafields resource
-	MetaFieldRepository
+	// MetaFieldsService used for SmartCollection resource to communicate with Metafields resource
+	MetaFieldsRepository
 }
 
 // SmartCollectionClient handles communication with the smart collection
@@ -45,30 +45,28 @@ type SmartCollection struct {
 	SortOrder      string      `json:"sort_order"`
 	TemplateSuffix string      `json:"template_suffix"`
 	Image          Image       `json:"image"`
-	Published      bool        `json:"published"` // FIXME: Not Available In Latest Shopify Model 23/04
+	Published      bool        `json:"published"`
 	PublishedAt    *time.Time  `json:"published_at"`
 	PublishedScope string      `json:"published_scope"`
 	Rules          []Rule      `json:"rules"`
 	Disjunctive    bool        `json:"disjunctive"`
-	MetaFields     []MetaField `json:"metafields,omitempty"` // FIXME: Not Available In Latest Shopify Model 23/04
+	MetaFields     []MetaField `json:"metafields,omitempty"`
 }
 
-//TODO: latest from shopify 23/04
-
-// SmartCollectionResource represents the result from the smart_collections/X.json endpoint
-type SmartCollectionResource struct {
+// SingleSmartCollectionResponse represents the result from the smart_collections/X.json endpoint
+type SingleSmartCollectionResponse struct {
 	Collection *SmartCollection `json:"smart_collection"`
 }
 
-// SmartCollectionsResource represents the result from the smart_collections.json endpoint
-type SmartCollectionsResource struct {
+// MultipleSmartCollectionsResponse represents the result from the smart_collections.json endpoint
+type MultipleSmartCollectionsResponse struct {
 	Collections []SmartCollection `json:"smart_collections"`
 }
 
 // List smart collections
 func (s *SmartCollectionClient) ListSmartCollection(options interface{}) ([]SmartCollection, error) {
 	path := fmt.Sprintf("%s.json", smartCollectionsBasePath)
-	resource := new(SmartCollectionsResource)
+	resource := new(MultipleSmartCollectionsResponse)
 	err := s.client.Get(path, resource, options)
 	return resource.Collections, err
 }
@@ -82,7 +80,7 @@ func (s *SmartCollectionClient) CountSmartCollection(options interface{}) (int, 
 // Get individual smart collection
 func (s *SmartCollectionClient) GetSmartCollection(collectionID int64, options interface{}) (*SmartCollection, error) {
 	path := fmt.Sprintf("%s/%d.json", smartCollectionsBasePath, collectionID)
-	resource := new(SmartCollectionResource)
+	resource := new(SingleSmartCollectionResponse)
 	err := s.client.Get(path, resource, options)
 	return resource.Collection, err
 }
@@ -91,8 +89,8 @@ func (s *SmartCollectionClient) GetSmartCollection(collectionID int64, options i
 // See Image for the details of the Image creation for a collection.
 func (s *SmartCollectionClient) CreateSmartCollection(collection SmartCollection) (*SmartCollection, error) {
 	path := fmt.Sprintf("%s.json", smartCollectionsBasePath)
-	wrappedData := SmartCollectionResource{Collection: &collection}
-	resource := new(SmartCollectionResource)
+	wrappedData := SingleSmartCollectionResponse{Collection: &collection}
+	resource := new(SingleSmartCollectionResponse)
 	err := s.client.Post(path, wrappedData, resource)
 	return resource.Collection, err
 }
@@ -100,8 +98,8 @@ func (s *SmartCollectionClient) CreateSmartCollection(collection SmartCollection
 // Update an existing smart collection
 func (s *SmartCollectionClient) UpdateSmartCollection(collection SmartCollection) (*SmartCollection, error) {
 	path := fmt.Sprintf("%s/%d.json", smartCollectionsBasePath, collection.ID)
-	wrappedData := SmartCollectionResource{Collection: &collection}
-	resource := new(SmartCollectionResource)
+	wrappedData := SingleSmartCollectionResponse{Collection: &collection}
+	resource := new(SingleSmartCollectionResponse)
 	err := s.client.Put(path, wrappedData, resource)
 	return resource.Collection, err
 }
@@ -111,38 +109,38 @@ func (s *SmartCollectionClient) DeleteSmartCollection(collectionID int64) error 
 	return s.client.Delete(fmt.Sprintf("%s/%d.json", smartCollectionsBasePath, collectionID))
 }
 
-// List metafields for a smart collection
+// List metaFields for a smart collection
 func (s *SmartCollectionClient) ListMetaFields(smartCollectionID int64, options interface{}) ([]MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
-	return metaFieldService.ListMetaFields(options)
+	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
+	return mField.ListMetaField(options)
 }
 
 // Count metaFields for a smart collection
 func (s *SmartCollectionClient) CountMetaFields(smartCollectionID int64, options interface{}) (int, error) {
-	metaFieldService := &MetaFieldClient{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
-	return metaFieldService.CountMetaFields(options)
+	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
+	return mField.CountMetaField(options)
 }
 
 // Get individual metaField for a smart collection
 func (s *SmartCollectionClient) GetMetaField(smartCollectionID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
-	return metaFieldService.GetMetaFields(metaFieldID, options)
+	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
+	return mField.GetMetaField(metaFieldID, options)
 }
 
 // Create a new metaField for a smart collection
 func (s *SmartCollectionClient) CreateMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
-	return metaFieldService.CreateMetaFields(metaField)
+	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
+	return mField.CreateMetaField(metaField)
 }
 
 // Update an existing metaField for a smart collection
 func (s *SmartCollectionClient) UpdateMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
-	return metaFieldService.UpdateMetaFields(metaField)
+	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
+	return mField.UpdateMetaField(metaField)
 }
 
 // // Delete an existing metaField for a smart collection
 func (s *SmartCollectionClient) DeleteMetaField(smartCollectionID int64, metaFieldID int64) error {
-	metaFieldService := &MetaFieldClient{client: s.client, resource: smartCollectionsResourceName, resourceID: smartCollectionID}
-	return metaFieldService.DeleteMetaFields(metaFieldID)
+	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
+	return mField.DeleteMetaField(metaFieldID)
 }

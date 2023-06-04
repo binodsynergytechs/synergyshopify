@@ -169,7 +169,7 @@ func TestCollectionListProducts(t *testing.T) {
 				},
 			},
 			TemplateSuffix:    "special",
-			AdminGraphqlApiId: "gid://shopify/Location/4688969785",
+			AdminGraphqlApiID: "gid://shopify/Location/4688969785",
 		},
 	}
 	if !reflect.DeepEqual(products, expected) {
@@ -304,7 +304,7 @@ func TestListProductsWithPagination(t *testing.T) {
 				},
 			},
 			TemplateSuffix:    "special",
-			AdminGraphqlApiId: "gid://shopify/Location/4688969785",
+			AdminGraphqlApiID: "gid://shopify/Location/4688969785",
 		},
 	}
 	if !reflect.DeepEqual(products, expectedProducts) {

@@ -37,14 +37,14 @@ type Collection struct {
 }
 
 // Represents the result from the collections/X.json endpoint
-type CollectionResource struct {
+type CollectionResponse struct {
 	Collection *Collection `json:"collection"`
 }
 
 // Get individual collection
 func (cc *CollectionClient) GetCollection(collectionID int64, options interface{}) (*Collection, error) {
 	path := fmt.Sprintf("%s/%d.json", collectionsBasePath, collectionID)
-	resource := new(CollectionResource)
+	resource := new(CollectionResponse)
 	err := cc.client.Get(path, resource, options)
 	return resource.Collection, err
 }

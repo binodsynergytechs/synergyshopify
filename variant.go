@@ -8,7 +8,7 @@ import (
 )
 
 const variantsBasePath = "variants"
-const variantsResourceName = "variants"
+const MultipleVariantsResponseName = "variants"
 
 // VariantRepository is an interface for interacting with the variant endpoints
 // of the Shopify API.
@@ -21,8 +21,8 @@ type VariantRepository interface {
 	UpdateVariant(Variant) (*Variant, error)
 	DeleteVariant(int64, int64) error
 
-	// MetaFieldsRepository used for Variant resource to communicate with MetaFields resource
-	MetaFieldRepository
+	// MetaFieldsService used for Variant resource to communicate with MetaFields resource
+	MetaFieldsRepository
 }
 
 // VariantClient handles communication with the variant related methods of
@@ -36,7 +36,7 @@ type Variant struct {
 	ID                   int64            `json:"id,omitempty"`
 	ProductID            int64            `json:"product_id,omitempty"`
 	Title                string           `json:"title,omitempty"`
-	SKU                  string           `json:"sku,omitempty"`
+	Sku                  string           `json:"sku,omitempty"`
 	Position             int              `json:"position,omitempty"`
 	Grams                int              `json:"grams,omitempty"`
 	InventoryPolicy      string           `json:"inventory_policy,omitempty"`
@@ -57,106 +57,99 @@ type Variant struct {
 	InventoryQuantity    int              `json:"inventory_quantity,omitempty"`
 	Weight               *decimal.Decimal `json:"weight,omitempty"`
 	WeightUnit           string           `json:"weight_unit,omitempty"`
-	AdminGraphqlApiId    string           `json:"admin_graphql_api_id,omitempty"`
-	MetaFields           []MetaField      `json:"metaFields,omitempty"`
-	PresentmentPrices    []Price          `json:"presentment_prices"`               //TODO: New Field Added In Shopify
-	OldInventoryQuantity int              `json:"old_inventory_quantity,omitempty"` //FIXME: deprecated field
-	RequireShipping      bool             `json:"requires_shipping"`                //FIXME: deprecated field
+	OldInventoryQuantity int              `json:"old_inventory_quantity,omitempty"`
+	RequireShipping      bool             `json:"requires_shipping"`
+	AdminGraphqlApiID    string           `json:"admin_graphql_api_id,omitempty"`
+	MetaFields           []MetaField      `json:"metafields,omitempty"`
 }
 
-// TODO: New Struct Added In Shopify
-type Price struct {
-	CurrencyCode string `json:"currency_code"`
-	Amount       string `json:"amount"`
-}
-
-// VariantResource represents the result from the variants/X.json endpoint
-type VariantResource struct {
+// SingleVariantResponse represents the result from the variants/X.json endpoint
+type SingleVariantResponse struct {
 	Variant *Variant `json:"variant"`
 }
 
-// VariantsResource represents the result from the products/X/variants.json endpoint
-type VariantsResource struct {
+// MultipleVariantsResponse represents the result from the products/X/variants.json endpoint
+type MultipleVariantsResponse struct {
 	Variants []Variant `json:"variants"`
 }
 
 // List variants
-func (vs *VariantClient) ListVariant(productID int64, options interface{}) ([]Variant, error) {
+func (vc *VariantClient) ListVariant(productID int64, options interface{}) ([]Variant, error) {
 	path := fmt.Sprintf("%s/%d/variants.json", productsBasePath, productID)
-	resource := new(VariantsResource)
-	err := vs.client.Get(path, resource, options)
+	resource := new(MultipleVariantsResponse)
+	err := vc.client.Get(path, resource, options)
 	return resource.Variants, err
 }
 
 // Count variants
-func (vs *VariantClient) CountVariant(productID int64, options interface{}) (int, error) {
+func (vc *VariantClient) CountVariant(productID int64, options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/%d/variants/count.json", productsBasePath, productID)
-	return vs.client.Count(path, options)
+	return vc.client.Count(path, options)
 }
 
 // Get individual variant
-func (vs *VariantClient) GetVariant(variantID int64, options interface{}) (*Variant, error) {
+func (vc *VariantClient) GetVariant(variantID int64, options interface{}) (*Variant, error) {
 	path := fmt.Sprintf("%s/%d.json", variantsBasePath, variantID)
-	resource := new(VariantResource)
-	err := vs.client.Get(path, resource, options)
+	resource := new(SingleVariantResponse)
+	err := vc.client.Get(path, resource, options)
 	return resource.Variant, err
 }
 
 // Create a new variant
-func (vs *VariantClient) CreateVariant(productID int64, variant Variant) (*Variant, error) {
+func (vc *VariantClient) CreateVariant(productID int64, variant Variant) (*Variant, error) {
 	path := fmt.Sprintf("%s/%d/variants.json", productsBasePath, productID)
-	wrappedData := VariantResource{Variant: &variant}
-	resource := new(VariantResource)
-	err := vs.client.Post(path, wrappedData, resource)
+	wrappedData := SingleVariantResponse{Variant: &variant}
+	resource := new(SingleVariantResponse)
+	err := vc.client.Post(path, wrappedData, resource)
 	return resource.Variant, err
 }
 
 // Update existing variant
-func (vs *VariantClient) UpdateVariant(variant Variant) (*Variant, error) {
+func (vc *VariantClient) UpdateVariant(variant Variant) (*Variant, error) {
 	path := fmt.Sprintf("%s/%d.json", variantsBasePath, variant.ID)
-	wrappedData := VariantResource{Variant: &variant}
-	resource := new(VariantResource)
-	err := vs.client.Put(path, wrappedData, resource)
+	wrappedData := SingleVariantResponse{Variant: &variant}
+	resource := new(SingleVariantResponse)
+	err := vc.client.Put(path, wrappedData, resource)
 	return resource.Variant, err
 }
 
 // Delete an existing variant
-func (vs *VariantClient) DeleteVariant(productID int64, variantID int64) error {
-	return vs.client.Delete(fmt.Sprintf("%s/%d/variants/%d.json", productsBasePath, productID, variantID))
+func (vc *VariantClient) DeleteVariant(productID int64, variantID int64) error {
+	return vc.client.Delete(fmt.Sprintf("%s/%d/variants/%d.json", productsBasePath, productID, variantID))
 }
 
-// ListMetaFields for a variant
-func (vs *VariantClient) ListMetaFields(variantID int64, options interface{}) ([]MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: vs.client, resource: variantsResourceName, resourceID: variantID}
-	return metaFieldService.ListMetaFields(options)
+// ListMetafields for a variant
+func (vc *VariantClient) ListMetaFields(variantID int64, options interface{}) ([]MetaField, error) {
+	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
+	return metaField.ListMetaField(options)
 }
 
-// CountMetaFields for a variant
-func (vs *VariantClient) CountMetaFields(variantID int64, options interface{}) (int, error) {
-	metaFieldService := &MetaFieldClient{client: vs.client, resource: variantsResourceName, resourceID: variantID}
-	return metaFieldService.CountMetaFields(options)
+// CountMetafields for a variant
+func (vc *VariantClient) CountMetaFields(variantID int64, options interface{}) (int, error) {
+	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
+	return metaField.CountMetaField(options)
 }
 
-// GetMetaField for a variant
-func (vs *VariantClient) GetMetaField(variantID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: vs.client, resource: variantsResourceName, resourceID: variantID}
-	return metaFieldService.GetMetaFields(metaFieldID, options)
+// GetMetafield for a variant
+func (vc *VariantClient) GetMetaField(variantID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
+	return metaField.GetMetaField(metaFieldID, options)
 }
 
-// CreateMetaField for a variant
-func (vs *VariantClient) CreateMetaField(variantID int64, metaField MetaField) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: vs.client, resource: variantsResourceName, resourceID: variantID}
-	return metaFieldService.CreateMetaFields(metaField)
+// CreateMetafield for a variant
+func (vc *VariantClient) CreateMetaField(variantID int64, metaFielD MetaField) (*MetaField, error) {
+	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
+	return metaField.CreateMetaField(metaFielD)
 }
 
-// UpdateMetaField for a variant
-func (vs *VariantClient) UpdateMetaField(variantID int64, metaField MetaField) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: vs.client, resource: variantsResourceName, resourceID: variantID}
-	return metaFieldService.UpdateMetaFields(metaField)
+// UpdateMetafield for a variant
+func (vc *VariantClient) UpdateMetaField(variantID int64, metaFielD MetaField) (*MetaField, error) {
+	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
+	return metaField.UpdateMetaField(metaFielD)
 }
 
-// DeleteMetaField for a variant
-func (vs *VariantClient) DeleteMetaField(variantID int64, metaFieldID int64) error {
-	metaFieldService := &MetaFieldClient{client: vs.client, resource: variantsResourceName, resourceID: variantID}
-	return metaFieldService.DeleteMetaFields(metaFieldID)
+// DeleteMetafield for a variant
+func (vc *VariantClient) DeleteMetaField(variantID int64, metaFieldID int64) error {
+	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
+	return metaField.DeleteMetaField(metaFieldID)
 }

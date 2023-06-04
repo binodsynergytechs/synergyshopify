@@ -28,13 +28,13 @@ func variantTests(t *testing.T, variant Variant) {
 		t.Errorf("Variant.InventoryItemId returned %+v, expected %+v", variant.InventoryItemId, expectedInventoryItemId)
 	}
 
-	expectedMetaFieldCount := 0
-	if len(variant.MetaFields) != expectedMetaFieldCount {
-		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.MetaFields, expectedMetaFieldCount)
+	expectedMetafieldCount := 0
+	if len(variant.MetaFields) != expectedMetafieldCount {
+		t.Errorf("Variant.Metafield returned %+v, expected %+v", variant.MetaFields, expectedMetafieldCount)
 	}
 }
 
-func variantWithMetafieldsTests(t *testing.T, variant Variant) {
+func variantWithMetaFieldsTests(t *testing.T, variant Variant) {
 	// Check that the ID is assigned to the returned variant
 	expectedInt := int64(2)
 	if variant.ID != expectedInt {
@@ -155,7 +155,7 @@ func TestVariantCreate(t *testing.T) {
 	variantTests(t, *result)
 }
 
-func TestVariantCreateWithMetaFields(t *testing.T) {
+func TestVariantCreateWithMetafields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -172,7 +172,7 @@ func TestVariantCreateWithMetaFields(t *testing.T) {
 	if err != nil {
 		t.Errorf("Variant.Create returned error: %v", err)
 	}
-	variantWithMetafieldsTests(t, *result)
+	variantWithMetaFieldsTests(t, *result)
 }
 
 func TestVariantUpdate(t *testing.T) {
@@ -222,7 +222,7 @@ func TestVariantWithMetaFieldsUpdate(t *testing.T) {
 		t.Errorf("Variant.Update returned error: %v", err)
 	}
 
-	variantWithMetafieldsTests(t, *returnedVariant)
+	variantWithMetaFieldsTests(t, *returnedVariant)
 }
 
 func TestVariantDelete(t *testing.T) {
@@ -245,18 +245,18 @@ func TestVariantListMetaFields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metaFields, err := client.Variant.ListVariant(1, nil)
+	metafields, err := client.Variant.ListMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("Variant.ListMetaFields() returned error: %v", err)
+		t.Errorf("Variant.ListMetafields() returned error: %v", err)
 	}
 
 	expected := []MetaField{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(metaFields, expected) {
-		t.Errorf("Variant.ListMetaFields() returned %+v, expected %+v", metaFields, expected)
+	if !reflect.DeepEqual(metafields, expected) {
+		t.Errorf("Variant.ListMetafields() returned %+v, expected %+v", metafields, expected)
 	}
 }
 
-func TestVariantCountMetaFields(t *testing.T) {
+func TestVariantCountMetafields(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -270,7 +270,7 @@ func TestVariantCountMetaFields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Variant.CountVariant(1, nil)
+	cnt, err := client.Variant.CountMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("Variant.CountMetafields() returned error: %v", err)
 	}
@@ -281,7 +281,7 @@ func TestVariantCountMetaFields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Variant.CountVariant(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.Variant.CountMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Variant.CountMetafields() returned error: %v", err)
 	}
@@ -299,7 +299,7 @@ func TestVariantGetMetafield(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/variants/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.Variant.GetVariant(1, 2, nil)
+	metafield, err := client.Variant.GetMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("Variant.GetMetafield() returned error: %v", err)
 	}
@@ -325,12 +325,12 @@ func TestVariantCreateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.Variant.CountVariant(1, metafield)
+	returnedMetafield, err := client.Variant.CreateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Variant.CreateMetafield() returned error: %v", err)
 	}
 
-	MetaFieldTests(t, *returnedMetaField)
+	MetaFieldTests(t, *returnedMetafield)
 }
 
 func TestVariantUpdateMetafield(t *testing.T) {
@@ -349,7 +349,7 @@ func TestVariantUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Variant.UpdateVariant(1, metafield)
+	returnedMetafield, err := client.Variant.UpdateMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Variant.UpdateMetafield() returned error: %v", err)
 	}

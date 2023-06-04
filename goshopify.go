@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"path"
@@ -45,35 +46,6 @@ type App struct {
 	Password    string
 	Client      *Client // see GetAccessToken
 }
-
-//TODO:
-// type App struct {
-// 	AppID                      string  `json:"apiKey"`
-// 	AppStoreAppUrl              string  `json:"appStoreAppUrl"`
-// 	AppStoreAppDeveloperUrl     string  `json:"appStoreDeveloperUrl"`
-// 	AvailableAccessScopes      []string `json:"availableAccessScopes"`
-// 	FailedRequirements          []string `json:"failedRequirements"`
-// 	Features                     []string `json:"features"`
-// 	Feedback                      string  `json:"feedback"`
-// 	Handle                       string  `json:"handle"`
-// 	Icon                          string  `json:"icon"`
-// 	ID                            string  `json:"id"`
-// 	InstallUrl                    string  `json:"installUrl"`
-// 	Installation                   *bool   `json:"installation"`
-// 	IsPostPurchaseAppInUse         bool    `json:"isPostPurchaseAppInUse"`
-// 	PreviouslyInstalled           bool    `json:"previouslyInstalled"`
-// 	PricingDetails                string  `json:"pricingDetails"`
-// 	PricingDetailsSummary          string  `json:"pricingDetailsSummary"`
-// 	PrivacyPolicyUrl               string  `json:"privacyPolicyUrl"`
-// 	PublicCategory                 AppPublicCategory `json:"publicCategory"`
-// 	Title                          string  `json:"title"`
-// 	UninstallMessage               string  `json:"uninstallMessage"`
-// 	WebhookApiVersion               string  `json:"webhookApiVersion"`
-// 	ShopifyDeveloped                bool    `json:"shopifyDeveloped"`
-// 	Title                          string  `json:"title"`
-// }
-//TODO:
-// AppPublicCategory = []string{"CUSTOM","OTHER","PRIVATE","PUBLIC"}
 
 type RateLimitInfo struct {
 	RequestCount      int
@@ -130,7 +102,7 @@ type Client struct {
 	ScriptTag                  ScriptTagRepository
 	RecurringApplicationCharge RecurringApplicationChargeRepository
 	UsageCharge                UsageChargeRepository
-	MetaFields                 MetaFieldsRepository
+	MetaField                  MetaFieldRepository
 	Blog                       BlogRepository
 	ApplicationCharge          ApplicationChargeRepository
 	Redirect                   RedirectRepository
@@ -310,7 +282,7 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 	c.Asset = &AssetClient{client: c}
 	c.ScriptTag = &ScriptTagClient{client: c}
 	c.RecurringApplicationCharge = &RecurringApplicationChargeClient{client: c}
-	c.MetaFields = &MetaFieldClient{client: c}
+	c.MetaField = &MetaFieldClient{client: c}
 	c.Blog = &BlogClient{client: c}
 	c.ApplicationCharge = &ApplicationChargeClient{client: c}
 	c.Redirect = &RedirectClient{client: c}
@@ -455,11 +427,11 @@ func (c *Client) logBody(body *io.ReadCloser, format string) {
 	if body == nil {
 		return
 	}
-	b, _ := io.ReadAll(*body)
+	b, _ := ioutil.ReadAll(*body)
 	if len(b) > 0 {
 		c.log.Debugf(format, string(b))
 	}
-	*body = io.NopCloser(bytes.NewBuffer(b))
+	*body = ioutil.NopCloser(bytes.NewBuffer(b))
 }
 
 func wrapSpecificError(r *http.Response, err ResponseError) error {
@@ -496,7 +468,7 @@ func CheckResponseError(r *http.Response) error {
 		Errors interface{} `json:"errors"`
 	}{}
 
-	bodyBytes, err := io.ReadAll(r.Body)
+	bodyBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}

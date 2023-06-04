@@ -7,12 +7,12 @@ import (
 )
 
 const productsBasePath = "products"
-const MultipleProductsResponseName = "products"
+const MultipleproductsResponseName = "products"
 
 // linkRegex is used to extract pagination links from product search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
-// ProductService is an interface for interfacing with the product endpoints
+// ProductRepository is an interface for interfacing with the product endpoints
 // of the Shopify API.
 // See: https://help.shopify.com/api/reference/product
 type ProductRepository interface {
@@ -23,9 +23,7 @@ type ProductRepository interface {
 	CreateProduct(Product) (*Product, error)
 	UpdateProduct(Product) (*Product, error)
 	DeleteProduct(int64) error
-
-	// MetaFieldsService used for Product resource to communicate with Metafields resource
-	MetaFieldRepository
+	MetaFieldsRepository
 }
 
 // ProductClient handles communication with the product related methods of
@@ -51,14 +49,15 @@ type Product struct {
 	Options                        []ProductOption `json:"options,omitempty"`
 	Variants                       []Variant       `json:"variants,omitempty"`
 	Image                          Image           `json:"image,omitempty"`
+	Images                         []Image         `json:"images,omitempty"`
 	TemplateSuffix                 string          `json:"template_suffix,omitempty"`
-	Images                         []Image         `json:"images,omitempty"`                            // FIXME: Not Available In Latest Shopify Update
-	MetaFieldsGlobalTitleTag       string          `json:"metafields_global_title_tag,omitempty"`       // FIXME: Not Available In Latest Shopify Update
-	MetaFieldsGlobalDescriptionTag string          `json:"metafields_global_description_tag,omitempty"` // FIXME: Not Available In Latest Shopify Update
-	MetaFields                     []MetaField     `json:"metafields,omitempty"`                        // FIXME: Not Available In Latest Shopify Update
-	AdminGraphqlApiId              string          `json:"admin_graphql_api_id,omitempty"`              // FIXME: Not Available In Latest Shopify Update
+	MetaFieldsGlobalTitleTag       string          `json:"metafields_global_title_tag,omitempty"`
+	MetaFieldsGlobalDescriptionTag string          `json:"metafields_global_description_tag,omitempty"`
+	MetaFields                     []MetaField     `json:"metafields,omitempty"`
+	AdminGraphqlApiID              string          `json:"admin_graphql_api_id,omitempty"`
 }
 
+// The options provided by Shopify
 type ProductOption struct {
 	ID        int64    `json:"id,omitempty"`
 	ProductID int64    `json:"product_id,omitempty"`
@@ -96,8 +95,8 @@ type Pagination struct {
 }
 
 // List products
-func (pc *ProductClient) ListProduct(options interface{}) ([]Product, error) {
-	products, _, err := pc.ListProductWithPagination(options)
+func (s *ProductClient) ListProduct(options interface{}) ([]Product, error) {
+	products, _, err := s.ListProductWithPagination(options)
 	if err != nil {
 		return nil, err
 	}
@@ -105,11 +104,11 @@ func (pc *ProductClient) ListProduct(options interface{}) ([]Product, error) {
 }
 
 // ListWithPagination lists products and return pagination to retrieve next/previous results.
-func (pc *ProductClient) ListProductWithPagination(options interface{}) ([]Product, *Pagination, error) {
+func (s *ProductClient) ListProductWithPagination(options interface{}) ([]Product, *Pagination, error) {
 	path := fmt.Sprintf("%s.json", productsBasePath)
 	resource := new(MultipleProductsResponse)
 
-	pagination, err := pc.client.ListWithPagination(path, resource, options)
+	pagination, err := s.client.ListWithPagination(path, resource, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -118,74 +117,67 @@ func (pc *ProductClient) ListProductWithPagination(options interface{}) ([]Produ
 }
 
 // Count products
-func (pc *ProductClient) CountProduct(options interface{}) (int, error) {
+func (s *ProductClient) CountProduct(options interface{}) (int, error) {
 	path := fmt.Sprintf("%s/count.json", productsBasePath)
-	return pc.client.Count(path, options)
+	return s.client.Count(path, options)
 }
 
 // Get individual product
-func (pc *ProductClient) GetProduct(productID int64, options interface{}) (*Product, error) {
+func (s *ProductClient) GetProduct(productID int64, options interface{}) (*Product, error) {
 	path := fmt.Sprintf("%s/%d.json", productsBasePath, productID)
 	resource := new(SingleProductResponse)
-	err := pc.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options)
 	return resource.Product, err
 }
 
 // Create a new product
-func (pc *ProductClient) CreateProduct(product Product) (*Product, error) {
+func (s *ProductClient) CreateProduct(product Product) (*Product, error) {
 	path := fmt.Sprintf("%s.json", productsBasePath)
 	wrappedData := SingleProductResponse{Product: &product}
 	resource := new(SingleProductResponse)
-	err := pc.client.Post(path, wrappedData, resource)
+	err := s.client.Post(path, wrappedData, resource)
 	return resource.Product, err
 }
 
 // Update an existing product
-func (pc *ProductClient) UpdateProduct(product Product) (*Product, error) {
+func (s *ProductClient) UpdateProduct(product Product) (*Product, error) {
 	path := fmt.Sprintf("%s/%d.json", productsBasePath, product.ID)
 	wrappedData := SingleProductResponse{Product: &product}
 	resource := new(SingleProductResponse)
-	err := pc.client.Put(path, wrappedData, resource)
+	err := s.client.Put(path, wrappedData, resource)
 	return resource.Product, err
 }
 
-// Delete an existing product
-func (pc *ProductClient) DeleteProduct(productID int64) error {
-	return pc.client.Delete(fmt.Sprintf("%s/%d.json", productsBasePath, productID))
+func (s *ProductClient) DeleteProduct(productID int64) error {
+	return s.client.Delete(fmt.Sprintf("%s/%d.json", productsBasePath, productID))
 }
 
-// ListMetafields for a product
-func (pc *ProductClient) ListMetaFields(productID int64, options interface{}) ([]MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
-	return metaFieldService.ListMetaFields(options)
+func (s *ProductClient) ListMetaFields(productID int64, options interface{}) ([]MetaField, error) {
+	mField := &MetaFieldClient{client: s.client, resource: MultipleproductsResponseName, resourceID: productID}
+	return mField.ListMetaField(options)
 }
 
-// Count metafields for a product
-func (pc *ProductClient) CountMetaFields(productID int64, options interface{}) (int, error) {
-	metaFieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
-	return metaFieldService.CountMetaFields(options)
+func (s *ProductClient) CountMetaFields(productID int64, options interface{}) (int, error) {
+	mField := &MetaFieldClient{client: s.client, resource: MultipleproductsResponseName, resourceID: productID}
+	return mField.CountMetaField(options)
 }
 
-// GetMetaField for a product
-func (pc *ProductClient) GetMetaField(productID int64, metafieldID int64, options interface{}) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
-	return metaFieldService.GetMetaFields(metafieldID, options)
+func (s *ProductClient) GetMetaField(productID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+	mField := &MetaFieldClient{client: s.client, resource: MultipleproductsResponseName, resourceID: productID}
+	return mField.GetMetaField(metaFieldID, options)
 }
 
-// CreateMetaField for a product
-func (pc *ProductClient) CreateMetaField(productID int64, metafield MetaField) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
-	return metaFieldService.CreateMetaFields(metafield)
+func (s *ProductClient) CreateMetaField(productID int64, metaField MetaField) (*MetaField, error) {
+	mField := &MetaFieldClient{client: s.client, resource: MultipleproductsResponseName, resourceID: productID}
+	return mField.CreateMetaField(metaField)
 }
 
-// UpdateMetaField for a product
-func (pc *ProductClient) UpdateMetaField(productID int64, metafield MetaField) (*MetaField, error) {
-	metaFieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
-	return metaFieldService.UpdateMetaFields(metafield)
+func (s *ProductClient) UpdateMetaField(productID int64, metaField MetaField) (*MetaField, error) {
+	mField := &MetaFieldClient{client: s.client, resource: MultipleproductsResponseName, resourceID: productID}
+	return mField.UpdateMetaField(metaField)
 }
 
-// DeleteMetaField for a product
-func (pc *ProductClient) DeleteMetaField(productID int64, metafieldID int64) error {
-	metaFieldService := &MetaFieldClient{client: pc.client, resource: MultipleProductsResponseName, resourceID: productID}
-	return metaFieldService.DeleteMetaFields(metafieldID)
+func (s *ProductClient) DeleteMetaField(productID int64, metaFieldID int64) error {
+	mField := &MetaFieldClient{client: s.client, resource: MultipleproductsResponseName, resourceID: productID}
+	return mField.DeleteMetaField(metaFieldID)
 }
