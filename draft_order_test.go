@@ -278,21 +278,38 @@ func TestDraftOrderCompletePending(t *testing.T) {
 	draftOrderTests(t, *draftOrder)
 }
 
+// func TestDraftOrderListMetaFields(t *testing.T) {
+// 	setup()
+// 	defer teardown()
+
+// 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields.json", client.pathPrefix),
+// 		httpmock.NewStringResponder(200, `{"metaFields": [{"id":1},{"id":2}]}`))
+
+// 	metaFields, err := client.DraftOrder.ListDraftOrderMetaFields(1, nil)
+// 	if err != nil {
+// 		t.Errorf("DraftOrder.ListMetaFields() returned error: %v", err)
+// 	}
+
+//		expected := []MetaField{{ID: 1}, {ID: 2}}
+//		if !reflect.DeepEqual(metaFields, expected) {
+//			t.Errorf("Order.ListMetaFields() returned %+v, expected %+v", metaFields, expected)
+//		}
+//	}
 func TestDraftOrderListMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields.json", client.pathPrefix),
-		httpmock.NewStringResponder(200, `{"metaFields": [{"id":1},{"id":2}]}`))
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields.json", client.pathPrefix),
+		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
 	metaFields, err := client.DraftOrder.ListDraftOrderMetaFields(1, nil)
 	if err != nil {
-		t.Errorf("DraftOrder.ListMetaFields() returned error: %v", err)
+		t.Errorf("client.DraftOrder.ListDraftOrderMetaFields() returned error: %v", err)
 	}
 
 	expected := []MetaField{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(metaFields, expected) {
-		t.Errorf("Order.ListMetaFields() returned %+v, expected %+v", metaFields, expected)
+		t.Errorf("client.DraftOrder.ListDraftOrderMetaFields() returned %+v, expected %+v", metaFields, expected)
 	}
 }
 
@@ -300,13 +317,13 @@ func TestDraftOrderCountMetaFields(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/count.json", client.pathPrefix),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields/count.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"count": 3}`))
 
 	params := map[string]string{"created_at_min": "2016-01-01T00:00:00Z"}
 	httpmock.RegisterResponderWithQuery(
 		"GET",
-		fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/count.json", client.pathPrefix),
+		fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields/count.json", client.pathPrefix),
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
@@ -336,7 +353,7 @@ func TestDraftOrderGetMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/2.json", client.pathPrefix),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metaField": {"id":2}}`))
 
 	metaField, err := client.DraftOrder.GetDraftOrderMetaFields(1, 2, nil)
@@ -350,12 +367,54 @@ func TestDraftOrderGetMetaField(t *testing.T) {
 	}
 }
 
+// func TestDraftOrderCreateMetaField(t *testing.T) {
+// 	setup()
+// 	defer teardown()
+
+// 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields.json", client.pathPrefix),
+// 		httpmock.NewBytesResponder(200, loadFixture("metaField.json")))
+
+// 	metaField := MetaField{
+// 		Key:       "app_key",
+// 		Value:     "app_value",
+// 		ValueType: "string",
+// 		Namespace: "affiliates",
+// 	}
+
+// 	returnedMetaField, err := client.DraftOrder.CreateDraftOrderMetaFields(1, metaField)
+// 	if err != nil {
+// 		t.Errorf("Order.CreateMetaField() returned error: %v", err)
+// 	}
+
+//		MetaFieldTests(t, *returnedMetaField)
+//	}
+// func TestDraftOrderCreateMetaField(t *testing.T) {
+// 	setup()
+// 	defer teardown()
+
+// 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields.json", client.pathPrefix),
+// 		httpmock.NewJsonResponderOrPanic(200, loadFixture("metaField.json")))
+
+// 	metaField := MetaField{
+// 		Key:       "app_key",
+// 		Value:     "app_value",
+// 		ValueType: "string",
+// 		Namespace: "affiliates",
+// 	}
+
+// 	returnedMetaField, err := client.DraftOrder.CreateDraftOrderMetaFields(1, metaField)
+// 	if err != nil {
+// 		t.Errorf("client.DraftOrder.CreateDraftOrderMetaField() returned error: %v", err)
+// 	}
+
+//		MetaFieldTests(t, *returnedMetaField)
+//	}
 func TestDraftOrderCreateMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields.json", client.pathPrefix),
-		httpmock.NewBytesResponder(200, loadFixture("metaField.json")))
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields.json", client.pathPrefix),
+		httpmock.NewJsonResponderOrPanic(200, loadFixture("metaField.json")))
 
 	metaField := MetaField{
 		Key:       "app_key",
@@ -366,17 +425,16 @@ func TestDraftOrderCreateMetaField(t *testing.T) {
 
 	returnedMetaField, err := client.DraftOrder.CreateDraftOrderMetaFields(1, metaField)
 	if err != nil {
-		t.Errorf("Order.CreateMetaField() returned error: %v", err)
+		t.Fatalf("client.DraftOrder.CreateDraftOrderMetaFields() returned error: %v", err)
 	}
 
 	MetaFieldTests(t, *returnedMetaField)
 }
-
 func TestDraftOrderUpdateMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/2.json", client.pathPrefix),
+	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("metaField.json")))
 
 	metaField := MetaField{
@@ -399,7 +457,7 @@ func TestDraftOrderDeleteMetaField(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/2.json", client.pathPrefix),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
 	err := client.DraftOrder.DeleteDraftOrderMetaFields(1, 2)

@@ -141,6 +141,29 @@ func TestImageGet(t *testing.T) {
 	imageTests(t, *image)
 }
 
+// func TestImageCreate(t *testing.T) {
+// 	setup()
+// 	defer teardown()
+
+// 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/images.json", client.pathPrefix),
+// 		httpmock.NewBytesResponder(200, loadFixture("image.json")))
+
+// 	variantIds := make([]int64, 2)
+// 	variantIds[0] = 808950810
+// 	variantIds[1] = 808950811
+
+// 	image := Image{
+// 		Src:        "https://cdn.shopify.com/s/files/1/0006/9093/3842/products/ipod-nano.png?v=1500937783",
+// 		VariantIds: variantIds,
+// 	}
+// 	returnedImage, err := client.Image.CreateImage(1, image)
+// 	if err != nil {
+// 		t.Errorf("Image.Create returned error %v", err)
+// 	}
+
+// 	imageTests(t, *returnedImage)
+// }
+
 func TestImageCreate(t *testing.T) {
 	setup()
 	defer teardown()
@@ -148,22 +171,20 @@ func TestImageCreate(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/images.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("image.json")))
 
-	variantIds := make([]int64, 2)
-	variantIds[0] = 808950810
-	variantIds[1] = 808950811
+	variantIds := []int64{808950810, 808950811}
 
 	image := Image{
 		Src:        "https://cdn.shopify.com/s/files/1/0006/9093/3842/products/ipod-nano.png?v=1500937783",
 		VariantIds: variantIds,
 	}
+
 	returnedImage, err := client.Image.CreateImage(1, image)
 	if err != nil {
-		t.Errorf("Image.Create returned error %v", err)
+		t.Fatalf("client.Image.CreateImage returned error: %v", err)
 	}
 
 	imageTests(t, *returnedImage)
 }
-
 func TestImageUpdate(t *testing.T) {
 	setup()
 	defer teardown()

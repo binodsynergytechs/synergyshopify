@@ -56,12 +56,12 @@ const (
 )
 
 // Represents the result from the payouts/X.json endpoint
-type PayoutResource struct {
+type SinglePayoutResponse struct {
 	Payout *Payout `json:"payout"`
 }
 
 // Represents the result from the payouts.json endpoint
-type PayoutsResource struct {
+type MultiplePayoutsResponse struct {
 	Payouts []Payout `json:"payouts"`
 }
 
@@ -76,7 +76,7 @@ func (pc *PayoutsClient) ListPayouts(options interface{}) ([]Payout, error) {
 
 func (pc *PayoutsClient) ListWithPaginationPayouts(options interface{}) ([]Payout, *Pagination, error) {
 	path := fmt.Sprintf("%s.json", payoutsBasePath)
-	resource := new(PayoutsResource)
+	resource := new(MultiplePayoutsResponse)
 
 	pagination, err := pc.client.ListWithPagination(path, resource, options)
 	if err != nil {
@@ -87,9 +87,30 @@ func (pc *PayoutsClient) ListWithPaginationPayouts(options interface{}) ([]Payou
 }
 
 // Get individual payout
+
+// func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
+// 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
+// 	resource := new(PayoutResource)
+// 	err := pc.client.Get(path, resource, options)
+// 	if err != nil {
+// 		return resource.Payout, err
+// 	}
+// 	return resource.Payout, nil
+// }
+
+// func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
+// 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
+// 	resource := new(PayoutResource)
+// 	err := pc.client.Get(path, resource, options)
+// 	return resource.Payout, err
+// }
+
 func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
-	resource := new(PayoutResource)
+	resource := &SinglePayoutResponse{} // Initialize an empty PayoutResource
 	err := pc.client.Get(path, resource, options)
-	return resource.Payout, err
+	if err != nil {
+		return nil, err
+	}
+	return resource.Payout, nil
 }
