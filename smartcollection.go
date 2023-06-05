@@ -18,9 +18,14 @@ type SmartCollectionRepository interface {
 	CreateSmartCollection(SmartCollection) (*SmartCollection, error)
 	UpdateSmartCollection(SmartCollection) (*SmartCollection, error)
 	DeleteSmartCollection(int64) error
-
+	ListSmartCollectionMetaFields(smartCollectionID int64, options interface{}) ([]MetaField, error)
+	CountSmartCollectionMetaFields(smartCollectionID int64, options interface{}) (int, error)
+	GetSmartCollectionMetaField(smartCollectionID int64, metaFieldID int64, options interface{}) (*MetaField, error)
+	CreateSmartCollectionMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error)
+	UpdateSmartCollectionMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error)
+	DeleteSmartCollectionMetaField(smartCollectionID int64, metaFieldID int64) error
 	// MetaFieldsService used for SmartCollection resource to communicate with Metafields resource
-	MetaFieldsRepository
+	// MetaFieldsRepository
 }
 
 // SmartCollectionClient handles communication with the smart collection
@@ -110,37 +115,37 @@ func (s *SmartCollectionClient) DeleteSmartCollection(collectionID int64) error 
 }
 
 // List metaFields for a smart collection
-func (s *SmartCollectionClient) ListMetaFields(smartCollectionID int64, options interface{}) ([]MetaField, error) {
+func (s *SmartCollectionClient) ListSmartCollectionMetaFields(smartCollectionID int64, options interface{}) ([]MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
 	return mField.ListMetaField(options)
 }
 
 // Count metaFields for a smart collection
-func (s *SmartCollectionClient) CountMetaFields(smartCollectionID int64, options interface{}) (int, error) {
+func (s *SmartCollectionClient) CountSmartCollectionMetaFields(smartCollectionID int64, options interface{}) (int, error) {
 	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
 	return mField.CountMetaField(options)
 }
 
 // Get individual metaField for a smart collection
-func (s *SmartCollectionClient) GetMetaField(smartCollectionID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+func (s *SmartCollectionClient) GetSmartCollectionMetaField(smartCollectionID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
 	return mField.GetMetaField(metaFieldID, options)
 }
 
 // Create a new metaField for a smart collection
-func (s *SmartCollectionClient) CreateMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error) {
+func (s *SmartCollectionClient) CreateSmartCollectionMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
 	return mField.CreateMetaField(metaField)
 }
 
 // Update an existing metaField for a smart collection
-func (s *SmartCollectionClient) UpdateMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error) {
+func (s *SmartCollectionClient) UpdateSmartCollectionMetaField(smartCollectionID int64, metaField MetaField) (*MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
 	return mField.UpdateMetaField(metaField)
 }
 
 // // Delete an existing metaField for a smart collection
-func (s *SmartCollectionClient) DeleteMetaField(smartCollectionID int64, metaFieldID int64) error {
+func (s *SmartCollectionClient) DeleteSmartCollectionMetaField(smartCollectionID int64, metaFieldID int64) error {
 	mField := &MetaFieldClient{client: s.client, resource: MultiplesmartCollectionsResponseName, resourceID: smartCollectionID}
 	return mField.DeleteMetaField(metaFieldID)
 }

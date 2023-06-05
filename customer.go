@@ -26,7 +26,12 @@ type CustomerRepository interface {
 	ListTags(interface{}) ([]string, error)
 
 	// MetaFieldsRepository used for Customer resource to communicate with MetaFields resource
-	MetaFieldRepository
+	ListCustomerMetaField(customerID int64, options interface{}) ([]MetaField, error)
+	CountCustomerMetaField(customerID int64, options interface{}) (int, error)
+	GetCustomerMetaField(customerID int64, metaFieldID int64, options interface{}) (*MetaField, error)
+	CreateCustomerMetaField(customerID int64, metaField MetaField) (*MetaField, error)
+	UpdateCustomerMetaField(customerID int64, metaField MetaField) (*MetaField, error)
+	DeleteCustomerMetaField(customerID int64, metaFieldID int64) error
 }
 
 // CustomerClient handles communication with the product related methods of
@@ -174,37 +179,37 @@ func (cc *CustomerClient) ListTags(options interface{}) ([]string, error) {
 }
 
 // List metaFields for a customer
-func (cc *CustomerClient) ListMetaField(customerID int64, options interface{}) ([]MetaField, error) {
+func (cc *CustomerClient) ListCustomerMetaField(customerID int64, options interface{}) ([]MetaField, error) {
 	mField := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
 	return mField.ListMetaField(options)
 }
 
 // Count metaFields for a customer
-func (cc *CustomerClient) CountMetaField(customerID int64, options interface{}) (int, error) {
+func (cc *CustomerClient) CountCustomerMetaField(customerID int64, options interface{}) (int, error) {
 	mField := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
 	return mField.CountMetaField(options)
 }
 
 // Get individual metaField for a customer
-func (cc *CustomerClient) GetMetaField(customerID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+func (cc *CustomerClient) GetCustomerMetaField(customerID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	mField := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
 	return mField.GetMetaField(metaFieldID, options)
 }
 
 // Create a new metaField for a customer
-func (cc *CustomerClient) CreateMetaField(customerID int64, metaField MetaField) (*MetaField, error) {
+func (cc *CustomerClient) CreateCustomerMetaField(customerID int64, metaField MetaField) (*MetaField, error) {
 	mField := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
 	return mField.CreateMetaField(metaField)
 }
 
 // Update an existing metaField for a customer
-func (cc *CustomerClient) UpdateMetaField(customerID int64, metaField MetaField) (*MetaField, error) {
+func (cc *CustomerClient) UpdateCustomerMetaField(customerID int64, metaField MetaField) (*MetaField, error) {
 	mField := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
 	return mField.UpdateMetaField(metaField)
 }
 
 // // Delete an existing metaField for a customer
-func (cc *CustomerClient) DeleteMetaField(customerID int64, metaFieldID int64) error {
+func (cc *CustomerClient) DeleteCustomerMetaField(customerID int64, metaFieldID int64) error {
 	mField := &MetaFieldClient{client: cc.client, resource: MultipleCustomersResponseName, resourceID: customerID}
 	return mField.DeleteMetaField(metaFieldID)
 }

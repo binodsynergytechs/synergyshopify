@@ -18,10 +18,15 @@ type PageRepository interface {
 	CreatePage(Page) (*Page, error)
 	UpdatePage(Page) (*Page, error)
 	DeletePage(int64) error
-
+	ListPageMetaFields(pageID int64, options interface{}) ([]MetaField, error)
+	CountPageMetaFields(pageID int64, options interface{}) (int, error)
+	GetPageMetaField(pageID int64, metaFieldID int64, options interface{}) (*MetaField, error)
+	CreatePageMetaField(pageID int64, metaField MetaField) (*MetaField, error)
+	UpdatePageMetaField(pageID int64, metaField MetaField) (*MetaField, error)
+	DeletePageMetaField(pageID int64, metaFieldID int64) error
 	// MetafieldsService used for Pages resource to communicate with Metafields
 	// resource
-	MetaFieldsRepository
+	// MetaFieldsRepository
 }
 
 // PageClient handles communication with the page related methods of the
@@ -101,37 +106,37 @@ func (pc *PageClient) DeletePage(pageID int64) error {
 }
 
 // List metaFields for a page
-func (pc *PageClient) ListMetaFields(pageID int64, options interface{}) ([]MetaField, error) {
+func (pc *PageClient) ListPageMetaFields(pageID int64, options interface{}) ([]MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: pc.client, resource: pagesResourceName, resourceID: pageID}
 	return metaFieldService.ListMetaField(options)
 }
 
 // Count metaFields for a page
-func (pc *PageClient) CountMetaFields(pageID int64, options interface{}) (int, error) {
+func (pc *PageClient) CountPageMetaFields(pageID int64, options interface{}) (int, error) {
 	metaFieldService := &MetaFieldClient{client: pc.client, resource: pagesResourceName, resourceID: pageID}
 	return metaFieldService.CountMetaField(options)
 }
 
 // Get individual metafield for a page
-func (pc *PageClient) GetMetaField(pageID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+func (pc *PageClient) GetPageMetaField(pageID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: pc.client, resource: pagesResourceName, resourceID: pageID}
 	return metaFieldService.GetMetaField(metaFieldID, options)
 }
 
 // Create a new metafield for a page
-func (pc *PageClient) CreateMetaField(pageID int64, metaField MetaField) (*MetaField, error) {
+func (pc *PageClient) CreatePageMetaField(pageID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: pc.client, resource: pagesResourceName, resourceID: pageID}
 	return metaFieldService.CreateMetaField(metaField)
 }
 
 // Update an existing metafield for a page
-func (pc *PageClient) UpdateMetaField(pageID int64, metaField MetaField) (*MetaField, error) {
+func (pc *PageClient) UpdatePageMetaField(pageID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: pc.client, resource: pagesResourceName, resourceID: pageID}
 	return metaFieldService.UpdateMetaField(metaField)
 }
 
 // Delete an existing metafield for a page
-func (pc *PageClient) DeleteMetaField(pageID int64, metaFieldID int64) error {
+func (pc *PageClient) DeletePageMetaField(pageID int64, metaFieldID int64) error {
 	metaFieldService := &MetaFieldClient{client: pc.client, resource: pagesResourceName, resourceID: pageID}
 	return metaFieldService.DeleteMetaField(metaFieldID)
 }

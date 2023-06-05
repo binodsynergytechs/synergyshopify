@@ -23,10 +23,10 @@ type MetaFieldRepository interface {
 type MetaFieldsRepository interface {
 	ListMetaFields(int64, interface{}) ([]MetaField, error)
 	CountMetaFields(int64, interface{}) (int, error)
-	GetMetaField(int64, int64, interface{}) (*MetaField, error)
-	CreateMetaField(int64, MetaField) (*MetaField, error)
-	UpdateMetaField(int64, MetaField) (*MetaField, error)
-	DeleteMetaField(int64, int64) error
+	GetMetaFields(int64, int64, interface{}) (*MetaField, error)
+	CreateMetaFields(int64, MetaField) (*MetaField, error)
+	UpdateMetaFields(int64, MetaField) (*MetaField, error)
+	DeleteMetaFields(int64, int64) error
 }
 
 // MetaFieldClient handles communication with the metaField

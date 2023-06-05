@@ -370,7 +370,7 @@ func TestOrderCreate(t *testing.T) {
 
 	order := Order{
 		LineItems: []LineItem{
-			LineItem{
+			{
 				VariantID: 1,
 				Quantity:  1,
 			},
@@ -478,7 +478,7 @@ func TestOrderListMetaFields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metaFields, err := client.Order.ListMetaFields(1, nil)
+	metaFields, err := client.Order.ListOrderMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("Order.ListMetaFields() returned error: %v", err)
 	}
@@ -503,7 +503,7 @@ func TestOrderCountMetaFields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Order.CountMetaFields(1, nil)
+	cnt, err := client.Order.CountOrderMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("Order.CountMetaFields() returned error: %v", err)
 	}
@@ -514,7 +514,7 @@ func TestOrderCountMetaFields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Order.CountMetaFields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.Order.CountOrderMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Order.CountMetaFields() returned error: %v", err)
 	}
@@ -532,7 +532,7 @@ func TestOrderGetMetaField(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metaField, err := client.Order.GetMetaField(1, 2, nil)
+	metaField, err := client.Order.GetOrderMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("Order.GetMetaField() returned error: %v", err)
 	}
@@ -558,7 +558,7 @@ func TestOrderCreateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.Order.CreateMetaField(1, metafield)
+	returnedMetaField, err := client.Order.CreateOrderMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Order.CreateMetaField() returned error: %v", err)
 	}
@@ -582,7 +582,7 @@ func TestOrderUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.Order.UpdateMetaField(1, metafield)
+	returnedMetaField, err := client.Order.UpdateOrderMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Order.UpdateMetafield() returned error: %v", err)
 	}
@@ -597,7 +597,7 @@ func TestOrderDeleteMetaField(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Order.DeleteMetaField(1, 2)
+	err := client.Order.DeleteOrderMetaField(1, 2)
 	if err != nil {
 		t.Errorf("Order.DeleteMetaField() returned error: %v", err)
 	}
@@ -664,7 +664,7 @@ func TestOrderGetFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"fulfillment": {"id":2}}`))
 
-	fulfillment, err := client.Order.GetFulfillments(1, 2, nil)
+	fulfillment, err := client.Order.GetFulfillment(1, 2, nil)
 	if err != nil {
 		t.Errorf("Order.GetFulfillment() returned error: %v", err)
 	}
@@ -692,7 +692,7 @@ func TestOrderCreateFulfillment(t *testing.T) {
 		NotifyCustomer: true,
 	}
 
-	returnedFulfillment, err := client.Order.CreateFulfillments(1, fulfillment)
+	returnedFulfillment, err := client.Order.CreateFulfillment(1, fulfillment)
 	if err != nil {
 		t.Errorf("Order.CreateFulfillment() returned error: %v", err)
 	}
@@ -711,7 +711,7 @@ func TestOrderUpdateFulfillment(t *testing.T) {
 		ID:             1022782888,
 		TrackingNumber: "987654321",
 	}
-	returnedFulfillment, err := client.Order.UpdateFulfillments(1, fulfillment)
+	returnedFulfillment, err := client.Order.UpdateFulfillment(1, fulfillment)
 	if err != nil {
 		t.Errorf("Order.UpdateFulfillment() returned error: %v", err)
 	}
@@ -726,7 +726,7 @@ func TestOrderCompleteFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2/complete.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	returnedFulfillment, err := client.Order.CompleteFulfillments(1, 2)
+	returnedFulfillment, err := client.Order.CompleteFulfillment(1, 2)
 	if err != nil {
 		t.Errorf("Order.CompleteFulfillment() returned error: %v", err)
 	}
@@ -741,7 +741,7 @@ func TestOrderTransitionFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2/open.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	returnedFulfillment, err := client.Order.TransitionFulfillments(1, 2)
+	returnedFulfillment, err := client.Order.TransitionFulfillment(1, 2)
 	if err != nil {
 		t.Errorf("Order.TransitionFulfillment() returned error: %v", err)
 	}
@@ -756,7 +756,7 @@ func TestOrderCancelFulfillment(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/orders/1/fulfillments/2/cancel.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("fulfillment.json")))
 
-	returnedFulfillment, err := client.Order.CancelFulfillments(1, 2)
+	returnedFulfillment, err := client.Order.CancelFulfillment(1, 2)
 	if err != nil {
 		t.Errorf("Order.CancelFulfillment() returned error: %v", err)
 	}
@@ -1175,7 +1175,7 @@ func propertiesEmptyStructLientItem() LineItem {
 func propertiesStructLientItem() LineItem {
 	return LineItem{
 		Properties: []NoteAttribute{
-			NoteAttribute{
+			{
 				Name:  "property 1",
 				Value: float64(3),
 			},
@@ -1211,11 +1211,11 @@ func validLineItem() LineItem {
 		VariantInventoryManagement: "shopify",
 		PreTaxPrice:                &preTaxPrice,
 		Properties: []NoteAttribute{
-			NoteAttribute{
+			{
 				Name:  "note 1",
 				Value: "one",
 			},
-			NoteAttribute{
+			{
 				Name:  "note 2",
 				Value: float64(2),
 			},
@@ -1225,12 +1225,12 @@ func validLineItem() LineItem {
 		Grams:               100,
 		FulfillmentStatus:   "partial",
 		TaxLines: []TaxLine{
-			TaxLine{
+			{
 				Title: "State tax",
 				Price: &tl1Price,
 				Rate:  &tl1Rate,
 			},
-			TaxLine{
+			{
 				Title: "Federal tax",
 				Price: &tl2Price,
 				Rate:  &tl2Rate,

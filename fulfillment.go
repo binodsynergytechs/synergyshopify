@@ -9,14 +9,23 @@ import (
 // to interface with the fulfillment endpoints of the Shopify API.
 // https://help.shopify.com/api/reference/fulfillment
 type FulfillmentRepository interface {
-	ListFulfillments(int64, interface{}) ([]Fulfillment, error)
-	CountFulfillments(int64, interface{}) (int, error)
-	GetFulfillments(int64, int64, interface{}) (*Fulfillment, error)
-	CreateFulfillments(int64, Fulfillment) (*Fulfillment, error)
-	UpdateFulfillments(int64, Fulfillment) (*Fulfillment, error)
-	CompleteFulfillments(int64, int64) (*Fulfillment, error)
-	TransitionFulfillments(int64, int64) (*Fulfillment, error)
-	CancelFulfillments(int64, int64) (*Fulfillment, error)
+	// ListFulfillments(int64, interface{}) ([]Fulfillment, error)
+	// CountFulfillments(int64, interface{}) (int, error)
+	// GetFulfillments(int64, int64, interface{}) (*Fulfillment, error)
+	// CreateFulfillments(int64, Fulfillment) (*Fulfillment, error)
+	// UpdateFulfillments(int64, Fulfillment) (*Fulfillment, error)
+	// CompleteFulfillments(int64, int64) (*Fulfillment, error)
+	// TransitionFulfillments(int64, int64) (*Fulfillment, error)
+	// // CancelFulfillments(int64, int64) (*Fulfillment, error)
+	// CancelFulfillments(fulfillmentID, cancelReasonID int64) (*Fulfillment, error)
+	ListFulfillments(options interface{}) ([]Fulfillment, error)
+	CountFulfillments(options interface{}) (int, error)
+	GetFulfillments(fulfillmentID int64, options interface{}) (*Fulfillment, error)
+	CreateFulfillments(fulfillment Fulfillment) (*Fulfillment, error)
+	UpdateFulfillments(fulfillment Fulfillment) (*Fulfillment, error)
+	CompleteFulfillments(fulfillmentID int64) (*Fulfillment, error)
+	TransitionFulfillments(fulfillmentID int64) (*Fulfillment, error)
+	CancelFulfillments(fulfillmentID int64) (*Fulfillment, error)
 }
 
 // FulfillmentClient handles communication with the fulfillment
@@ -77,7 +86,9 @@ type MultipleFulfillmentsResponse struct {
 // List fulfillments
 func (fc *FulfillmentClient) ListFulfillments(options interface{}) ([]Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
-	path := fmt.Sprintf("%fc.json", prefix)
+	// path := fmt.Sprintf("%fc.json", prefix)
+	path := fmt.Sprintf("%s.json", prefix)
+
 	resource := new(MultipleFulfillmentsResponse)
 	err := fc.client.Get(path, resource, options)
 	return resource.Fulfillments, err
@@ -102,7 +113,7 @@ func (fc *FulfillmentClient) GetFulfillments(fulfillmentID int64, options interf
 // Create a new fulfillment
 func (fc *FulfillmentClient) CreateFulfillments(fulfillment Fulfillment) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
-	path := fmt.Sprintf("%fc.json", prefix)
+	path := fmt.Sprintf("%s.json", prefix)
 	wrappedData := SingleFulfillmentResponse{Fulfillment: &fulfillment}
 	resource := new(SingleFulfillmentResponse)
 	err := fc.client.Post(path, wrappedData, resource)
@@ -138,6 +149,7 @@ func (fc *FulfillmentClient) TransitionFulfillments(fulfillmentID int64) (*Fulfi
 }
 
 // Cancel an existing fulfillment
+
 func (fc *FulfillmentClient) CancelFulfillments(fulfillmentID int64) (*Fulfillment, error) {
 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
 	path := fmt.Sprintf("%s/%d/cancel.json", prefix, fulfillmentID)
@@ -145,3 +157,13 @@ func (fc *FulfillmentClient) CancelFulfillments(fulfillmentID int64) (*Fulfillme
 	err := fc.client.Post(path, nil, resource)
 	return resource.Fulfillment, err
 }
+
+//
+// Cancel an existing fulfillment
+// func (fc *FulfillmentClient) CancelFulfillments(fulfillmentID, cancelReasonID int64) (*Fulfillment, error) {
+// 	prefix := FulfillmentPathPrefix(fc.resource, fc.resourceID)
+// 	path := fmt.Sprintf("%s/%d/cancel.json", prefix, fulfillmentID)
+// 	resource := new(SingleFulfillmentResponse)
+// 	err := fc.client.Post(path, nil, resource)
+// 	return resource.Fulfillment, err
+// }

@@ -24,9 +24,13 @@ type DraftOrderRepository interface {
 	DeleteDraftOrder(int64) error
 	InvoiceDraftOrder(int64, DraftOrderInvoice) (*DraftOrderInvoice, error)
 	CompleteDraftOrder(int64, bool) (*DraftOrder, error)
-
 	// MetaFieldsRepository used for DrafT Order resource to communicate with MetaFields resource
-	MetaFieldRepository
+	ListDraftOrderMetaFields(draftOrderID int64, options interface{}) ([]MetaField, error)
+	CountDraftOrderMetaFields(draftOrderID int64, options interface{}) (int, error)
+	GetDraftOrderMetaFields(draftOrderID int64, metaFieldID int64, options interface{}) (*MetaField, error)
+	CreateDraftOrderMetaFields(draftOrderID int64, metaField MetaField) (*MetaField, error)
+	UpdateDraftOrderMetaFields(draftOrderID int64, metaField MetaField) (*MetaField, error)
+	DeleteDraftOrderMetaFields(draftOrderID int64, metaFieldID int64) error
 }
 
 // DraftOrderClient handles communication with the draft order related methods of the
@@ -185,37 +189,37 @@ func (s *DraftOrderClient) CompleteDraftOrder(draftOrderID int64, paymentPending
 }
 
 // List metaFields for an order
-func (s *DraftOrderClient) ListMetaFields(draftOrderID int64, options interface{}) ([]MetaField, error) {
+func (s *DraftOrderClient) ListDraftOrderMetaFields(draftOrderID int64, options interface{}) ([]MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return mField.ListMetaField(options)
 }
 
 // Count metaFields for an order
-func (s *DraftOrderClient) CountMetaFields(draftOrderID int64, options interface{}) (int, error) {
+func (s *DraftOrderClient) CountDraftOrderMetaFields(draftOrderID int64, options interface{}) (int, error) {
 	mField := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return mField.CountMetaField(options)
 }
 
 // Get individual metaField for an order
-func (s *DraftOrderClient) GetMetaFields(draftOrderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+func (s *DraftOrderClient) GetDraftOrderMetaFields(draftOrderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return mField.GetMetaField(metaFieldID, options)
 }
 
 // Create a new metaField for an order
-func (s *DraftOrderClient) CreateMetaFields(draftOrderID int64, metaField MetaField) (*MetaField, error) {
+func (s *DraftOrderClient) CreateDraftOrderMetaFields(draftOrderID int64, metaField MetaField) (*MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return mField.CreateMetaField(metaField)
 }
 
 // Update an existing metaField for an order
-func (s *DraftOrderClient) UpdateMetaFields(draftOrderID int64, metaField MetaField) (*MetaField, error) {
+func (s *DraftOrderClient) UpdateDraftOrderMetaFields(draftOrderID int64, metaField MetaField) (*MetaField, error) {
 	mField := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return mField.UpdateMetaField(metaField)
 }
 
 // Delete an existing metaField for an order
-func (s *DraftOrderClient) DeleteMetaFields(draftOrderID int64, metaFieldID int64) error {
+func (s *DraftOrderClient) DeleteDraftOrderMetaFields(draftOrderID int64, metaFieldID int64) error {
 	mField := &MetaFieldClient{client: s.client, resource: draftOrdersResourceName, resourceID: draftOrderID}
 	return mField.DeleteMetaField(metaFieldID)
 }

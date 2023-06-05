@@ -20,9 +20,13 @@ type VariantRepository interface {
 	CreateVariant(int64, Variant) (*Variant, error)
 	UpdateVariant(Variant) (*Variant, error)
 	DeleteVariant(int64, int64) error
-
 	// MetaFieldsService used for Variant resource to communicate with MetaFields resource
-	MetaFieldsRepository
+	ListVariantMetaFields(variantID int64, options interface{}) ([]MetaField, error)
+	CountVariantMetaFields(variantID int64, options interface{}) (int, error)
+	GetVariantMetaField(variantID int64, metaFieldID int64, options interface{}) (*MetaField, error)
+	CreateVariantMetaField(variantID int64, metaFielD MetaField) (*MetaField, error)
+	UpdateVariantMetaField(variantID int64, metaFielD MetaField) (*MetaField, error)
+	DeleteVariantMetaField(variantID int64, metaFieldID int64) error
 }
 
 // VariantClient handles communication with the variant related methods of
@@ -119,37 +123,37 @@ func (vc *VariantClient) DeleteVariant(productID int64, variantID int64) error {
 }
 
 // ListMetafields for a variant
-func (vc *VariantClient) ListMetaFields(variantID int64, options interface{}) ([]MetaField, error) {
+func (vc *VariantClient) ListVariantMetaFields(variantID int64, options interface{}) ([]MetaField, error) {
 	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
 	return metaField.ListMetaField(options)
 }
 
 // CountMetafields for a variant
-func (vc *VariantClient) CountMetaFields(variantID int64, options interface{}) (int, error) {
+func (vc *VariantClient) CountVariantMetaFields(variantID int64, options interface{}) (int, error) {
 	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
 	return metaField.CountMetaField(options)
 }
 
 // GetMetafield for a variant
-func (vc *VariantClient) GetMetaField(variantID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+func (vc *VariantClient) GetVariantMetaField(variantID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
 	return metaField.GetMetaField(metaFieldID, options)
 }
 
 // CreateMetafield for a variant
-func (vc *VariantClient) CreateMetaField(variantID int64, metaFielD MetaField) (*MetaField, error) {
+func (vc *VariantClient) CreateVariantMetaField(variantID int64, metaFielD MetaField) (*MetaField, error) {
 	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
 	return metaField.CreateMetaField(metaFielD)
 }
 
 // UpdateMetafield for a variant
-func (vc *VariantClient) UpdateMetaField(variantID int64, metaFielD MetaField) (*MetaField, error) {
+func (vc *VariantClient) UpdateVariantMetaField(variantID int64, metaFielD MetaField) (*MetaField, error) {
 	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
 	return metaField.UpdateMetaField(metaFielD)
 }
 
 // DeleteMetafield for a variant
-func (vc *VariantClient) DeleteMetaField(variantID int64, metaFieldID int64) error {
+func (vc *VariantClient) DeleteVariantMetaField(variantID int64, metaFieldID int64) error {
 	metaField := &MetaFieldClient{client: vc.client, resource: MultipleVariantsResponseName, resourceID: variantID}
 	return metaField.DeleteMetaField(metaFieldID)
 }

@@ -162,7 +162,7 @@ func TestCustomCollectionListMetafields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metafields, err := client.CustomCollection.ListMetaFields(1, nil)
+	metafields, err := client.CustomCollection.ListCustomCollectionMetaField(1, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.ListMetafields() returned error: %v", err)
 	}
@@ -187,7 +187,7 @@ func TestCustomCollectionCountMetafields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.CustomCollection.CountMetaFields(1, nil)
+	cnt, err := client.CustomCollection.CountCustomCollectionMetaField(1, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.CountMetafields() returned error: %v", err)
 	}
@@ -198,7 +198,7 @@ func TestCustomCollectionCountMetafields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.CustomCollection.CountMetaFields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.CustomCollection.CountCustomCollectionMetaField(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("CustomCollection.CountMetafields() returned error: %v", err)
 	}
@@ -216,7 +216,7 @@ func TestCustomCollectionGetMetafield(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metafield, err := client.CustomCollection.GetMetaField(1, 2, nil)
+	metafield, err := client.CustomCollection.GetCustomCollectionMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("CustomCollection.GetMetafield() returned error: %v", err)
 	}
@@ -242,7 +242,7 @@ func TestCustomCollectionCreateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.CustomCollection.CreateMetaField(1, metafield)
+	returnedMetafield, err := client.CustomCollection.CreateCustomCollectionMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("CustomCollection.CreateMetafield() returned error: %v", err)
 	}
@@ -266,7 +266,7 @@ func TestCustomCollectionUpdateMetafield(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.CustomCollection.UpdateMetaField(1, metafield)
+	returnedMetafield, err := client.CustomCollection.UpdateCustomCollectionMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("CustomCollection.UpdateMetafield() returned error: %v", err)
 	}
@@ -281,7 +281,7 @@ func TestCustomCollectionDeleteMetafield(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/collections/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.CustomCollection.DeleteMetaField(1, 2)
+	err := client.CustomCollection.DeleteCustomCollectionMetaField(1, 2)
 	if err != nil {
 		t.Errorf("CustomCollection.DeleteMetafield() returned error: %v", err)
 	}

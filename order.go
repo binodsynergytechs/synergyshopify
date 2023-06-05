@@ -25,11 +25,20 @@ type OrderRepository interface {
 	CloseOrder(int64) (*Order, error)
 	OpenOrder(int64) (*Order, error)
 	DeleteOrder(int64) error
-
-	MetaFieldsRepository
-
-	// FulfillmentsService used for Order resource to communicate with Fulfillments resource
-	FulfillmentRepository
+	ListOrderMetaFields(orderID int64, options interface{}) ([]MetaField, error)
+	CountOrderMetaFields(orderID int64, options interface{}) (int, error)
+	GetOrderMetaField(orderID int64, metaFieldID int64, options interface{}) (*MetaField, error)
+	CreateOrderMetaField(orderID int64, metaField MetaField) (*MetaField, error)
+	UpdateOrderMetaField(orderID int64, metaField MetaField) (*MetaField, error)
+	DeleteOrderMetaField(orderID int64, metaFieldID int64) error
+	ListFulfillments(orderID int64, options interface{}) ([]Fulfillment, error)
+	CountFulfillments(orderID int64, options interface{}) (int, error)
+	GetFulfillment(orderID int64, fulfillmentID int64, options interface{}) (*Fulfillment, error)
+	CreateFulfillment(orderID int64, fulfillment Fulfillment) (*Fulfillment, error)
+	UpdateFulfillment(orderID int64, fulfillment Fulfillment) (*Fulfillment, error)
+	CompleteFulfillment(orderID int64, fulfillmentID int64) (*Fulfillment, error)
+	TransitionFulfillment(orderID int64, fulfillmentID int64) (*Fulfillment, error)
+	CancelFulfillment(orderID int64, fulfillmentID int64) (*Fulfillment, error)
 }
 
 // OrderClient handles communication with the order related methods of the
@@ -466,37 +475,37 @@ func (s *OrderClient) DeleteOrder(orderID int64) error {
 }
 
 // List metafields for an order
-func (s *OrderClient) ListMetaFields(orderID int64, options interface{}) ([]MetaField, error) {
+func (s *OrderClient) ListOrderMetaFields(orderID int64, options interface{}) ([]MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.ListMetaField(options)
 }
 
 // Count metafields for an order
-func (s *OrderClient) CountMetaFields(orderID int64, options interface{}) (int, error) {
+func (s *OrderClient) CountOrderMetaFields(orderID int64, options interface{}) (int, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.CountMetaField(options)
 }
 
 // Get individual metafield for an order
-func (s *OrderClient) GetMetaField(orderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
+func (s *OrderClient) GetOrderMetaField(orderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.GetMetaField(metaFieldID, options)
 }
 
 // Create a new metafield for an order
-func (s *OrderClient) CreateMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
+func (s *OrderClient) CreateOrderMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.CreateMetaField(metaField)
 }
 
 // Update an existing metafield for an order
-func (s *OrderClient) UpdateMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
+func (s *OrderClient) UpdateOrderMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.UpdateMetaField(metaField)
 }
 
 // Delete an existing metafield for an order
-func (s *OrderClient) DeleteMetaField(orderID int64, metaFieldID int64) error {
+func (s *OrderClient) DeleteOrderMetaField(orderID int64, metaFieldID int64) error {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.DeleteMetaField(metaFieldID)
 }

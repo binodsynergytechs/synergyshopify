@@ -285,7 +285,7 @@ func TestDraftOrderListMetaFields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metaFields": [{"id":1},{"id":2}]}`))
 
-	metaFields, err := client.DraftOrder.ListMetaFields(1, nil)
+	metaFields, err := client.DraftOrder.ListDraftOrderMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("DraftOrder.ListMetaFields() returned error: %v", err)
 	}
@@ -310,7 +310,7 @@ func TestDraftOrderCountMetaFields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.DraftOrder.CountMetaFields(1, nil)
+	cnt, err := client.DraftOrder.CountDraftOrderMetaFields(1, nil)
 	if err != nil {
 		t.Errorf("Order.CountMetaFields() returned error: %v", err)
 	}
@@ -321,7 +321,7 @@ func TestDraftOrderCountMetaFields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.DraftOrder.CountMetaFields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.DraftOrder.CountDraftOrderMetaFields(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Order.CountMetaFields() returned error: %v", err)
 	}
@@ -339,7 +339,7 @@ func TestDraftOrderGetMetaField(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metaField": {"id":2}}`))
 
-	metaField, err := client.DraftOrder.GetMetaField(1, 2, nil)
+	metaField, err := client.DraftOrder.GetDraftOrderMetaFields(1, 2, nil)
 	if err != nil {
 		t.Errorf("Order.GetMetaField() returned error: %v", err)
 	}
@@ -364,7 +364,7 @@ func TestDraftOrderCreateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.DraftOrder.CreateMetaField(1, metaField)
+	returnedMetaField, err := client.DraftOrder.CreateDraftOrderMetaFields(1, metaField)
 	if err != nil {
 		t.Errorf("Order.CreateMetaField() returned error: %v", err)
 	}
@@ -387,7 +387,7 @@ func TestDraftOrderUpdateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.DraftOrder.UpdateMetaField(1, metaField)
+	returnedMetaField, err := client.DraftOrder.UpdateDraftOrderMetaFields(1, metaField)
 	if err != nil {
 		t.Errorf("Order.UpdateMetaField() returned error: %v", err)
 	}
@@ -402,7 +402,7 @@ func TestDraftOrderDeleteMetaField(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/draft_orders/1/metaFields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.DraftOrder.DeleteMetaField(1, 2)
+	err := client.DraftOrder.DeleteDraftOrderMetaFields(1, 2)
 	if err != nil {
 		t.Errorf("Order.DeleteMetaField() returned error: %v", err)
 	}

@@ -419,7 +419,7 @@ func TestCustomerListMetaFields(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/metafields.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafields": [{"id":1},{"id":2}]}`))
 
-	metaFields, err := client.Customer.ListMetaFields(1, nil)
+	metaFields, err := client.Customer.ListCustomerMetaField(1, nil)
 	if err != nil {
 		t.Errorf("Customer.ListMetaFields() returned error: %v", err)
 	}
@@ -444,7 +444,7 @@ func TestCustomerCountMetaFields(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"count": 2}`))
 
-	cnt, err := client.Customer.CountMetaFields(1, nil)
+	cnt, err := client.Customer.CountCustomerMetaField(1, nil)
 	if err != nil {
 		t.Errorf("Customer.CountMetaFields() returned error: %v", err)
 	}
@@ -455,7 +455,7 @@ func TestCustomerCountMetaFields(t *testing.T) {
 	}
 
 	date := time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
-	cnt, err = client.Customer.CountMetaFields(1, CountOptions{CreatedAtMin: date})
+	cnt, err = client.Customer.CountCustomerMetaField(1, CountOptions{CreatedAtMin: date})
 	if err != nil {
 		t.Errorf("Customer.CountMetaFields() returned error: %v", err)
 	}
@@ -473,7 +473,7 @@ func TestCustomerGetMetaField(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"metafield": {"id":2}}`))
 
-	metaField, err := client.Customer.GetMetaField(1, 2, nil)
+	metaField, err := client.Customer.GetCustomerMetaField(1, 2, nil)
 	if err != nil {
 		t.Errorf("Customer.GetMetaField() returned error: %v", err)
 	}
@@ -499,7 +499,7 @@ func TestCustomerCreateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetaField, err := client.Customer.CreateMetaField(1, metaField)
+	returnedMetaField, err := client.Customer.CreateCustomerMetaField(1, metaField)
 	if err != nil {
 		t.Errorf("Customer.CreateMetaField() returned error: %v", err)
 	}
@@ -523,7 +523,7 @@ func TestCustomerUpdateMetaField(t *testing.T) {
 		Namespace: "affiliates",
 	}
 
-	returnedMetafield, err := client.Customer.UpdateMetaField(1, metafield)
+	returnedMetafield, err := client.Customer.UpdateCustomerMetaField(1, metafield)
 	if err != nil {
 		t.Errorf("Customer.UpdateMetaField() returned error: %v", err)
 	}
@@ -538,7 +538,7 @@ func TestCustomerDeleteMetaField(t *testing.T) {
 	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/metafields/2.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, "{}"))
 
-	err := client.Customer.DeleteMetaField(1, 2)
+	err := client.Customer.DeleteCustomerMetaField(1, 2)
 	if err != nil {
 		t.Errorf("Customer.DeleteMetaField() returned error: %v", err)
 	}
