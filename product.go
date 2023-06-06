@@ -12,8 +12,7 @@ const MultipleproductsResponseName = "products"
 // linkRegex is used to extract pagination links from product search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
-// ProductRepository is an interface for interfacing with the product endpoints
-// of the Shopify API.
+// ProductRepository is an interface for interfacing with the product endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/product
 type ProductRepository interface {
 	ListProduct(interface{}) ([]Product, error)
@@ -32,8 +31,7 @@ type ProductRepository interface {
 	// MetaFieldsRepository
 }
 
-// ProductClient handles communication with the product related methods of
-// the Shopify API.
+// ProductClient handles communication with the product related methods of the Shopify API.
 type ProductClient struct {
 	client *Client
 }

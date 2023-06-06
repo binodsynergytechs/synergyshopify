@@ -39,9 +39,6 @@ type InventoryItem struct {
 	CountryCodeOfOrigin          string           `json:"country_code_of_origin"`          //TODO: Field Available In Latest Shopify Model
 }
 
-//FIXME: Field Available In Latest Shopify Model
-//TODO: Field Available In Latest Shopify Model
-
 // SingleInventoryItemResponse is used for handling single item requests and responses
 type SingleInventoryItemResponse struct {
 	InventoryItem *InventoryItem `json:"inventory_item"`

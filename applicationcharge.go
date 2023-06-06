@@ -9,8 +9,7 @@ import (
 
 const applicationChargesBasePath = "application_charges"
 
-// ApplicationChargeRepository is an interface for interacting with the
-// ApplicationCharge endpoints of the Shopify API.
+// ApplicationChargeRepository is an interface for managing application charges in the Shopify API.
 // See https://help.shopify.com/api/reference/billing/applicationcharge
 type ApplicationChargeRepository interface {
 	CreateApplicationCharge(ApplicationCharge) (*ApplicationCharge, error)
@@ -19,10 +18,12 @@ type ApplicationChargeRepository interface {
 	ActivateApplicationCharge(ApplicationCharge) (*ApplicationCharge, error)
 }
 
+// ApplicationChargeClient handles communication with the ApplicationCharge endpoints of the Shopify API.
 type ApplicationChargeClient struct {
 	client *Client
 }
 
+// ApplicationCharge represents an application charge in Shopify.
 type ApplicationCharge struct {
 	ID                 int64            `json:"id"`
 	Name               string           `json:"name"`
@@ -33,19 +34,17 @@ type ApplicationCharge struct {
 	Test               *bool            `json:"test"`
 	CreatedAt          *time.Time       `json:"created_at"`
 	UpdatedAt          *time.Time       `json:"updated_at"`
-	ChargeType         *string          `json:"charge_type"`          // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
-	DecoratedReturnURL string           `json:"decorated_return_url"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
+	ChargeType         *string          `json:"charge_type"`          // TODO: Field Not Available Or Deprecated In Latest Shopify Model 23/04
+	DecoratedReturnURL string           `json:"decorated_return_url"` // TODO: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	ConfirmationURL    string           `json:"confirmation_url"`
 }
 
-// ApplicationChargeResponse represents the result from the
-// admin/application_charges{/X{/activate.json}.json}.json endpoints.
+// ApplicationChargeResponse represents the response from the application charge endpoints.
 type ApplicationChargeResponse struct {
 	Charge *ApplicationCharge `json:"application_charge"`
 }
 
-// ApplicationChargesResource represents the result from the
-// admin/application_charges.json endpoint.
+// ApplicationChargesResponse represents the response from the application_charges endpoint.
 type ApplicationChargesResponse struct {
 	Charges []ApplicationCharge `json:"application_charges"`
 }

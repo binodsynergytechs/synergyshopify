@@ -4,8 +4,7 @@ import "fmt"
 
 // const SinglecustomerAddressResponseName = "customer-addresses"
 
-// CustomerAddressRepository is an interface for interfacing with the customer address endpoints
-// of the Shopify API.
+// CustomerAddressRepository is an interface for interfacing with the customer address endpoints of the Shopify API.
 // See: https://help.shopify.com/en/api/reference/customers/customer_address
 type CustomerAddressRepository interface {
 	ListCustomerAddress(int64, interface{}) ([]CustomerAddress, error)

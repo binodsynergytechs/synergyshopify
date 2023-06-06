@@ -12,8 +12,7 @@ const (
 	draftOrdersResourceName = "draft_orders"
 )
 
-// DraftOrderRepository is an interface for interfacing with the draft orders endpoints of
-// the Shopify API.
+// DraftOrderRepository is an interface for interfacing with the draft orders endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/orders/draftorder
 type DraftOrderRepository interface {
 	ListDraftOrder(interface{}) ([]DraftOrder, error)
@@ -33,8 +32,7 @@ type DraftOrderRepository interface {
 	DeleteDraftOrderMetaFields(draftOrderID int64, metaFieldID int64) error
 }
 
-// DraftOrderClient handles communication with the draft order related methods of the
-// Shopify API.
+// DraftOrderClient handles communication with the draft order related methods of the Shopify API.
 type DraftOrderClient struct {
 	client *Client
 }
@@ -104,8 +102,7 @@ type DraftOrderInvoiceResource struct {
 	DraftOrderInvoice *DraftOrderInvoice `json:"draft_order_invoice,omitempty"`
 }
 
-// DraftOrderListOptions represents the possible options that can be used
-// to further query the list draft orders endpoint
+// DraftOrderListOptions represents the possible options that can be usedto further query the list draft orders endpoint
 type DraftOrderListOptions struct {
 	Fields       string     `url:"fields,omitempty"`
 	Limit        int        `url:"limit,omitempty"`

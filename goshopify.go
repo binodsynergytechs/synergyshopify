@@ -242,15 +242,15 @@ func (a App) NewClient(shopName, token string, opts ...Option) *Client {
 	return NewClient(a, shopName, token, opts...)
 }
 
-// Returns a new Shopify API client with an already authenticated shopname and
-// token. The shopName parameter is the shop's myshopify domain,
-// e.g. "theshop.myshopify.com", or simply "theshop"
+// NewClient creates a new Shopify API client with pre-authenticated credentials.
+// The shopName parameter should be the shop's myshopify domain, e.g., "theshop.myshopify.com" or simply "theshop".
 func NewClient(app App, shopName, token string, opts ...Option) *Client {
+	// Parse the base URL for the shop
 	baseURL, err := url.Parse(ShopBaseUrl(shopName))
 	if err != nil {
-		panic(err) // something really wrong with shopName
+		panic(err) // Something is seriously wrong with shopName
 	}
-
+	// Create a new client instance
 	c := &Client{
 		Client: &http.Client{
 			Timeout: time.Second * defaultHttpTimeout,
@@ -263,6 +263,7 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 		pathPrefix: defaultApiPathPrefix,
 	}
 
+	// Initialize the client's API endpoints
 	c.Product = &ProductClient{client: c}
 	c.CustomCollection = &CustomCollectionClient{client: c}
 	c.SmartCollection = &SmartCollectionClient{client: c}
@@ -303,12 +304,13 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 	c.Payouts = &PayoutsClient{client: c}
 	c.GiftCard = &GiftCardClient{client: c}
 
-	// apply any options
+	// Apply any specified options
 	for _, opt := range opts {
 		opt(c)
 	}
 
 	return c
+
 }
 
 // Do sends an API request and populates the given interface with the parsed
@@ -336,7 +338,7 @@ func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, er
 		resp, err = c.Client.Do(req)
 		c.logResponse(resp)
 		if err != nil {
-			return nil, err // http client errors, not api responses
+			return nil, err // http client errors, not API responses
 		}
 
 		respErr := CheckResponseError(resp)
@@ -344,7 +346,7 @@ func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, er
 			break // no errors, break out of the retry loop
 		}
 
-		// retry scenario, close resp and any continue will retry
+		// Retry scenario, close resp and any continue will retry
 		resp.Body.Close()
 
 		if retries <= 1 {
@@ -352,8 +354,7 @@ func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, er
 		}
 
 		if rateLimitErr, isRetryErr := respErr.(RateLimitError); isRetryErr {
-			// back off and retry
-
+			// Back off and retry
 			wait := time.Duration(rateLimitErr.RetryAfter) * time.Second
 			c.log.Debugf("rate limited waiting %s", wait.String())
 			time.Sleep(wait)
@@ -373,7 +374,7 @@ func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, er
 			continue
 		}
 
-		// no retry attempts, just return the err
+		// No retry attempts, just return the error
 		return nil, respErr
 	}
 
@@ -381,9 +382,9 @@ func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, er
 	defer resp.Body.Close()
 
 	if c.apiVersion == defaultApiVersion && resp.Header.Get("X-Shopify-API-Version") != "" {
-		// if using stable on first request set the api version
+		// If using stable on the first request, set the API version
 		c.apiVersion = resp.Header.Get("X-Shopify-API-Version")
-		c.log.Infof("api version not set, now using %s", c.apiVersion)
+		c.log.Infof("API version not set, now using %s", c.apiVersion)
 	}
 
 	if v != nil {
@@ -442,12 +443,6 @@ func wrapSpecificError(r *http.Response, err ResponseError) error {
 			RetryAfter:    int(f),
 		}
 	}
-
-	// if err.Status == http.StatusSeeOther {
-	// todo
-	// The response to the request can be found under a different URL in the
-	// Location header and can be retrieved using a GET method on that resource.
-	// }
 
 	if err.Status == http.StatusNotAcceptable {
 		err.Message = http.StatusText(err.Status)

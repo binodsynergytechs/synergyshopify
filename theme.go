@@ -13,8 +13,7 @@ type ThemeListOptions struct {
 	Fields string `url:"fields,omitempty"`
 }
 
-// ThemeRepository is an interface for interfacing with the themes endpoints
-// of the Shopify API.
+// ThemeRepository is an interface for interfacing with the themes endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/theme
 type ThemeRepository interface {
 	ListTheme(interface{}) ([]Theme, error)

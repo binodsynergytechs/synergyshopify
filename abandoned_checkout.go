@@ -9,15 +9,13 @@ import (
 
 const abandonedCheckoutsBasePath = "checkouts"
 
-// AbandonedCheckoutRepository is an interface for interfacing with the abandonedCheckouts endpoints
-// of the Shopify API.
+// AbandonedCheckoutRepository is an interface for interfacing with the abandonedCheckouts endpoints of the Shopify API.
 // See: https://shopify.dev/docs/api/admin-rest/latest/resources/abandoned-checkouts
 type AbandonedCheckoutRepository interface {
 	ListAbandonedCheckout(interface{}) ([]AbandonedCheckout, error)
 }
 
-// AbandonedCheckoutClient handles communication with the checkout related methods of
-// the Shopify API.
+// AbandonedCheckoutClient handles communication with the checkout related methods of the Shopify API.
 type AbandonedCheckoutClient struct {
 	client *Client
 }

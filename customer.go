@@ -10,8 +10,7 @@ import (
 const customersBasePath = "customers"
 const MultipleCustomersResponseName = "customers"
 
-// CustomerRepository is an interface for interfacing with the customers endpoints
-// of the Shopify API.
+// CustomerRepository is an interface for interfacing with the customers endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/customer
 type CustomerRepository interface {
 	ListCustomer(interface{}) ([]Customer, error)
@@ -24,7 +23,6 @@ type CustomerRepository interface {
 	DeleteCustomer(int64) error
 	ListOrders(int64, interface{}) ([]Order, error)
 	ListTags(interface{}) ([]string, error)
-
 	// MetaFieldsRepository used for Customer resource to communicate with MetaFields resource
 	ListCustomerMetaField(customerID int64, options interface{}) ([]MetaField, error)
 	CountCustomerMetaField(customerID int64, options interface{}) (int, error)
@@ -34,8 +32,7 @@ type CustomerRepository interface {
 	DeleteCustomerMetaField(customerID int64, metaFieldID int64) error
 }
 
-// CustomerClient handles communication with the product related methods of
-// the Shopify API.
+// CustomerClient handles communication with the product related methods of the Shopify API.
 type CustomerClient struct {
 	client *Client
 }

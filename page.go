@@ -24,9 +24,6 @@ type PageRepository interface {
 	CreatePageMetaField(pageID int64, metaField MetaField) (*MetaField, error)
 	UpdatePageMetaField(pageID int64, metaField MetaField) (*MetaField, error)
 	DeletePageMetaField(pageID int64, metaFieldID int64) error
-	// MetafieldsService used for Pages resource to communicate with Metafields
-	// resource
-	// MetaFieldsRepository
 }
 
 // PageClient handles communication with the page related methods of the

@@ -9,8 +9,7 @@ import (
 
 const giftCardsBasePath = "gift_cards"
 
-// giftCardRepository is an interface for interfacing with the gift card endpoints
-// of the Shopify API.
+// GiftCardRepository is an interface for interfacing with the gift card endpoints of the Shopify API.
 // See: https://shopify.dev/docs/api/admin-rest/2023-04/resources/gift-card
 type GiftCardRepository interface {
 	GetGiftCard(int64) (*GiftCard, error)
@@ -56,7 +55,7 @@ type SingleGiftCardResponse struct {
 	GiftCard *GiftCard `json:"gift_card"`
 }
 
-// MultiplegiftCardsResponse represents the result from the gift_cards.json endpoint
+// MultipleGiftCardsResponse represents the result from the gift_cards.json endpoint
 type MultipleGiftCardsResponse struct {
 	GiftCards []GiftCard `json:"gift_cards"`
 }

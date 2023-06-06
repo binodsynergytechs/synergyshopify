@@ -19,7 +19,7 @@ const shopifyChecksumHeader = "X-Shopify-Hmac-Sha256"
 
 var accessTokenRelPath = "admin/oauth/access_token"
 
-// Returns a Shopify oauth authorization url for the given shopname and state.
+// Returns a Shopify oauth authorization url for the given shopName and state.
 //
 // State is a unique value that can be used to check the authenticity during a
 // callback from Shopify.
@@ -153,7 +153,7 @@ func (app App) VerifyWebhookRequestVerbose(httpRequest *http.Request) (bool, err
 
 // Verifies an app proxy request, sent by Shopify.
 // When Shopify proxies HTTP requests to the proxy URL,
-// Shopify adds a signature paramter that is used to verify that the request was sent by Shopify.
+// Shopify adds a signature parameter that is used to verify that the request was sent by Shopify.
 // https://shopify.dev/tutorials/display-dynamic-store-data-with-app-proxies
 func (app App) VerifySignature(u *url.URL) bool {
 	val := u.Query()

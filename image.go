@@ -38,23 +38,6 @@ type Image struct {
 	VariantIds []int64    `json:"variant_ids,omitempty"`
 }
 
-//TODO: latest from shopify 23/04
-
-// type Image struct {
-// 	AltText    string         `json:"alt_text"`
-// 	Anchor     int           `json:"anchor"`
-// 	Height     int           `json:"height"`
-// 	ID         string         `json:"id"`
-// 	URL        string         `json:"url"`
-// 	Width      int           `json:"width"`
-// 	Transform   ImageTransform `json:"transform"`
-// }
-
-// type ImageTransformInput struct {
-// 	Width  float64 `json:"width"`
-// 	Height float64 `json:"height"`
-// }
-
 // SingleImageResponse represents the result form the products/X/images/Y.json endpoint
 type SingleImageResponse struct {
 	Image *Image `json:"image"`

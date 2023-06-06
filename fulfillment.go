@@ -5,19 +5,8 @@ import (
 	"time"
 )
 
-// FulfillmentsService is an interface for other Shopify resources
-// to interface with the fulfillment endpoints of the Shopify API.
-// https://help.shopify.com/api/reference/fulfillment
+// FulfillmentsService is an interface for other Shopify resources to interface with the fulfillment endpoints of the Shopify API. See The Link For More Info : https://help.shopify.com/api/reference/fulfillment
 type FulfillmentRepository interface {
-	// ListFulfillments(int64, interface{}) ([]Fulfillment, error)
-	// CountFulfillments(int64, interface{}) (int, error)
-	// GetFulfillments(int64, int64, interface{}) (*Fulfillment, error)
-	// CreateFulfillments(int64, Fulfillment) (*Fulfillment, error)
-	// UpdateFulfillments(int64, Fulfillment) (*Fulfillment, error)
-	// CompleteFulfillments(int64, int64) (*Fulfillment, error)
-	// TransitionFulfillments(int64, int64) (*Fulfillment, error)
-	// // CancelFulfillments(int64, int64) (*Fulfillment, error)
-	// CancelFulfillments(fulfillmentID, cancelReasonID int64) (*Fulfillment, error)
 	ListFulfillments(options interface{}) ([]Fulfillment, error)
 	CountFulfillments(options interface{}) (int, error)
 	GetFulfillments(fulfillmentID int64, options interface{}) (*Fulfillment, error)

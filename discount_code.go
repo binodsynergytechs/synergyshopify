@@ -7,8 +7,7 @@ import (
 
 const discountCodeBasePath = "price_rules/%d/discount_codes"
 
-// DiscountCodeRepository is an interface for interfacing with the discount endpoints
-// of the Shopify API.
+// DiscountCodeRepository is an interface for interfacing with the discount endpoints of the Shopify API.
 // See: https://help.shopify.com/en/api/reference/discounts/PriceRuleDiscountCode
 type DiscountCodeRepository interface {
 	CreateDiscountCode(int64, PriceRuleDiscountCode) (*PriceRuleDiscountCode, error)

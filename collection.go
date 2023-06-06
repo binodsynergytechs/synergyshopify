@@ -7,8 +7,7 @@ import (
 
 const collectionsBasePath = "collections"
 
-// CollectionRepository is an interface for interfacing with the collection endpoints
-// of the Shopify API.
+// CollectionRepository is an interface for interfacing with the collection endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/products/collection
 type CollectionRepository interface {
 	GetCollection(collectionID int64, options interface{}) (*Collection, error)
@@ -16,8 +15,7 @@ type CollectionRepository interface {
 	ListProductsWithPagination(collectionID int64, options interface{}) ([]Product, *Pagination, error)
 }
 
-// CollectionClient handles communication with the collection related methods of
-// the Shopify API.
+// CollectionClient handles communication with the collection related methods of the Shopify API.
 type CollectionClient struct {
 	client *Client
 }

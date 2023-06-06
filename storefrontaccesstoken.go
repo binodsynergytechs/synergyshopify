@@ -7,8 +7,7 @@ import (
 
 const storefrontAccessTokensBasePath = "storefront_access_tokens"
 
-// StorefrontAccessTokenRepository is an interface for interfacing with the storefront access
-// token endpoints of the Shopify API.
+// StorefrontAccessTokenRepository is an interface for interfacing with the storefront access token endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/access/storefrontaccesstoken
 type StorefrontAccessTokenRepository interface {
 	ListStorefrontAccessToken(interface{}) ([]StorefrontAccessToken, error)
@@ -16,8 +15,7 @@ type StorefrontAccessTokenRepository interface {
 	DeleteStorefrontAccessToken(int64) error
 }
 
-// StorefrontAccessTokenClient handles communication with the storefront access token
-// related methods of the Shopify API.
+// StorefrontAccessTokenClient handles communication with the storefront access token related methods of the Shopify API.
 type StorefrontAccessTokenClient struct {
 	client *Client
 }

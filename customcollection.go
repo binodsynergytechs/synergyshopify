@@ -8,8 +8,7 @@ import (
 const customCollectionsBasePath = "custom_collections"
 const MultipleCustomCollectionsResponseName = "collections"
 
-// CustomCollectionRepository is an interface for interacting with the custom
-// collection endpoints of the Shopify API.
+// CustomCollectionRepository is an interface for interacting with the custom collection endpoints of the Shopify API.
 // See https://help.shopify.com/api/reference/customcollection
 type CustomCollectionRepository interface {
 	ListCustomCollection(interface{}) ([]CustomCollection, error)
@@ -26,8 +25,7 @@ type CustomCollectionRepository interface {
 	DeleteCustomCollectionMetaField(customCollectionID int64, metaFieldID int64) error
 }
 
-// CustomCollectionClient handles communication with the custom collection
-// related methods of the Shopify API.
+// CustomCollectionClient handles communication with the custom collection related methods of the Shopify API.
 type CustomCollectionClient struct {
 	client *Client
 }
@@ -80,8 +78,7 @@ func (ccc *CustomCollectionClient) GetCustomCollection(collectionID int64, optio
 	return resource.Collection, err
 }
 
-// Create a new custom collection
-// See Image for the details of the Image creation for a collection.
+// Create a new custom collection see Image for the details of the Image creation for a collection.
 func (ccc *CustomCollectionClient) CreateCustomCollection(collection CustomCollection) (*CustomCollection, error) {
 	path := fmt.Sprintf("%s.json", customCollectionsBasePath)
 	wrappedData := SingleCustomCollectionResponse{Collection: &collection}

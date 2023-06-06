@@ -7,8 +7,7 @@ import (
 
 const assetsBasePath = "themes"
 
-// AssetRepository is an interface for interfacing with the asset endpoints
-// of the Shopify API.
+// AssetRepository is an interface for interfacing with the asset endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/asset
 type AssetRepository interface {
 	ListAsset(int64, interface{}) ([]Asset, error)
@@ -17,8 +16,7 @@ type AssetRepository interface {
 	DeleteAsset(int64, string) error
 }
 
-// AssetClient handles communication with the asset related methods of
-// the Shopify API.
+// AssetClient handles communication with the asset related methods of the Shopify API.
 type AssetClient struct {
 	client *Client
 }

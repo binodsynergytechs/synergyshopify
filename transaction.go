@@ -2,8 +2,7 @@ package goshopify
 
 import "fmt"
 
-// TransactionRepository is an interface for interfacing with the transactions endpoints of
-// the Shopify API.
+// TransactionRepository is an interface for interfacing with the transactions endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/transaction
 type TransactionRepository interface {
 	ListTransaction(int64, interface{}) ([]Transaction, error)
@@ -12,8 +11,7 @@ type TransactionRepository interface {
 	CreateTransaction(int64, Transaction) (*Transaction, error)
 }
 
-// TransactionClient handles communication with the transaction related methods of the
-// Shopify API.
+// TransactionClient handles communication with the transaction related methods of the Shopify API.
 type TransactionClient struct {
 	client *Client
 }

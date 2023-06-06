@@ -474,37 +474,37 @@ func (s *OrderClient) DeleteOrder(orderID int64) error {
 	return err
 }
 
-// List metafields for an order
+// List metaFields for an order
 func (s *OrderClient) ListOrderMetaFields(orderID int64, options interface{}) ([]MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.ListMetaField(options)
 }
 
-// Count metafields for an order
+// Count metaFields for an order
 func (s *OrderClient) CountOrderMetaFields(orderID int64, options interface{}) (int, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.CountMetaField(options)
 }
 
-// Get individual metafield for an order
+// Get individual metaField for an order
 func (s *OrderClient) GetOrderMetaField(orderID int64, metaFieldID int64, options interface{}) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.GetMetaField(metaFieldID, options)
 }
 
-// Create a new metafield for an order
+// Create a new metaField for an order
 func (s *OrderClient) CreateOrderMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.CreateMetaField(metaField)
 }
 
-// Update an existing metafield for an order
+// Update an existing metaField for an order
 func (s *OrderClient) UpdateOrderMetaField(orderID int64, metaField MetaField) (*MetaField, error) {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.UpdateMetaField(metaField)
 }
 
-// Delete an existing metafield for an order
+// Delete an existing metaField for an order
 func (s *OrderClient) DeleteOrderMetaField(orderID int64, metaFieldID int64) error {
 	metaFieldService := &MetaFieldClient{client: s.client, resource: ordersResourceName, resourceID: orderID}
 	return metaFieldService.DeleteMetaField(metaFieldID)

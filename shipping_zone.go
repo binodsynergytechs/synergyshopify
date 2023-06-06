@@ -23,7 +23,7 @@ type ShippingZone struct {
 	Name                         string                        `json:"name,omitempty"`
 	ProfileID                    string                        `json:"profile_id,omitempty"`
 	LocationGroupID              string                        `json:"location_group_id,omitempty"`
-	AdminGraphqlAPIID            string                        `json:"admin_graphql_api_id,omitempty"`
+	AdminGraphqlApiID            string                        `json:"admin_graphql_api_id,omitempty"`
 	Countries                    []ShippingCountry             `json:"countries,omitempty"`
 	WeightBasedShippingRates     []WeightBasedShippingRate     `json:"weight_based_shipping_rates,omitempty"`
 	PriceBasedShippingRates      []PriceBasedShippingRate      `json:"price_based_shipping_rates,omitempty"`

@@ -10,8 +10,7 @@ import (
 
 const usageChargesPath = "usage_charges"
 
-// UsageChargeRepository is an interface for interacting with the
-// UsageCharge endpoints of the Shopify API.
+// UsageChargeRepository is an interface for interacting with the UsageCharge endpoints of the Shopify API.
 // See https://help.shopify.com/en/api/reference/billing/usagecharge#endpoints
 type UsageChargeRepository interface {
 	CreateUsageCharge(int64, UsageCharge) (*UsageCharge, error)
@@ -60,8 +59,7 @@ func (u *UsageCharge) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// UsageChargeResource represents the result from the
-// /admin/recurring_application_charges/X/usage_charges/X.json endpoints
+// UsageChargeResource represents the result from the /admin/recurring_application_charges/X/usage_charges/X.json endpoints
 type UsageChargeResource struct {
 	Charge *UsageCharge `json:"usage_charge"`
 }

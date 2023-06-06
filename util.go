@@ -19,9 +19,7 @@ func ShopFullName(name string) string {
 
 // ShopShortName returns the short shop name, excluding .myshopify.com
 func ShopShortName(name string) string {
-	// Convert to fullname and remove the myshopify part. Perhaps not the most
-	// performant solution, but then we don't have to repeat all the trims here
-	// :-)
+	// Convert to fullName and remove the myShopify part. Perhaps not the most  performant solution, but then we don't have to repeat all the trims here :-)
 	return strings.Replace(ShopFullName(name), ".myshopify.com", "", -1)
 }
 

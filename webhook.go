@@ -34,8 +34,8 @@ type Webhook struct {
 	CreatedAt                  *time.Time `json:"created_at,omitempty"`
 	UpdatedAt                  *time.Time `json:"updated_at,omitempty"`
 	Fields                     []string   `json:"fields"`
-	MetafieldNamespaces        []string   `json:"metafield_namespaces"`
-	PrivateMetafieldNamespaces []string   `json:"private_metafield_namespaces"`
+	MetaFieldNamespaces        []string   `json:"metafield_namespaces"`
+	PrivateMetaFieldNamespaces []string   `json:"private_metafield_namespaces"`
 	ApiVersion                 string     `json:"api_version,omitempty"`
 }
 
@@ -70,8 +70,8 @@ func (wc *WebhookClient) CountWebhook(options interface{}) (int, error) {
 }
 
 // Get individual webhook
-func (wc *WebhookClient) GetWebhook(webhookdID int64, options interface{}) (*Webhook, error) {
-	path := fmt.Sprintf("%s/%d.json", webhooksBasePath, webhookdID)
+func (wc *WebhookClient) GetWebhook(webhookID int64, options interface{}) (*Webhook, error) {
+	path := fmt.Sprintf("%s/%d.json", webhooksBasePath, webhookID)
 	resource := new(SingleWebhookResponse)
 	err := wc.client.Get(path, resource, options)
 	return resource.Webhook, err

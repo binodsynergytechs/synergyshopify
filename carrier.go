@@ -9,8 +9,7 @@ import (
 
 const carrierBasePath = "carrier_services"
 
-// CarrierRepository is an interface for interfacing with the carrier service endpoints
-// of the Shopify API.
+// CarrierRepository is an interface for interfacing with the carrier service endpoints of the Shopify API.
 // See: https://shopify.dev/docs/admin-api/rest/reference/shipping-and-fulfillment/carrierservice
 type CarrierRepository interface {
 	ListCarrier() ([]CarrierService, error)
@@ -98,7 +97,7 @@ type ShippingRateAddress struct {
 }
 
 // When Shopify requests shipping rates using your callback URL,
-// the response object rates must be a JSON array of objects with the following fields.
+// The response object rates must be a JSON array of objects with the following fields.
 // Required fields must be included in the response for the carrier service integration to work properly.
 type ShippingRateResponse struct {
 	Rates []ShippingRate `json:"rates"`

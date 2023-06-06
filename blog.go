@@ -7,8 +7,7 @@ import (
 
 const blogsBasePath = "blogs"
 
-// BlogRepository is an interface for interfacing with the blogs endpoints
-// of the Shopify API.
+// BlogRepository is an interface for interfacing with the blogs endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/online_store/blog
 type BlogRepository interface {
 	ListBlog(interface{}) ([]Blog, error)
@@ -19,8 +18,7 @@ type BlogRepository interface {
 	DeleteBlog(int64) error
 }
 
-// BlogClient handles communication with the blog related methods of
-// the Shopify API.
+// BlogClient handles communication with the blog related methods of the Shopify API.
 type BlogClient struct {
 	client *Client
 }

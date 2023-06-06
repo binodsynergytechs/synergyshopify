@@ -6,8 +6,7 @@ const (
 	fulfillmentServiceBasePath = "fulfillment_services"
 )
 
-// FulfillmentServiceRepository is an interface for interfacing with the fulfillment service
-// of the Shopify API.
+// FulfillmentServiceRepository is an interface for interfacing with the fulfillment service of the Shopify API.
 // https://help.shopify.com/api/reference/fulfillmentservice
 type FulfillmentServiceRepository interface {
 	ListFulfillment(interface{}) ([]FulfillmentService, error)
@@ -17,16 +16,14 @@ type FulfillmentServiceRepository interface {
 	DeleteFulfillment(int64) error
 }
 
-// FIXME: Field Not Available In Model 23/04
-// TODO: Latest Field Available In Model 23/04
 type FulfillmentService struct {
-	Id                     int64  `json:"id,omitempty"` // FIXME: Field Not Available In Model 23/04
+	Id                     int64  `json:"id,omitempty"`                    // FIXME: Field Not Available In Model 23/04
+	IncludePendingStock    bool   `json:"include_pending_stock,omitempty"` // FIXME: Field Not Available In Model 23/04
+	Email                  string `json:"email,omitempty"`                 // FIXME: Field Not Available In Model 23/04
+	ServiceName            string `json:"service_name,omitempty"`          // FIXME: Field Not Available In Model 23/04
 	Name                   string `json:"name,omitempty"`
-	Email                  string `json:"email,omitempty"`        // FIXME: Field Not Available In Model 23/04
-	ServiceName            string `json:"service_name,omitempty"` // FIXME: Field Not Available In Model 23/04
 	Handle                 string `json:"handle,omitempty"`
 	FulfillmentOrdersOptIn bool   `json:"fulfillment_orders_opt_in,omitempty"`
-	IncludePendingStock    bool   `json:"include_pending_stock,omitempty"` // FIXME: Field Not Available In Model 23/04
 	ProviderId             int64  `json:"provider_id,omitempty"`
 	LocationId             int64  `json:"location_id,omitempty"`
 	CallbackURL            string `json:"callback_url,omitempty"`
@@ -49,8 +46,7 @@ type FulfillmentServiceOptions struct {
 	Scope string `url:"scope,omitempty"`
 }
 
-// FulfillmentServiceClient handles communication with the FulfillmentServices
-// related methods of the Shopify API
+// FulfillmentServiceClient handles communication with the FulfillmentServices related methods of the Shopify API
 type FulfillmentServiceClient struct {
 	client *Client
 }

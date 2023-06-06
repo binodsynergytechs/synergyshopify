@@ -9,8 +9,7 @@ const productListingBasePath = "product_listings"
 
 // const productsListingResourceName = "product_listings"
 
-// ProductListingRepository is an interface for interfacing with the product listing endpoints
-// of the Shopify API.
+// ProductListingRepository is an interface for interfacing with the product listing endpoints of the Shopify API.
 // See: https://shopify.dev/docs/admin-api/rest/reference/sales-channels/productlisting
 type ProductListingRepository interface {
 	ListProductListing(interface{}) ([]ProductListing, error)
@@ -60,15 +59,6 @@ type ProductListingIDsResource struct {
 	ProductIDs []int64 `json:"product_ids"`
 }
 
-// Resource which create product_listing endpoint expects in request body
-// e.g.
-// PUT /admin/api/2020-07/product_listings/921728736.json
-//
-//	{
-//	  "product_listing": {
-//	    "product_id": 921728736
-//	  }
-//	}
 type ProductListingPublishResource struct {
 	ProductListing struct {
 		ProductID int64 `json:"product_id"`

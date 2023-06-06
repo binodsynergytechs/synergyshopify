@@ -8,8 +8,7 @@ import (
 
 const payoutsBasePath = "shopify_payments/payouts"
 
-// PayoutsRepository is an interface for interfacing with the payouts endpoints of
-// the Shopify API.
+// PayoutsRepository is an interface for interfacing with the payouts endpoints of the Shopify API.
 // See: https://shopify.dev/docs/api/admin-rest/2023-01/resources/payouts
 type PayoutsRepository interface {
 	ListPayouts(interface{}) ([]Payout, error)
@@ -17,8 +16,7 @@ type PayoutsRepository interface {
 	GetPayouts(int64, interface{}) (*Payout, error)
 }
 
-// PayoutsClient handles communication with the payout related methods of the
-// Shopify API.
+// PayoutsClient handles communication with the payout related methods of the Shopify API.
 type PayoutsClient struct {
 	client *Client
 }
@@ -85,25 +83,6 @@ func (pc *PayoutsClient) ListWithPaginationPayouts(options interface{}) ([]Payou
 
 	return resource.Payouts, pagination, nil
 }
-
-// Get individual payout
-
-// func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
-// 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
-// 	resource := new(PayoutResource)
-// 	err := pc.client.Get(path, resource, options)
-// 	if err != nil {
-// 		return resource.Payout, err
-// 	}
-// 	return resource.Payout, nil
-// }
-
-// func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
-// 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
-// 	resource := new(PayoutResource)
-// 	err := pc.client.Get(path, resource, options)
-// 	return resource.Payout, err
-// }
 
 func (pc *PayoutsClient) GetPayouts(id int64, options interface{}) (*Payout, error) {
 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)

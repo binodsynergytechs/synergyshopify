@@ -7,8 +7,7 @@ import (
 
 const collectsBasePath = "collects"
 
-// CollectRepository is an interface for interfacing with the collect endpoints
-// of the Shopify API.
+// CollectRepository is an interface for interfacing with the collect endpoints of the Shopify API.
 // See: https://help.shopify.com/api/reference/products/collect
 type CollectRepository interface {
 	ListCollect(interface{}) ([]Collect, error)
@@ -18,8 +17,7 @@ type CollectRepository interface {
 	DeleteCollect(int64) error
 }
 
-// CollectClient handles communication with the collect related methods of
-// the Shopify API.
+// CollectClient handles communication with the collect related methods of the Shopify API.
 type CollectClient struct {
 	client *Client
 }
