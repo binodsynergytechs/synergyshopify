@@ -31,10 +31,8 @@ const (
 	defaultHttpTimeout   = 10
 )
 
-var (
-	// version regex match
-	apiVersionRegex = regexp.MustCompile(`^[0-9]{4}-[0-9]{2}$`)
-)
+// version regex match
+var apiVersionRegex = regexp.MustCompile(`^[0-9]{4}-[0-9]{2}$`)
 
 // App represents basic app settings such as Api key, secret, scope, and redirect url.
 // See oauth.go for OAuth related helper functions.
@@ -312,11 +310,11 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 	return c
 }
 
-// Do sends an API request and populates the given interface with the parsed
-// response. It does not make much sense to call Do without a prepared
+// ProcessRequest sends an API request and populates the given interface with the parsed
+// response. It does not make much sense to call ProcessRequest without a prepared
 // interface instance.
-func (c *Client) Do(req *http.Request, v interface{}) error {
-	_, err := c.doGetHeaders(req, v)
+func (c *Client) ProcessRequest(req *http.Request, v interface{}) error {
+	_, err := c.ProcessRequestWithHeaders(req, v)
 	if err != nil {
 		return err
 	}
@@ -324,8 +322,8 @@ func (c *Client) Do(req *http.Request, v interface{}) error {
 	return nil
 }
 
-// doGetHeaders executes a request, decoding the response into `v` and also returns any response headers.
-func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, error) {
+// ProcessRequestWithHeaders executes a request, decoding the response into `v` and also returns any response headers.
+func (c *Client) ProcessRequestWithHeaders(req *http.Request, v interface{}) (http.Header, error) {
 	var resp *http.Response
 	var err error
 	retries := c.retries
@@ -554,7 +552,6 @@ func CheckResponseError(r *http.Response) error {
 
 // General list options that can be used for most collections of entities.
 type ListOptions struct {
-
 	// PageInfo is used with new pagination search.
 	PageInfo string `url:"page_info,omitempty"`
 
@@ -589,27 +586,26 @@ func (c *Client) Count(path string, options interface{}) (int, error) {
 	return resource.Count, err
 }
 
-// CreateAndDo performs a web request to Shopify with the given method (GET,
+// PerformShopifyRequest performs a web request to Shopify with the given method (GET,
 // POST, PUT, DELETE) and relative path (e.g. "/admin/orders.json").
-// The data, options and resource arguments are optional and only relevant in
+// The data, options, and resource arguments are optional and only relevant in
 // certain situations.
 // If the data argument is non-nil, it will be used as the body of the request
 // for POST and PUT requests.
 // The options argument is used for specifying request options such as search
-// parameters like created_at_min
-// Any data returned from Shopify will be marshalled into resource argument.
-func (c *Client) CreateAndDo(method, relPath string, data, options, resource interface{}) error {
-	_, err := c.createAndDoGetHeaders(method, relPath, data, options, resource)
+// parameters like created_at_min.
+// Any data returned from Shopify will be marshalled into the resource argument.
+func (c *Client) PerformShopifyRequest(method, relPath string, data, options, resource interface{}) error {
+	_, err := c.ProcessShopifyRequestWithHeader(method, relPath, data, options, resource)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// createAndDoGetHeaders creates an executes a request while returning the response headers.
-func (c *Client) createAndDoGetHeaders(method, relPath string, data, options, resource interface{}) (http.Header, error) {
+// ProcessShopifyRequestWithHeader creates an executes a request while returning the response headers.
+func (c *Client) ProcessShopifyRequestWithHeader(method, relPath string, data, options, resource interface{}) (http.Header, error) {
 	if strings.HasPrefix(relPath, "/") {
-		// make sure it's a relative path
 		relPath = strings.TrimLeft(relPath, "/")
 	}
 
@@ -619,19 +615,19 @@ func (c *Client) createAndDoGetHeaders(method, relPath string, data, options, re
 		return nil, err
 	}
 
-	return c.doGetHeaders(req, resource)
+	return c.ProcessRequestWithHeaders(req, resource)
 }
 
 // Get performs a GET request for the given path and saves the result in the
 // given resource.
 func (c *Client) Get(path string, resource, options interface{}) error {
-	return c.CreateAndDo("GET", path, nil, options, resource)
+	return c.PerformShopifyRequest("GET", path, nil, options, resource)
 }
 
 // ListWithPagination performs a GET request for the given path and saves the result in the
 // given resource and returns the pagination.
 func (c *Client) ListWithPagination(path string, resource, options interface{}) (*Pagination, error) {
-	headers, err := c.createAndDoGetHeaders("GET", path, nil, options, resource)
+	headers, err := c.ProcessShopifyRequestWithHeader("GET", path, nil, options, resource)
 	if err != nil {
 		return nil, err
 	}
@@ -715,13 +711,12 @@ func extractPagination(linkHeader string) (*Pagination, error) {
 // Post performs a POST request for the given path and saves the result in the
 // given resource.
 func (c *Client) Post(path string, data, resource interface{}) error {
-	return c.CreateAndDo("POST", path, data, nil, resource)
+	return c.PerformShopifyRequest("POST", path, data, nil, resource)
 }
 
-// Put performs a PUT request for the given path and saves the result in the
-// given resource.
+// Put performs a PUT request for the given url and  data and return if there is any error
 func (c *Client) Put(path string, data, resource interface{}) error {
-	return c.CreateAndDo("PUT", path, data, nil, resource)
+	return c.PerformShopifyRequest("PUT", path, data, nil, resource)
 }
 
 // Delete performs a DELETE request for the given path
@@ -731,5 +726,5 @@ func (c *Client) Delete(path string) error {
 
 // DeleteWithOptions performs a DELETE request for the given path WithOptions
 func (c *Client) DeleteWithOptions(path string, options interface{}) error {
-	return c.CreateAndDo("DELETE", path, nil, options, nil)
+	return c.PerformShopifyRequest("DELETE", path, nil, options, nil)
 }

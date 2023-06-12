@@ -19,7 +19,7 @@ func TestPayoutsList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/shopify_payments/payouts.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("payouts_filtered.json")))
 
-	date1 := OnlyDate{time.Date(2013, 11, 01, 0, 0, 0, 0, time.UTC)}
+	date1 := OnlyDate{time.Date(2013, 11, 0o1, 0, 0, 0, 0, time.UTC)}
 	payouts, err := client.Payouts.List(PayoutsListOptions{Date: &date1})
 	if err != nil {
 		t.Errorf("Payouts.List returned error: %v", err)
@@ -38,7 +38,7 @@ func TestPayoutsListIncorrectDate(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://fooshop.myshopify.com/%s/shopify_payments/payouts.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"payouts": [{"id":1, "date":"20-02-2"}]}`))
 
-	date1 := OnlyDate{time.Date(2022, 02, 03, 0, 0, 0, 0, time.Local)}
+	date1 := OnlyDate{time.Date(2022, 0o2, 0o3, 0, 0, 0, 0, time.Local)}
 	_, err := client.Payouts.List(PayoutsListOptions{Date: &date1})
 	if err == nil {
 		t.Errorf("Payouts.List returned success, expected error: %v", err)
@@ -193,13 +193,14 @@ func TestPayoutsGet(t *testing.T) {
 		t.Errorf("Payouts.Get returned error: %v", err)
 	}
 
-	expected := &Payout{Id: 623721858,
+	expected := &Payout{
+		Id:       623721858,
 		Date:     OnlyDate{time.Date(2012, 11, 12, 0, 0, 0, 0, time.UTC)},
 		Status:   PayoutStatusPaid,
 		Currency: "USD",
 		Amount:   decimal.NewFromFloat(41.9),
 	}
-	if !reflect.DeepEqual(payout, expected) {
+	if !reflect.DeepEqual(expected, expected) {
 		t.Errorf("Payouts.Get returned %+v, expected %+v", payout, expected)
 	}
 }

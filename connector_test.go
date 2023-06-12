@@ -333,7 +333,7 @@ func TestDo(t *testing.T) {
 			t.Error("error creating request: ", err)
 		}
 
-		err = client.Do(req, body)
+		err = client.ProcessRequest(req, body)
 		if err != nil {
 			if e, ok := err.(*url.Error); ok {
 				err = e.Err
@@ -440,7 +440,7 @@ func TestRetry(t *testing.T) {
 			t.Error("error creating request: ", err)
 		}
 
-		err = client.Do(req, body)
+		err = client.ProcessRequest(req, body)
 
 		if client.attempts != c.retries {
 			t.Errorf("Do(): attempts do not match retries %#v, actual %#v", client.attempts, c.retries)
@@ -481,7 +481,7 @@ func TestClientDoAutoApiVersion(t *testing.T) {
 		t.Errorf("TestClientDoApiVersion(): errored %s", err)
 	}
 
-	err = testClient.Do(req, nil)
+	err = testClient.ProcessRequest(req, nil)
 	if err != nil {
 		t.Errorf("TestClientDoApiVersion(): errored %s", err)
 	}
@@ -554,7 +554,7 @@ func TestCustomHTTPClientDo(t *testing.T) {
 		if err != nil {
 			t.Fatal(c.url, err)
 		}
-		err = client.Do(req, body)
+		err = client.ProcessRequest(req, body)
 		if err != nil {
 			t.Fatal(c.url, err)
 		}
@@ -629,7 +629,7 @@ func TestCreateAndDo(t *testing.T) {
 	for _, c := range cases {
 		httpmock.RegisterResponder("GET", mockPrefix+c.url, c.responder)
 		body := new(MyStruct)
-		err := client.CreateAndDo("GET", c.url, nil, c.options, body)
+		err := client.PerformShopifyRequest("GET", c.url, nil, c.options, body)
 
 		if err != nil && fmt.Sprint(err) != fmt.Sprint(c.expected) {
 			t.Errorf("CreateAndDo(): expected error %v, actual %v", c.expected, err)
@@ -667,7 +667,6 @@ func TestResponseErrorStructError(t *testing.T) {
 	if !reflect.DeepEqual(res, expected) {
 		t.Errorf("ResponseError returned  %+v, expected %+v", res, expected)
 	}
-
 }
 
 func TestResponseErrorError(t *testing.T) {
@@ -876,7 +875,6 @@ func TestDoRateLimit(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.description, func(t *testing.T) {
-
 			shopUrl := fmt.Sprintf("https://fooshop.myshopify.com/%v", c.url)
 			httpmock.RegisterResponder("GET", shopUrl, c.responder)
 
@@ -884,7 +882,7 @@ func TestDoRateLimit(t *testing.T) {
 				Foo string `json:"foo"`
 			}
 			req, _ := client.NewRequest("GET", c.url, nil, nil)
-			err := client.Do(req, reqBody)
+			err := client.ProcessRequest(req, reqBody)
 
 			if err != nil {
 				if e, ok := err.(*url.Error); ok {

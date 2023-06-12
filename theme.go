@@ -41,6 +41,7 @@ type Theme struct {
 	AdminGraphQLApiID string     `json:"admin_graphql_api_id"`
 	CreatedAt         *time.Time `json:"created_at"`
 	UpdatedAt         *time.Time `json:"updated_at"`
+	ThemeSrc          string     `json:"src"` // TODO: latest added from shopify
 }
 
 // ThemesResource is the result from the themes/X.json endpoint

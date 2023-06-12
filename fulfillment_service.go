@@ -18,13 +18,13 @@ type FulfillmentServiceService interface {
 }
 
 type FulfillmentServiceData struct {
-	Id                     int64  `json:"id,omitempty"`
+	Id                     int64  `json:"id,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	Name                   string `json:"name,omitempty"`
-	Email                  string `json:"email,omitempty"`
-	ServiceName            string `json:"service_name,omitempty"`
+	Email                  string `json:"email,omitempty"`        // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
+	ServiceName            string `json:"service_name,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	Handle                 string `json:"handle,omitempty"`
 	FulfillmentOrdersOptIn bool   `json:"fulfillment_orders_opt_in,omitempty"`
-	IncludePendingStock    bool   `json:"include_pending_stock,omitempty"`
+	IncludePendingStock    bool   `json:"include_pending_stock,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 	ProviderId             int64  `json:"provider_id,omitempty"`
 	LocationId             int64  `json:"location_id,omitempty"`
 	CallbackURL            string `json:"callback_url,omitempty"`

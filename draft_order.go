@@ -49,6 +49,8 @@ type DraftOrder struct {
 	Currency        string           `json:"currency,omitempty"`
 	InvoiceSentAt   *time.Time       `json:"invoice_sent_at,omitempty"`
 	InvoiceURL      string           `json:"invoice_url,omitempty"`
+	PaymentTerm     interface{}      `json:"payment_terms"` // TODO: Latest Field Available In Model 23/04
+	SourceName      string           `json:"source_name"`   // TODO: Latest Field Available In Model 23/04
 	LineItems       []LineItem       `json:"line_items,omitempty"`
 	ShippingLine    *ShippingLines   `json:"shipping_line,omitempty"`
 	Tags            string           `json:"tags,omitempty"`
@@ -57,6 +59,7 @@ type DraftOrder struct {
 	TaxesIncluded   bool             `json:"taxes_included,omitempty"`
 	TotalTax        string           `json:"total_tax,omitempty"`
 	TaxExempt       *bool            `json:"tax_exempt,omitempty"`
+	TaxExemptions   []string         `json:"tax_exemptions"` // TODO: Latest Field Available In Model 23/04
 	TotalPrice      string           `json:"total_price,omitempty"`
 	SubtotalPrice   *decimal.Decimal `json:"subtotal_price,omitempty"`
 	CompletedAt     *time.Time       `json:"completed_at,omitempty"`

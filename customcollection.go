@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
-const customCollectionsBasePath = "custom_collections"
-const customCollectionsResourceName = "collections"
+const (
+	customCollectionsBasePath     = "custom_collections"
+	customCollectionsResourceName = "collections"
+)
 
 // CustomCollectionService is an interface for interacting with the custom
 // collection endpoints of the Shopify API.
@@ -42,7 +44,7 @@ type CustomCollection struct {
 	Published      bool        `json:"published"`
 	PublishedAt    *time.Time  `json:"published_at"`
 	PublishedScope string      `json:"published_scope"`
-	Metafields     []Metafield `json:"metafields,omitempty"`
+	Metafields     []Metafield `json:"metafields,omitempty"` // FIXME: Field Not Available Or Deprecated In Latest Shopify Model 23/04
 }
 
 // CustomCollectionResource represents the result form the custom_collections/X.json endpoint

@@ -61,7 +61,7 @@ func (app App) GetAccessToken(shopName string, code string) (string, error) {
 	}
 
 	token := new(Token)
-	err = client.Do(req, token)
+	err = client.ProcessRequest(req, token)
 	return token.Token, err
 }
 
