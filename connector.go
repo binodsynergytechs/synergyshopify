@@ -552,7 +552,7 @@ func CheckResponseError(r *http.Response) error {
 
 // General list options that can be used for most collections of entities.
 type ListOptions struct {
-	
+	Title string `json:"title,omitempty"`
 	// PageInfo is used with new pagination search.
 	PageInfo string `url:"page_info,omitempty"`
 
