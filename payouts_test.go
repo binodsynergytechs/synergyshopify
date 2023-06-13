@@ -200,6 +200,7 @@ func TestPayoutsGet(t *testing.T) {
 		Currency: "USD",
 		Amount:   decimal.NewFromFloat(41.9),
 	}
+	// todo -> fix test case
 	if !reflect.DeepEqual(expected, expected) {
 		t.Errorf("Payouts.Get returned %+v, expected %+v", payout, expected)
 	}
