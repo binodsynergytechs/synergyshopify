@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -149,5 +149,4 @@ func TestGiftCardCount(t *testing.T) {
 	if cnt != expected {
 		t.Errorf("GiftCard.Count returned %d, expected %d", cnt, expected)
 	}
-
 }

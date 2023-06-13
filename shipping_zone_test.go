@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -10,7 +10,6 @@ import (
 
 // shippingZoneTests tests if fields are properly parsed.
 func shippingZoneTests(t *testing.T, zone ShippingZone) {
-
 	cases := []struct {
 		field    string
 		expected interface{}
@@ -62,6 +61,7 @@ func TestShippingZoneListError(t *testing.T) {
 		t.Errorf("ShippingZone.List err returned %+v, expected %+v", err, expectedErrMessage)
 	}
 }
+
 func TestShippingZoneList(t *testing.T) {
 	setup()
 	defer teardown()

@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -29,7 +29,6 @@ func TestDiscountCodeList(t *testing.T) {
 	if expected[0].ID != codes[0].ID {
 		t.Errorf("DiscountCode.List returned %+v, expected %+v", codes, expected)
 	}
-
 }
 
 func TestDiscountCodeGet(t *testing.T) {
@@ -55,7 +54,6 @@ func TestDiscountCodeGet(t *testing.T) {
 	if dc.ID != expected.ID {
 		t.Errorf("DiscountCode.Get returned %+v, expected %+v", dc, expected)
 	}
-
 }
 
 func TestDiscountCodeCreate(t *testing.T) {
@@ -84,7 +82,6 @@ func TestDiscountCodeCreate(t *testing.T) {
 	if returnedDC.ID != expectedInt {
 		t.Errorf("DiscountCode.ID returned %+v, expected %+v", returnedDC.ID, expectedInt)
 	}
-
 }
 
 func TestDiscountCodeUpdate(t *testing.T) {

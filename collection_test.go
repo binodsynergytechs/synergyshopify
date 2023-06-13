@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -176,6 +176,7 @@ func TestCollectionListProducts(t *testing.T) {
 		t.Errorf("Collection.ListProducts returned %+v, expected %+v", products, expected)
 	}
 }
+
 func TestCollectionListProductsError(t *testing.T) {
 	setup()
 	defer teardown()
@@ -199,6 +200,7 @@ func TestCollectionListProductsError(t *testing.T) {
 		t.Errorf("Collection.ListProducts err returned %v, expected %v", err, expectedError)
 	}
 }
+
 func TestListProductsWithPagination(t *testing.T) {
 	setup()
 	defer teardown()

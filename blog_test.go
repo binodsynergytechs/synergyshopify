@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -30,7 +30,6 @@ func TestBlogList(t *testing.T) {
 	if !reflect.DeepEqual(blogs, expected) {
 		t.Errorf("Blog.List returned %+v, expected %+v", blogs, expected)
 	}
-
 }
 
 func TestBlogCount(t *testing.T) {
@@ -55,7 +54,6 @@ func TestBlogCount(t *testing.T) {
 	if cnt != expected {
 		t.Errorf("Blog.Count returned %d, expected %d", cnt, expected)
 	}
-
 }
 
 func TestBlogGet(t *testing.T) {
@@ -80,7 +78,6 @@ func TestBlogGet(t *testing.T) {
 	if !reflect.DeepEqual(blog, expected) {
 		t.Errorf("Blog.Get returned %+v, expected %+v", blog, expected)
 	}
-
 }
 
 func TestBlogCreate(t *testing.T) {
@@ -109,7 +106,6 @@ func TestBlogCreate(t *testing.T) {
 	if returnedBlog.ID != expectedInt {
 		t.Errorf("Blog.ID returned %+v, expected %+v", returnedBlog.ID, expectedInt)
 	}
-
 }
 
 func TestBlogUpdate(t *testing.T) {

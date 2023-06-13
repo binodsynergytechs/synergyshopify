@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -10,7 +10,6 @@ import (
 )
 
 func customCollectionTests(t *testing.T, collection CustomCollection) {
-
 	// Test a few fields
 	cases := []struct {
 		field    string

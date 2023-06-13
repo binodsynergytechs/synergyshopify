@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"encoding/base64"
@@ -41,7 +41,6 @@ func TestAppGetAccessToken(t *testing.T) {
 
 	app.Client = client
 	token, err := app.GetAccessToken("fooshop", "foocode")
-
 	if err != nil {
 		t.Fatalf("App.GetAccessToken(): %v", err)
 	}
@@ -166,7 +165,6 @@ func TestVerifyWebhookRequest(t *testing.T) {
 			t.Errorf("Webhook.verify was expecting %t got %t", c.expected, isValid)
 		}
 	}
-
 }
 
 func TestVerifyWebhookRequestVerbose(t *testing.T) {
@@ -259,5 +257,4 @@ func TestVerifyWebhookRequestVerbose(t *testing.T) {
 	if err == nil || isValid == true || err.Error() != errors.New("test-error").Error() {
 		t.Errorf("Expected error %s got %s", errors.New("test-error"), err)
 	}
-
 }

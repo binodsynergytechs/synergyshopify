@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -60,8 +60,8 @@ func recurringApplicationChargeTests(t *testing.T, charge RecurringApplicationCh
 // parsed focusing on testing *time.Time fields, which in principle (see #91),
 // may not be parsed properly.
 func recurringApplicationChargeTestsAllFieldsAffected(t *testing.T,
-	charge RecurringApplicationCharge) {
-
+	charge RecurringApplicationCharge,
+) {
 	var nilTest *bool
 
 	cases := []struct {

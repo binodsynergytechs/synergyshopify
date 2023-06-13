@@ -1,5 +1,5 @@
 // Package goshopify provides methods for making requests to Shopify's admin API.
-package goshopify
+package synergyshopify
 
 import (
 	"bytes"

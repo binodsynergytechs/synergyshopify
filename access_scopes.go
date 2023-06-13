@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 type AccessScopesService interface {
 	List(interface{}) ([]AccessScope, error)

@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -7,8 +7,10 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-const variantsBasePath = "variants"
-const variantsResourceName = "variants"
+const (
+	variantsBasePath     = "variants"
+	variantsResourceName = "variants"
+)
 
 // VariantService is an interface for interacting with the variant endpoints
 // of the Shopify API.

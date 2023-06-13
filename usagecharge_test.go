@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -52,8 +52,8 @@ func usageChargeTests(t *testing.T, usageCharge UsageCharge) {
 	if !usageCharge.RiskLevel.Equal(*expected.RiskLevel) {
 		t.Errorf("UsageCharge.RiskLevel returned %v, expected %v", usageCharge.RiskLevel, expected.RiskLevel)
 	}
-
 }
+
 func TestUsageChargeServiceOp_Create(t *testing.T) {
 	setup()
 	defer teardown()
@@ -77,7 +77,6 @@ func TestUsageChargeServiceOp_Create(t *testing.T) {
 		t.Errorf("UsageCharge.Create returned an error: %v", err)
 	}
 	usageChargeTests(t, *returnedCharge)
-
 }
 
 func TestUsageChargeServiceOp_Get(t *testing.T) {
@@ -126,7 +125,6 @@ func TestUsageChargeServiceOp_List(t *testing.T) {
 }
 
 func TestUsageChargeServiceOp_GetBadFields(t *testing.T) {
-
 	setup()
 	defer teardown()
 
@@ -152,5 +150,4 @@ func TestUsageChargeServiceOp_GetBadFields(t *testing.T) {
 	if _, err := client.UsageCharge.Get(455696195, 1034618210, nil); err == nil {
 		t.Errorf("UsageCharge.Get should have returned an error")
 	}
-
 }

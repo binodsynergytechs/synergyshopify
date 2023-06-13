@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -97,6 +97,7 @@ func TestInventoryItemGet(t *testing.T) {
 
 	inventoryItemTests(t, item)
 }
+
 func TestInventoryItemUpdate(t *testing.T) {
 	setup()
 	defer teardown()

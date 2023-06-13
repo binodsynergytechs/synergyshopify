@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"net/url"
@@ -108,7 +108,7 @@ func TestOnlyDateMarshal(t *testing.T) {
 		in       OnlyDate
 		expected string
 	}{
-		{OnlyDate{time.Date(2023, 03, 31, 0, 0, 0, 0, time.Local)}, "\"2023-03-31\""},
+		{OnlyDate{time.Date(2023, 0o3, 31, 0, 0, 0, 0, time.Local)}, "\"2023-03-31\""},
 		{OnlyDate{}, "\"0001-01-01\""},
 	}
 
@@ -125,7 +125,7 @@ func TestOnlyDateUnmarshal(t *testing.T) {
 		in       string
 		expected OnlyDate
 	}{
-		{"\"2023-03-31\"", OnlyDate{time.Date(2023, 03, 31, 0, 0, 0, 0, time.Local)}},
+		{"\"2023-03-31\"", OnlyDate{time.Date(2023, 0o3, 31, 0, 0, 0, 0, time.Local)}},
 		{"\"0001-01-01\"", OnlyDate{}},
 		{"\"\"", OnlyDate{}},
 	}
@@ -144,7 +144,7 @@ func TestOnlyDateEncode(t *testing.T) {
 		in       OnlyDate
 		expected string
 	}{
-		{OnlyDate{time.Date(2023, 03, 31, 0, 0, 0, 0, time.Local)}, "\"2023-03-31\""},
+		{OnlyDate{time.Date(2023, 0o3, 31, 0, 0, 0, 0, time.Local)}, "\"2023-03-31\""},
 		{OnlyDate{}, "\"0001-01-01\""},
 	}
 

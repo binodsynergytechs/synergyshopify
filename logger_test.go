@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"bytes"
@@ -71,7 +71,6 @@ func TestLeveledLogger(t *testing.T) {
 	if log.stdout() != os.Stdout {
 		t.Errorf("leveled logger with no stdout override expects os.Stdout")
 	}
-
 }
 
 func TestDoGetHeadersDebug(t *testing.T) {

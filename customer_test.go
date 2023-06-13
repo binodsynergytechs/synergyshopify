@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"errors"
@@ -217,10 +217,12 @@ func TestCustomerGet(t *testing.T) {
 		t.Errorf("Customer.Get returned error: %v", err)
 	}
 
-	address1 := &CustomerAddress{ID: 1, CustomerID: 1, FirstName: "Test", LastName: "Citizen", Company: "",
+	address1 := &CustomerAddress{
+		ID: 1, CustomerID: 1, FirstName: "Test", LastName: "Citizen", Company: "",
 		Address1: "1 Smith St", Address2: "", City: "BRISBANE", Province: "Queensland", Country: "Australia",
 		Zip: "4000", Phone: "1111 111 111", Name: "Test Citizen", ProvinceCode: "QLD", CountryCode: "AU",
-		CountryName: "Australia", Default: true}
+		CountryName: "Australia", Default: true,
+	}
 	createdAt := time.Date(2017, time.September, 23, 18, 15, 47, 0, time.UTC)
 	updatedAt := time.Date(2017, time.September, 23, 18, 15, 47, 0, time.UTC)
 	totalSpent := decimal.NewFromFloat(278.60)

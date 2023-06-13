@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -30,5 +30,4 @@ func TestAbandonedCheckoutList(t *testing.T) {
 	if !reflect.DeepEqual(abandonedCheckouts, expected) {
 		t.Errorf("AbandonedCheckout.List returned %+v, expected %+v", abandonedCheckouts, expected)
 	}
-
 }

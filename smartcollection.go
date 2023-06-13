@@ -1,12 +1,14 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
 	"time"
 )
 
-const smartCollectionsBasePath = "smart_collections"
-const smartCollectionsResourceName = "collections"
+const (
+	smartCollectionsBasePath     = "smart_collections"
+	smartCollectionsResourceName = "collections"
+)
 
 // SmartCollectionService is an interface for interacting with the smart
 // collection endpoints of the Shopify API.

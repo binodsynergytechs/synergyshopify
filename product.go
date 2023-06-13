@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -6,8 +6,10 @@ import (
 	"time"
 )
 
-const productsBasePath = "products"
-const productsResourceName = "products"
+const (
+	productsBasePath     = "products"
+	productsResourceName = "products"
+)
 
 // linkRegex is used to extract pagination links from product search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)

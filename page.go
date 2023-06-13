@@ -1,12 +1,14 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
 	"time"
 )
 
-const pagesBasePath = "pages"
-const pagesResourceName = "pages"
+const (
+	pagesBasePath     = "pages"
+	pagesResourceName = "pages"
+)
 
 // PagesPageService is an interface for interacting with the pages
 // endpoints of the Shopify API.

@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"github.com/shopspring/decimal"

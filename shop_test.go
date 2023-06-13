@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ func TestShopGet(t *testing.T) {
 	}
 
 	// Check that dates are parsed
-	d := time.Date(2007, time.December, 31, 19, 00, 00, 0, time.UTC)
+	d := time.Date(2007, time.December, 31, 19, 0o0, 0o0, 0, time.UTC)
 	if !d.Equal(*shop.CreatedAt) {
 		t.Errorf("Shop.CreatedAt returned %+v, expected %+v", shop.CreatedAt, d)
 	}

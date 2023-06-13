@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"encoding/json"
@@ -8,8 +8,10 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-const ordersBasePath = "orders"
-const ordersResourceName = "orders"
+const (
+	ordersBasePath     = "orders"
+	ordersResourceName = "orders"
+)
 
 // OrderService is an interface for interfacing with the orders endpoints of
 // the Shopify API.

@@ -1,4 +1,4 @@
-package goshopify
+package synergyshopify
 
 import (
 	"fmt"
@@ -455,5 +455,4 @@ func variantTestsWithTaxCode(t *testing.T, variant Variant) {
 	if variant.TaxCode != expectedTacCode {
 		t.Errorf("Variant.TaxCode returned %+v, expected %+v", variant.TaxCode, expectedTacCode)
 	}
-
 }
