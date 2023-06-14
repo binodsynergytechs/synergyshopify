@@ -8,7 +8,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"sort"
@@ -98,8 +98,8 @@ func (app App) VerifyWebhookRequest(httpRequest *http.Request) bool {
 	actualMac := []byte(shopifySha256)
 
 	mac := hmac.New(sha256.New, []byte(app.ApiSecret))
-	requestBody, _ := ioutil.ReadAll(httpRequest.Body)
-	httpRequest.Body = ioutil.NopCloser(bytes.NewBuffer(requestBody))
+	requestBody, _ := io.ReadAll(httpRequest.Body)
+	httpRequest.Body = io.NopCloser(bytes.NewBuffer(requestBody))
 	mac.Write(requestBody)
 	macSum := mac.Sum(nil)
 	expectedMac := []byte(base64.StdEncoding.EncodeToString(macSum))
@@ -129,12 +129,12 @@ func (app App) VerifyWebhookRequestVerbose(httpRequest *http.Request) (bool, err
 	}
 
 	mac := hmac.New(sha256.New, []byte(app.ApiSecret))
-	requestBody, err := ioutil.ReadAll(httpRequest.Body)
+	requestBody, err := io.ReadAll(httpRequest.Body)
 	if err != nil {
 		return false, err
 	}
 
-	httpRequest.Body = ioutil.NopCloser(bytes.NewBuffer(requestBody))
+	httpRequest.Body = io.NopCloser(bytes.NewBuffer(requestBody))
 	if len(requestBody) == 0 {
 		return false, errors.New("request body is empty")
 	}
