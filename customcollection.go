@@ -20,6 +20,8 @@ type CustomCollectionService interface {
 	Create(CustomCollection) (*CustomCollection, error)
 	Update(CustomCollection) (*CustomCollection, error)
 	Delete(int64) error
+	ListCollectionWithPagination(interface{}) ([]CustomCollection, *Pagination, error)
+	ListWithPaginations(interface{}) ([]CustomCollection, *Pagination, error)
 
 	// MetafieldsService used for CustomCollection resource to communicate with Metafields resource
 	MetafieldsService
@@ -137,4 +139,33 @@ func (s *CustomCollectionServiceOp) UpdateMetafield(customCollectionID int64, me
 func (s *CustomCollectionServiceOp) DeleteMetafield(customCollectionID int64, metafieldID int64) error {
 	metafieldService := &MetafieldServiceOp{client: s.client, resource: customCollectionsResourceName, resourceID: customCollectionID}
 	return metafieldService.Delete(metafieldID)
+}
+
+func (s *CustomCollectionServiceOp) ListWithPaginations(options interface{}) ([]CustomCollection, *Pagination, error) {
+	products, pagination, err := s.ListCollectionWithPagination(options)
+	if err != nil {
+		return nil, nil, err
+	}
+	return products, pagination, nil
+}
+
+func (s *CustomCollectionServiceOp) ListCollectionWithPagination(options interface{}) ([]CustomCollection, *Pagination, error) {
+	path := fmt.Sprintf("%s.json", customCollectionsBasePath)
+	resource := new(CustomCollectionsResource)
+	// headers := http.Header{}
+
+	headers, err := s.client.ProcessShopifyRequestWithHeader("GET", path, nil, options, resource)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// Extract pagination info from header
+	linkHeader := headers.Get("Link")
+	// fmt.Println("links:", linkHeader)
+	pagination, err := extractPagination(linkHeader)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return resource.Collections, pagination, nil
 }
