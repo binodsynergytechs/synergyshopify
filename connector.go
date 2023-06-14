@@ -120,6 +120,7 @@ type Client struct {
 	CarrierService             CarrierServiceService
 	Payouts                    PayoutsService
 	GiftCard                   GiftCardService
+	OrderRisk                  OrderRiskService
 }
 
 // A general response error that follows a similar layout to Shopify's response
