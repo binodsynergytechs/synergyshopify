@@ -1,7 +1,12 @@
 package synergyshopify
 
 import (
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"path"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -20,6 +25,8 @@ type CustomCollectionService interface {
 	Create(CustomCollection) (*CustomCollection, error)
 	Update(CustomCollection) (*CustomCollection, error)
 	Delete(int64) error
+	ListCollectionWithPagination(interface{}) ([]CustomCollection, *Pagination, error)
+	ListWithPaginations(interface{}) ([]CustomCollection, *Pagination, error)
 
 	// MetafieldsService used for CustomCollection resource to communicate with Metafields resource
 	MetafieldsService
@@ -55,6 +62,134 @@ type CustomCollectionResource struct {
 // CustomCollectionsResource represents the result from the custom_collections.json endpoint
 type CustomCollectionsResource struct {
 	Collections []CustomCollection `json:"custom_collections"`
+}
+
+// List products
+func (s *CustomCollectionServiceOp) ListWithPaginations(options interface{}) ([]CustomCollection, *Pagination, error) {
+	products, pagination, err := s.ListCollectionWithPagination(options)
+	if err != nil {
+		return nil, nil, err
+	}
+	return products, pagination, nil
+}
+
+// createAndDoGetHeaders creates an executes a request while returning the response headers.
+func (c *Client) createAndDoGetHeaders(method, relPath string, data, options, resource interface{}) (http.Header, error) {
+	if strings.HasPrefix(relPath, "/") {
+		// make sure it's a relative path
+		relPath = strings.TrimLeft(relPath, "/")
+	}
+
+	relPath = path.Join(c.pathPrefix, relPath)
+	req, err := c.NewRequest(method, relPath, data, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return c.doGetHeaders(req, resource)
+}
+
+// doGetHeaders executes a request, decoding the response into `v` and also returns any response headers.
+func (c *Client) doGetHeaders(req *http.Request, v interface{}) (http.Header, error) {
+	var resp *http.Response
+	var err error
+	retries := c.retries
+	c.attempts = 0
+	c.logRequest(req)
+
+	for {
+		c.attempts++
+		resp, err = c.Client.Do(req)
+		c.logResponse(resp)
+		if err != nil {
+			return nil, err // http client errors, not api responses
+		}
+
+		respErr := CheckResponseError(resp)
+		if respErr == nil {
+			break // no errors, break out of the retry loop
+		}
+
+		// retry scenario, close resp and any continue will retry
+		resp.Body.Close()
+
+		if retries <= 1 {
+			return nil, respErr
+		}
+
+		if rateLimitErr, isRetryErr := respErr.(RateLimitError); isRetryErr {
+			// back off and retry
+
+			wait := time.Duration(rateLimitErr.RetryAfter) * time.Second
+			c.log.Debugf("rate limited waiting %s", wait.String())
+			time.Sleep(wait)
+			retries--
+			continue
+		}
+
+		var doRetry bool
+		switch resp.StatusCode {
+		case http.StatusServiceUnavailable:
+			c.log.Debugf("service unavailable, retrying")
+			doRetry = true
+			retries--
+		}
+
+		if doRetry {
+			continue
+		}
+
+		// no retry attempts, just return the err
+		return nil, respErr
+	}
+
+	c.logResponse(resp)
+	defer resp.Body.Close()
+
+	if c.apiVersion == defaultApiVersion && resp.Header.Get("X-Shopify-API-Version") != "" {
+		// if using stable on first request set the api version
+		c.apiVersion = resp.Header.Get("X-Shopify-API-Version")
+		c.log.Infof("api version not set, now using %s", c.apiVersion)
+	}
+
+	if v != nil {
+		decoder := json.NewDecoder(resp.Body)
+		err := decoder.Decode(&v)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if s := strings.Split(resp.Header.Get("X-Shopify-Shop-Api-Call-Limit"), "/"); len(s) == 2 {
+		c.RateLimits.RequestCount, _ = strconv.Atoi(s[0])
+		c.RateLimits.BucketSize, _ = strconv.Atoi(s[1])
+	}
+
+	c.RateLimits.RetryAfterSeconds, _ = strconv.ParseFloat(resp.Header.Get("Retry-After"), 64)
+
+	return resp.Header, nil
+}
+
+// ListWithPagination lists products and return pagination to retrieve next/previous results.
+func (s *CustomCollectionServiceOp) ListCollectionWithPagination(options interface{}) ([]CustomCollection, *Pagination, error) {
+	path := fmt.Sprintf("%s.json", customCollectionsBasePath)
+	resource := new(CustomCollectionsResource)
+	// headers := http.Header{}
+
+	headers, err := s.client.createAndDoGetHeaders("GET", path, nil, options, resource)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// Extract pagination info from header
+	linkHeader := headers.Get("Link")
+	// fmt.Println("links:", linkHeader)
+	pagination, err := extractPagination(linkHeader)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return resource.Collections, pagination, nil
 }
 
 // List custom collections
