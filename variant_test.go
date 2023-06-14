@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/jarcoal/httpmock"
-	"github.com/shopspring/decimal"
 )
 
 func variantTests(t *testing.T, variant Variant) {
@@ -142,11 +141,11 @@ func TestVariantCreate(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/variants.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("variant.json")))
 
-	price := decimal.NewFromFloat(1)
+	price := "1"
 
 	variant := Variant{
 		Option1: "Yellow",
-		Price:   &price,
+		Price:   price,
 	}
 	result, err := client.Variant.Create(1, variant)
 	if err != nil {
@@ -162,11 +161,11 @@ func TestVariantCreateWithMetafields(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/variants.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("variant_with_metafields.json")))
 
-	price := decimal.NewFromFloat(2)
+	price := "2"
 
 	variant := Variant{
 		Option1: "Blue",
-		Price:   &price,
+		Price:   price,
 	}
 	result, err := client.Variant.Create(1, variant)
 	if err != nil {
@@ -413,11 +412,11 @@ func TestVariantCreateWithTaxCode(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/products/1/variants.json", client.pathPrefix),
 		httpmock.NewBytesResponder(200, loadFixture("variant_with_taxcode.json")))
 
-	price := decimal.NewFromFloat(1)
+	price := "1"
 
 	variant := Variant{
 		Option1: "Yellow",
-		Price:   &price,
+		Price:   price,
 		TaxCode: "P0000000",
 	}
 	result, err := client.Variant.Create(1, variant)
