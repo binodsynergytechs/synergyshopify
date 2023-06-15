@@ -25,7 +25,7 @@ const (
 	UnstableApiVersion = "unstable"
 
 	// Shopify API version YYYY-MM - defaults to admin which uses the oldest stable version of the api
-	defaultApiPathPrefix = "admin"
+	defaultApiPathPrefix = "admin/api/2023-04"
 	defaultApiVersion    = "stable"
 	defaultHttpTimeout   = 10
 )
