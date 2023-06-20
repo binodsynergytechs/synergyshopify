@@ -301,6 +301,7 @@ func NewClient(app App, shopName, token string, opts ...Option) *Client {
 	c.CarrierService = &CarrierServiceOp{client: c}
 	c.Payouts = &PayoutsServiceOp{client: c}
 	c.GiftCard = &GiftCardServiceOp{client: c}
+	c.OrderRisk = &OrderRiksServiceOp{client: c}
 
 	// apply any options
 	for _, opt := range opts {
