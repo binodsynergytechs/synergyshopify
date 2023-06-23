@@ -1,4 +1,4 @@
-// Package goshopify provides methods for making requests to Shopify's admin API.
+// Package synergyshopigy provides methods for making requests to Shopify's admin API.
 package synergyshopify
 
 import (

@@ -522,6 +522,16 @@ func (s *OrderServiceOp) GetFulfillment(orderID int64, fulfillmentID int64, opti
 	return fulfillmentService.Get(fulfillmentID, options)
 }
 
+func (s *OrderServiceOp) GetFulfillmentOrder(orderID int64, options interface{}) (*FulfillmentOrder, error) {
+	fulfillmentService := &FulfillmentOrderServiceOp{client: s.client, resource: ordersResourceName, resourceID: orderID}
+	return fulfillmentService.Get(options)
+}
+
+func (s *OrderServiceOp) CreateFulfillmentOrder(fulfillmentRequest FulfillmentRequest) (*FulfillmentOrder, error) {
+	fulfillmentService := &FulfillmentOrderServiceOp{client: s.client, resource: ordersResourceName}
+	return fulfillmentService.Create(fulfillmentRequest)
+}
+
 // Create a new fulfillment for an order
 func (s *OrderServiceOp) CreateFulfillment(orderID int64, fulfillment Fulfillment) (*Fulfillment, error) {
 	fulfillmentService := &FulfillmentServiceOp{client: s.client, resource: ordersResourceName, resourceID: orderID}
