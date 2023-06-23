@@ -91,7 +91,7 @@ type FulfillmentOrderResourceResp struct {
 }
 
 type FulfillmentRequestResource struct {
-	FulfillmentRequest *FulfillmentRequest `json:"fulfillment_request,omitempty"`
+	FulfillmentRequest *FulfillmentRequest `json:"fulfillment,omitempty"`
 }
 
 // FulfillmentOrderServiceOp handles communication with the fulfillment
