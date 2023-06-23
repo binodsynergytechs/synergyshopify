@@ -58,7 +58,7 @@ type ThemesResource struct {
 func (s *ThemeServiceOp) List(options interface{}) ([]Theme, error) {
 	path := fmt.Sprintf("%s.json", themesBasePath)
 	resource := new(ThemesResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Themes, err
 }
 
@@ -75,7 +75,7 @@ func (s *ThemeServiceOp) Create(theme Theme) (*Theme, error) {
 func (s *ThemeServiceOp) Get(themeID int64, options interface{}) (*Theme, error) {
 	path := fmt.Sprintf("%s/%d.json", themesBasePath, themeID)
 	resource := new(ThemeResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Theme, err
 }
 

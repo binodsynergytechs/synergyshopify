@@ -92,6 +92,6 @@ type ShippingZonesResource struct {
 // List shipping zones
 func (s *ShippingZoneServiceOp) List() ([]ShippingZone, error) {
 	resource := new(ShippingZonesResource)
-	err := s.client.Get("shipping_zones.json", resource, nil)
+	err := s.client.Get("shipping_zones.json", resource, nil, true)
 	return resource.ShippingZones, err
 }

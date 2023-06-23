@@ -57,7 +57,7 @@ type FulfillmentServiceServiceOp struct {
 func (s *FulfillmentServiceServiceOp) List(options interface{}) ([]FulfillmentServiceData, error) {
 	path := fmt.Sprintf("%s.json", fulfillmentServiceBasePath)
 	resource := new(FulfillmentServicesResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.FulfillmentServices, err
 }
 
@@ -65,7 +65,7 @@ func (s *FulfillmentServiceServiceOp) List(options interface{}) ([]FulfillmentSe
 func (s *FulfillmentServiceServiceOp) Get(fulfillmentServiceId int64, options interface{}) (*FulfillmentServiceData, error) {
 	path := fmt.Sprintf("%s/%d.json", fulfillmentServiceBasePath, fulfillmentServiceId)
 	resource := new(FulfillmentServiceResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.FulfillmentService, err
 }
 

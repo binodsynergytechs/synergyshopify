@@ -90,6 +90,6 @@ func (s *PayoutsServiceOp) ListWithPagination(options interface{}) ([]Payout, *P
 func (s *PayoutsServiceOp) Get(id int64, options interface{}) (*Payout, error) {
 	path := fmt.Sprintf("%s/%d.json", payoutsBasePath, id)
 	resource := new(PayoutResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Payout, err
 }

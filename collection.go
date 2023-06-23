@@ -45,7 +45,7 @@ type CollectionResource struct {
 func (s *CollectionServiceOp) Get(collectionID int64, options interface{}) (*Collection, error) {
 	path := fmt.Sprintf("%s/%d.json", collectionsBasePath, collectionID)
 	resource := new(CollectionResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Collection, err
 }
 

@@ -49,7 +49,7 @@ type OrderRisksResource struct {
 func (s *OrderRiksServiceOp) List(orderId int64, options interface{}) ([]OrderRisk, error) {
 	path := fmt.Sprintf("%s/%d/risks.json", orderRiskBasePath, orderId)
 	resource := new(OrderRisksResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Risks, err
 }
 
@@ -57,7 +57,7 @@ func (s *OrderRiksServiceOp) List(orderId int64, options interface{}) ([]OrderRi
 func (s *OrderRiksServiceOp) Get(orderID int64, riskID int64, options interface{}) (*OrderRisk, error) {
 	path := fmt.Sprintf("%s/%d/risks/%d.json", orderRiskBasePath, orderID, riskID)
 	resource := new(OrderRiskResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Risk, err
 }
 

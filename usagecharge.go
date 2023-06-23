@@ -89,7 +89,7 @@ func (r *UsageChargeServiceOp) Get(chargeID int64, usageChargeID int64, options 
 ) {
 	path := fmt.Sprintf("%s/%d/%s/%d.json", recurringApplicationChargesBasePath, chargeID, usageChargesPath, usageChargeID)
 	resource := &UsageChargeResource{}
-	err := r.client.Get(path, resource, options)
+	err := r.client.Get(path, resource, options, true)
 	return resource.Charge, err
 }
 
@@ -99,6 +99,6 @@ func (r *UsageChargeServiceOp) List(chargeID int64, options interface{}) (
 ) {
 	path := fmt.Sprintf("%s/%d/%s.json", recurringApplicationChargesBasePath, chargeID, usageChargesPath)
 	resource := &UsageChargesResource{}
-	err := r.client.Get(path, resource, options)
+	err := r.client.Get(path, resource, options, true)
 	return resource.Charges, err
 }

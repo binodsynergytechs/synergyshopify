@@ -55,7 +55,7 @@ type InventoryItemsResource struct {
 func (s *InventoryItemServiceOp) List(options interface{}) ([]InventoryItem, error) {
 	path := fmt.Sprintf("%s.json", inventoryItemsBasePath)
 	resource := new(InventoryItemsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.InventoryItems, err
 }
 
@@ -63,7 +63,7 @@ func (s *InventoryItemServiceOp) List(options interface{}) ([]InventoryItem, err
 func (s *InventoryItemServiceOp) Get(id int64, options interface{}) (*InventoryItem, error) {
 	path := fmt.Sprintf("%s/%d.json", inventoryItemsBasePath, id)
 	resource := new(InventoryItemResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.InventoryItem, err
 }
 

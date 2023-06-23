@@ -95,7 +95,7 @@ func (s *FulfillmentServiceOp) List(options interface{}) ([]Fulfillment, error) 
 	prefix := FulfillmentPathPrefix(s.resource, s.resourceID)
 	path := fmt.Sprintf("%s.json", prefix)
 	resource := new(FulfillmentsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Fulfillments, err
 }
 
@@ -111,7 +111,7 @@ func (s *FulfillmentServiceOp) Get(fulfillmentID int64, options interface{}) (*F
 	prefix := FulfillmentPathPrefix(s.resource, s.resourceID)
 	path := fmt.Sprintf("%s/%d.json", prefix, fulfillmentID)
 	resource := new(FulfillmentResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Fulfillment, err
 }
 

@@ -108,7 +108,7 @@ func (s *ProductListingServiceOp) Count(options interface{}) (int, error) {
 func (s *ProductListingServiceOp) Get(productID int64, options interface{}) (*ProductListing, error) {
 	path := fmt.Sprintf("%s/%d.json", productListingBasePath, productID)
 	resource := new(ProductListingResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.ProductListing, err
 }
 
@@ -116,7 +116,7 @@ func (s *ProductListingServiceOp) Get(productID int64, options interface{}) (*Pr
 func (s *ProductListingServiceOp) GetProductIDs(options interface{}) ([]int64, error) {
 	path := fmt.Sprintf("%s/product_ids.json", productListingBasePath)
 	resource := new(ProductListingIDsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.ProductIDs, err
 }
 

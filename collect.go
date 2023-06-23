@@ -50,7 +50,7 @@ type CollectsResource struct {
 func (s *CollectServiceOp) List(options interface{}) ([]Collect, error) {
 	path := fmt.Sprintf("%s.json", collectsBasePath)
 	resource := new(CollectsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Collects, err
 }
 
@@ -64,7 +64,7 @@ func (s *CollectServiceOp) Count(options interface{}) (int, error) {
 func (s *CollectServiceOp) Get(collectID int64, options interface{}) (*Collect, error) {
 	path := fmt.Sprintf("%s/%d.json", collectsBasePath, collectID)
 	resource := new(CollectResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Collect, err
 }
 

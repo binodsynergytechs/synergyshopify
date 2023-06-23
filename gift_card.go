@@ -65,7 +65,7 @@ type GiftCardsResource struct {
 func (s *GiftCardServiceOp) Get(giftCardID int64) (*GiftCard, error) {
 	path := fmt.Sprintf("%s/%d.json", giftCardsBasePath, giftCardID)
 	resource := new(GiftCardResource)
-	err := s.client.Get(path, resource, nil)
+	err := s.client.Get(path, resource, nil, true)
 	return resource.GiftCard, err
 }
 
@@ -73,7 +73,7 @@ func (s *GiftCardServiceOp) Get(giftCardID int64) (*GiftCard, error) {
 func (s *GiftCardServiceOp) List() ([]GiftCard, error) {
 	path := fmt.Sprintf("%s.json", giftCardsBasePath)
 	resource := new(GiftCardsResource)
-	err := s.client.Get(path, resource, nil)
+	err := s.client.Get(path, resource, nil, true)
 	return resource.GiftCards, err
 }
 

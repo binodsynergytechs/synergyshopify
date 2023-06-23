@@ -585,7 +585,7 @@ func (c *Client) Count(path string, options interface{}) (int, error) {
 	resource := struct {
 		Count int `json:"count"`
 	}{}
-	err := c.Get(path, &resource, options)
+	err := c.Get(path, &resource, options, true)
 	return resource.Count, err
 }
 
@@ -598,8 +598,8 @@ func (c *Client) Count(path string, options interface{}) (int, error) {
 // The options argument is used for specifying request options such as search
 // parameters like created_at_min.
 // Any data returned from Shopify will be marshalled into the resource argument.
-func (c *Client) PerformShopifyRequest(method, relPath string, data, options, resource interface{}) error {
-	_, err := c.ProcessShopifyRequestWithHeader(method, relPath, data, options, resource)
+func (c *Client) PerformShopifyRequest(method, relPath string, data, options, resource interface{}, needAPIVersion bool) error {
+	_, err := c.ProcessShopifyRequestWithHeader(method, relPath, data, options, resource, needAPIVersion)
 	if err != nil {
 		return err
 	}
@@ -607,12 +607,13 @@ func (c *Client) PerformShopifyRequest(method, relPath string, data, options, re
 }
 
 // ProcessShopifyRequestWithHeader creates an executes a request while returning the response headers.
-func (c *Client) ProcessShopifyRequestWithHeader(method, relPath string, data, options, resource interface{}) (http.Header, error) {
+func (c *Client) ProcessShopifyRequestWithHeader(method, relPath string, data, options, resource interface{}, needVersion bool) (http.Header, error) {
 	if strings.HasPrefix(relPath, "/") {
 		relPath = strings.TrimLeft(relPath, "/")
 	}
 
-	relPath = path.Join(c.pathPrefix, relPath)
+	pathPrefix := findPathPrefix(c.pathPrefix, needVersion)
+	relPath = path.Join(pathPrefix, relPath)
 	req, err := c.NewRequest(method, relPath, data, options)
 	if err != nil {
 		return nil, err
@@ -621,16 +622,25 @@ func (c *Client) ProcessShopifyRequestWithHeader(method, relPath string, data, o
 	return c.ProcessRequestWithHeaders(req, resource)
 }
 
+func findPathPrefix(pathPrefix string, versionNeeded bool) string {
+	if versionNeeded {
+		return pathPrefix
+	}
+
+	parts := strings.Split(pathPrefix, "/")
+	return parts[0]
+}
+
 // Get performs a GET request for the given path and saves the result in the
 // given resource.
-func (c *Client) Get(path string, resource, options interface{}) error {
-	return c.PerformShopifyRequest("GET", path, nil, options, resource)
+func (c *Client) Get(path string, resource, options interface{}, needApiVersion bool) error {
+	return c.PerformShopifyRequest("GET", path, nil, options, resource, needApiVersion)
 }
 
 // ListWithPagination performs a GET request for the given path and saves the result in the
 // given resource and returns the pagination.
 func (c *Client) ListWithPagination(path string, resource, options interface{}) (*Pagination, error) {
-	headers, err := c.ProcessShopifyRequestWithHeader("GET", path, nil, options, resource)
+	headers, err := c.ProcessShopifyRequestWithHeader("GET", path, nil, options, resource, true)
 	if err != nil {
 		return nil, err
 	}
@@ -714,12 +724,12 @@ func extractPagination(linkHeader string) (*Pagination, error) {
 // Post performs a POST request for the given path and saves the result in the
 // given resource.
 func (c *Client) Post(path string, data, resource interface{}) error {
-	return c.PerformShopifyRequest("POST", path, data, nil, resource)
+	return c.PerformShopifyRequest("POST", path, data, nil, resource, true)
 }
 
 // Put performs a PUT request for the given url and  data and return if there is any error
 func (c *Client) Put(path string, data, resource interface{}) error {
-	return c.PerformShopifyRequest("PUT", path, data, nil, resource)
+	return c.PerformShopifyRequest("PUT", path, data, nil, resource, true)
 }
 
 // Delete performs a DELETE request for the given path
@@ -729,5 +739,5 @@ func (c *Client) Delete(path string) error {
 
 // DeleteWithOptions performs a DELETE request for the given path WithOptions
 func (c *Client) DeleteWithOptions(path string, options interface{}) error {
-	return c.PerformShopifyRequest("DELETE", path, nil, options, nil)
+	return c.PerformShopifyRequest("DELETE", path, nil, options, nil, true)
 }

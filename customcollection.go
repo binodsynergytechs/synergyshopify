@@ -63,7 +63,7 @@ type CustomCollectionsResource struct {
 func (s *CustomCollectionServiceOp) List(options interface{}) ([]CustomCollection, error) {
 	path := fmt.Sprintf("%s.json", customCollectionsBasePath)
 	resource := new(CustomCollectionsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Collections, err
 }
 
@@ -77,7 +77,7 @@ func (s *CustomCollectionServiceOp) Count(options interface{}) (int, error) {
 func (s *CustomCollectionServiceOp) Get(collectionID int64, options interface{}) (*CustomCollection, error) {
 	path := fmt.Sprintf("%s/%d.json", customCollectionsBasePath, collectionID)
 	resource := new(CustomCollectionResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.Collection, err
 }
 
@@ -154,7 +154,7 @@ func (s *CustomCollectionServiceOp) ListCollectionWithPagination(options interfa
 	resource := new(CustomCollectionsResource)
 	// headers := http.Header{}
 
-	headers, err := s.client.ProcessShopifyRequestWithHeader("GET", path, nil, options, resource)
+	headers, err := s.client.ProcessShopifyRequestWithHeader("GET", path, nil, options, resource, true)
 	if err != nil {
 		return nil, nil, err
 	}

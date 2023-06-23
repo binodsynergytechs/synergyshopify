@@ -155,7 +155,7 @@ func (pr *PriceRule) SetPrerequisiteToEntitlementQuantityRatio(prerequisiteQuant
 func (s *PriceRuleServiceOp) Get(priceRuleID int64) (*PriceRule, error) {
 	path := fmt.Sprintf("%s/%d.json", priceRulesBasePath, priceRuleID)
 	resource := new(PriceRuleResource)
-	err := s.client.Get(path, resource, nil)
+	err := s.client.Get(path, resource, nil, true)
 	return resource.PriceRule, err
 }
 
@@ -163,7 +163,7 @@ func (s *PriceRuleServiceOp) Get(priceRuleID int64) (*PriceRule, error) {
 func (s *PriceRuleServiceOp) List() ([]PriceRule, error) {
 	path := fmt.Sprintf("%s.json", priceRulesBasePath)
 	resource := new(PriceRulesResource)
-	err := s.client.Get(path, resource, nil)
+	err := s.client.Get(path, resource, nil, true)
 	return resource.PriceRules, err
 }
 

@@ -78,6 +78,6 @@ type ShopResource struct {
 // Get shop
 func (s *ShopServiceOp) Get(options interface{}) (*Shop, error) {
 	resource := new(ShopResource)
-	err := s.client.Get("shop.json", resource, options)
+	err := s.client.Get("shop.json", resource, options, true)
 	return resource.Shop, err
 }

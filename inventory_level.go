@@ -62,7 +62,7 @@ type InventoryLevelAdjustOptions struct {
 func (s *InventoryLevelServiceOp) List(options interface{}) ([]InventoryLevel, error) {
 	path := fmt.Sprintf("%s.json", inventoryLevelsBasePath)
 	resource := new(InventoryLevelsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.InventoryLevels, err
 }
 

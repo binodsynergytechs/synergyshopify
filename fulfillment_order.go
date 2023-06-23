@@ -85,7 +85,7 @@ type FulfillmentOrderServiceOp struct {
 func (s *FulfillmentOrderServiceOp) Get(options interface{}) ([]FulfillmentOrder, error) {
 	path := fmt.Sprintf("%s/%d/fulfillment_orders.json", s.resource, s.resourceID)
 	resource := new(FulfillmentOrderResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.FulfillmentOrder, err
 }
 

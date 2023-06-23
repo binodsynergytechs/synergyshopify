@@ -23,6 +23,6 @@ type AccessScopesServiceOp struct {
 func (s *AccessScopesServiceOp) List(options interface{}) ([]AccessScope, error) {
 	path := "oauth/access_scopes.json"
 	resource := new(AccessScopesResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, false)
 	return resource.AccessScopes, err
 }

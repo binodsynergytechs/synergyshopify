@@ -634,7 +634,7 @@ func TestCreateAndDo(t *testing.T) {
 	for _, c := range cases {
 		httpmock.RegisterResponder("GET", mockPrefix+c.url, c.responder)
 		body := new(MyStruct)
-		err := client.PerformShopifyRequest("GET", c.url, nil, c.options, body)
+		err := client.PerformShopifyRequest("GET", c.url, nil, c.options, body, false)
 
 		if err != nil && fmt.Sprint(err) != fmt.Sprint(c.expected) {
 			t.Errorf("CreateAndDo(): expected error %v, actual %v", c.expected, err)

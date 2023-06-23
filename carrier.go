@@ -135,7 +135,7 @@ type ShippingRate struct {
 func (s *CarrierServiceOp) List() ([]CarrierService, error) {
 	path := fmt.Sprintf("%s.json", carrierBasePath)
 	resource := new(ListCarrierResource)
-	err := s.client.Get(path, resource, nil)
+	err := s.client.Get(path, resource, nil, true)
 	return resource.CarrierServices, err
 }
 
@@ -143,7 +143,7 @@ func (s *CarrierServiceOp) List() ([]CarrierService, error) {
 func (s *CarrierServiceOp) Get(id int64) (*CarrierService, error) {
 	path := fmt.Sprintf("%s/%d.json", carrierBasePath, id)
 	resource := new(SingleCarrierResource)
-	err := s.client.Get(path, resource, nil)
+	err := s.client.Get(path, resource, nil, true)
 	return resource.CarrierService, err
 }
 

@@ -90,6 +90,6 @@ type SmsMarketingConsent struct {
 func (s *AbandonedCheckoutServiceOp) List(options interface{}) ([]AbandonedCheckout, error) {
 	path := fmt.Sprintf("/%s.json", abandonedCheckoutsBasePath)
 	resource := new(AbandonedCheckoutsResource)
-	err := s.client.Get(path, resource, options)
+	err := s.client.Get(path, resource, options, true)
 	return resource.AbandonedCheckouts, err
 }
