@@ -32,26 +32,6 @@ type FulfillmentOrder struct {
 	MerchantRequests    []interface{}  `json:"merchant_requests,omitempty"`
 }
 
-// {
-//         "message": "The package was shipped this morning.",
-//         "notify_customer": false,
-//         "tracking_info": {
-//             "number": "1Z001985YW99744790",
-//             "company": "UPS"
-//         },
-//         "line_items_by_fulfillment_order": [
-//             {
-//                 "fulfillment_order_id": 6297765970193,
-//                 "fulfillment_order_line_items": [
-//                     {
-//                         "id": 14046440620305,
-//                         "quantity": 1
-//                     }
-//                 ]
-//             }
-//         ]
-//     }
-
 type FulfillmentRequest struct {
 	Message                  string                     `json:"message,omitempty"`
 	NotifyCustomer           bool                       `json:"notify_customer,omitempty"`
