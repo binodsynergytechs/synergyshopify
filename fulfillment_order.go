@@ -83,7 +83,11 @@ type DeliveryMethod struct {
 
 // FulfillmentOrderResource represents the result from the fulfillment_orders/X.json endpoint
 type FulfillmentOrderResource struct {
-	FulfillmentOrder *FulfillmentOrder `json:"fulfillment,omitempty"`
+	FulfillmentOrder []FulfillmentOrder `json:"fulfillment_orders,omitempty"`
+}
+
+type FulfillmentOrderResourceResp struct {
+	FulfillmentOrder FulfillmentOrder `json:"fulfillment,omitempty"`
 }
 
 type FulfillmentRequestResource struct {
@@ -98,7 +102,7 @@ type FulfillmentOrderServiceOp struct {
 }
 
 // Get Receive a single FulfillmentOrder
-func (s *FulfillmentOrderServiceOp) Get(options interface{}) (*FulfillmentOrder, error) {
+func (s *FulfillmentOrderServiceOp) Get(options interface{}) ([]FulfillmentOrder, error) {
 	path := fmt.Sprintf("%s/%d/fulfillment_orders.json", s.resource, s.resourceID)
 	resource := new(FulfillmentOrderResource)
 	err := s.client.Get(path, resource, options)
@@ -106,10 +110,10 @@ func (s *FulfillmentOrderServiceOp) Get(options interface{}) (*FulfillmentOrder,
 }
 
 // Create Create a new FulfillmentOrder
-func (s *FulfillmentOrderServiceOp) Create(fulfillmentRequest FulfillmentRequest) (*FulfillmentOrder, error) {
+func (s *FulfillmentOrderServiceOp) Create(fulfillmentRequest FulfillmentRequest) (FulfillmentOrder, error) {
 	path := "/fulfillments.json"
 	fulfillment := FulfillmentRequestResource{FulfillmentRequest: &fulfillmentRequest}
-	resource := new(FulfillmentOrderResource)
+	resource := new(FulfillmentOrderResourceResp)
 	err := s.client.Post(path, fulfillment, resource)
 	return resource.FulfillmentOrder, err
 }
