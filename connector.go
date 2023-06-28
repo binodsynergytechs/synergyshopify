@@ -436,7 +436,8 @@ func (c *Client) logBody(body *io.ReadCloser, format string) {
 func wrapSpecificError(r *http.Response, err ResponseError) error {
 	// see https://www.shopify.dev/concepts/about-apis/response-codes
 	if err.Status == http.StatusTooManyRequests {
-		f, _ := strconv.ParseFloat(r.Header.Get("Retry-After"), 64)
+		f := 2.0
+		f, _ = strconv.ParseFloat(r.Header.Get("Retry-After"), 64)
 		return RateLimitError{
 			ResponseError: err,
 			RetryAfter:    int(f),
@@ -477,10 +478,15 @@ func CheckResponseError(r *http.Response) error {
 	if len(bodyBytes) > 0 {
 		err := json.Unmarshal(bodyBytes, &shopifyError)
 		if err != nil {
+			status := r.StatusCode
+			if r.StatusCode == 400 {
+				status = 429
+				r.Header.Set("Retry-After", "2.0")
+			}
 			return ResponseDecodingError{
 				Body:    bodyBytes,
 				Message: err.Error(),
-				Status:  r.StatusCode,
+				Status:  status,
 			}
 		}
 	}
