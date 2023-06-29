@@ -471,6 +471,7 @@ func CheckResponseError(r *http.Response) error {
 	}{}
 
 	bodyBytes, err := io.ReadAll(r.Body)
+	log.Println("r.Headers from shopify ", r.Header)
 	log.Println("bodyBytes from shopify ", string(bodyBytes))
 	if err != nil {
 		return err
