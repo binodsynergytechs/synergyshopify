@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"path"
@@ -338,6 +339,7 @@ func (c *Client) ProcessRequestWithHeaders(req *http.Request, v interface{}) (ht
 		if err != nil {
 			return nil, err // http client errors, not api responses
 		}
+		log.Println("resp.StatusCode while request in shopify", resp.StatusCode)
 
 		respErr := CheckResponseError(resp)
 		if respErr == nil {
@@ -469,6 +471,7 @@ func CheckResponseError(r *http.Response) error {
 	}{}
 
 	bodyBytes, err := io.ReadAll(r.Body)
+	log.Println("bodyBytes from shopify ", string(bodyBytes))
 	if err != nil {
 		return err
 	}
