@@ -117,6 +117,7 @@ type Order struct {
 	CancelReason           string           `json:"cancel_reason,omitempty"`
 	NoteAttributes         []NoteAttribute  `json:"note_attributes,omitempty"`
 	DiscountCodes          []DiscountCode   `json:"discount_codes,omitempty"`
+	PurchaseOrderNumber    string           `json:"po_number,omitempty"`
 	LineItems              []LineItem       `json:"line_items,omitempty"`
 	ShippingLines          []ShippingLines  `json:"shipping_lines,omitempty"`
 	Transactions           []Transaction    `json:"transactions,omitempty"`
