@@ -1155,10 +1155,6 @@ func testShippingLines(t *testing.T, expected, actual ShippingLines) {
 		t.Errorf("ShippingLines.RequestedFulfillmentServiceID should be (%v), was (%v)", expected.RequestedFulfillmentServiceID, actual.RequestedFulfillmentServiceID)
 	}
 
-	if actual.DeliveryCategory != expected.DeliveryCategory {
-		t.Errorf("ShippingLines.DeliveryCategory should be (%v), was (%v)", expected.DeliveryCategory, actual.DeliveryCategory)
-	}
-
 	if actual.CarrierIdentifier != expected.CarrierIdentifier {
 		t.Errorf("ShippingLines.CarrierIdentifier should be (%v), was (%v)", expected.CarrierIdentifier, actual.CarrierIdentifier)
 	}
@@ -1334,7 +1330,6 @@ func validShippingLines() ShippingLines {
 		Source:                        "canada_post",
 		Phone:                         "",
 		RequestedFulfillmentServiceID: "third_party_fulfillment_service_id",
-		DeliveryCategory:              "",
 		CarrierIdentifier:             "third_party_carrier_identifier",
 		TaxLines: []TaxLine{
 			{

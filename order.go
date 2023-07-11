@@ -121,6 +121,7 @@ type Order struct {
 	LineItems              []LineItem       `json:"line_items,omitempty"`
 	ShippingLines          []ShippingLines  `json:"shipping_lines,omitempty"`
 	Transactions           []Transaction    `json:"transactions,omitempty"`
+	TaxExempt              bool             `json:"tax_exempt,omitempty"`
 	AppID                  int              `json:"app_id,omitempty"`
 	CustomerLocale         string           `json:"customer_locale,omitempty"`
 	LandingSite            string           `json:"landing_site,omitempty"`
@@ -299,7 +300,6 @@ type ShippingLines struct {
 	Source                        string           `json:"source,omitempty"`
 	Phone                         string           `json:"phone,omitempty"`
 	RequestedFulfillmentServiceID string           `json:"requested_fulfillment_service_id,omitempty"`
-	DeliveryCategory              string           `json:"delivery_category,omitempty"`
 	CarrierIdentifier             string           `json:"carrier_identifier,omitempty"`
 	TaxLines                      []TaxLine        `json:"tax_lines,omitempty"`
 }
