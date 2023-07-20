@@ -329,9 +329,9 @@ func (sl *ShippingLines) UnmarshalJSON(data []byte) error {
 }
 
 type TaxLine struct {
-	Title string           `json:"title,omitempty"`
-	Price *decimal.Decimal `json:"price,omitempty"`
-	Rate  *decimal.Decimal `json:"rate,omitempty"`
+	Title string  `json:"title,omitempty"`
+	Price string  `json:"price,omitempty"`
+	Rate  float64 `json:"rate,omitempty"`
 }
 
 type Transaction struct {

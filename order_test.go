@@ -1113,10 +1113,10 @@ func testTaxLines(t *testing.T, expected, actual []TaxLine) {
 		for i := 0; i < len(actual); i++ {
 			a := actual[i]
 			e := expected[i]
-			if !a.Price.Equals(*e.Price) {
+			if a.Price != e.Price {
 				t.Errorf("LineItem.TaxLine[%d].Price should be (%s), was (%s)", i, e.Price, a.Price)
 			}
-			if !a.Rate.Equals(*e.Rate) {
+			if a.Rate != e.Rate {
 				t.Errorf("LineItem.TaxLine[%d].Rate should be (%s), was (%s)", i, e.Rate, a.Rate)
 			}
 			if a.Title != e.Title {
@@ -1223,13 +1223,13 @@ func validLineItem() LineItem {
 		TaxLines: []TaxLine{
 			{
 				Title: "State tax",
-				Price: &tl1Price,
-				Rate:  &tl1Rate,
+				Price: tl1Price.String(),
+				Rate:  tl1Rate.InexactFloat64(),
 			},
 			{
 				Title: "Federal tax",
-				Price: &tl2Price,
-				Rate:  &tl2Rate,
+				Price: tl2Price.String(),
+				Rate:  tl2Rate.InexactFloat64(),
 			},
 		},
 		OriginLocation: &Address{
@@ -1334,13 +1334,13 @@ func validShippingLines() ShippingLines {
 		TaxLines: []TaxLine{
 			{
 				Title: "State tax",
-				Price: &tl1Price,
-				Rate:  &tl1Rate,
+				Price: tl1Price.String(),
+				Rate:  tl1Rate.InexactFloat64(),
 			},
 			{
 				Title: "Federal tax",
-				Price: &tl2Price,
-				Rate:  &tl2Rate,
+				Price: tl2Price.String(),
+				Rate:  tl2Rate.InexactFloat64(),
 			},
 		},
 	}
