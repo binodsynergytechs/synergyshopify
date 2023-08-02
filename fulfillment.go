@@ -33,6 +33,7 @@ type FulfillmentsService interface {
 	CancelFulfillment(int64, int64) (*Fulfillment, error)
 	GetFulfillmentOrder(int64, interface{}) ([]FulfillmentOrder, error)
 	CreateFulfillmentOrder(FulfillmentRequest) (FulfillmentOrder, error)
+	UpdateFulfillmentTracking(int64, FulfillmentRequest) (FulfillmentOrder, error)
 }
 
 // FulfillmentServiceOp handles communication with the fulfillment
