@@ -528,6 +528,11 @@ func (s *OrderServiceOp) GetFulfillmentOrder(orderID int64, options interface{})
 	return fulfillmentService.Get(options)
 }
 
+func (s *OrderServiceOp) UpdateFulfillmentTracking(fulfillmentId int64, fulfillmentRequest FulfillmentRequest) (FulfillmentOrder, error) {
+	FulfillmentService := &FulfillmentOrderServiceOp{client: s.client, resource: ordersResourceName}
+	return FulfillmentService.UpdateTracking(fulfillmentId, fulfillmentRequest)
+}
+
 func (s *OrderServiceOp) CreateFulfillmentOrder(fulfillmentRequest FulfillmentRequest) (FulfillmentOrder, error) {
 	fulfillmentService := &FulfillmentOrderServiceOp{client: s.client, resource: ordersResourceName}
 	return fulfillmentService.Create(fulfillmentRequest)

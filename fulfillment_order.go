@@ -97,3 +97,12 @@ func (s *FulfillmentOrderServiceOp) Create(fulfillmentRequest FulfillmentRequest
 	err := s.client.Post(path, fulfillment, resource)
 	return resource.FulfillmentOrder, err
 }
+
+// Update Update a Fulfillment tracking info
+func (s *FulfillmentOrderServiceOp) UpdateTracking(fulfillmentId int64, fulfillmentRequest FulfillmentRequest) (FulfillmentOrder, error) {
+	path := fmt.Sprintf("/fulfillments/%d/update_tracking.json", fulfillmentId)
+	fulfillment := FulfillmentRequestResource{FulfillmentRequest: &fulfillmentRequest}
+	resource := new(FulfillmentOrderResourceResp)
+	err := s.client.Post(path, fulfillment, resource)
+	return resource.FulfillmentOrder, err
+}
