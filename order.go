@@ -23,6 +23,7 @@ type OrderService interface {
 	Get(int64, interface{}) (*Order, error)
 	Create(Order) (*Order, error)
 	Update(Order) (*Order, error)
+	UpdateTags(int64, string) (*Order, error)
 	Cancel(int64, interface{}) (*Order, error)
 	Close(int64) (*Order, error)
 	Open(int64) (*Order, error)
@@ -433,6 +434,14 @@ func (s *OrderServiceOp) Create(order Order) (*Order, error) {
 func (s *OrderServiceOp) Update(order Order) (*Order, error) {
 	path := fmt.Sprintf("%s/%d.json", ordersBasePath, order.ID)
 	wrappedData := OrderResource{Order: &order}
+	resource := new(OrderResource)
+	err := s.client.Put(path, wrappedData, resource)
+	return resource.Order, err
+}
+
+func (s *OrderServiceOp) UpdateTags(id int64, tags string) (*Order, error) {
+	path := fmt.Sprintf("%s/%d.json", ordersBasePath, id)
+	wrappedData := OrderResource{Order: &Order{Tags: tags}}
 	resource := new(OrderResource)
 	err := s.client.Put(path, wrappedData, resource)
 	return resource.Order, err
