@@ -179,24 +179,25 @@ type DiscountCode struct {
 }
 
 type LineItem struct {
-	ID                         int64                 `json:"id,omitempty"`
-	ProductID                  int64                 `json:"product_id,omitempty"`
-	VariantID                  int64                 `json:"variant_id,omitempty"`
-	Quantity                   int                   `json:"quantity,omitempty"`
-	Price                      *decimal.Decimal      `json:"price,omitempty"`
-	TotalDiscount              *decimal.Decimal      `json:"total_discount,omitempty"`
-	Title                      string                `json:"title,omitempty"`
-	VariantTitle               string                `json:"variant_title,omitempty"`
-	Name                       string                `json:"name,omitempty"`
-	SKU                        string                `json:"sku,omitempty"`
-	Vendor                     string                `json:"vendor,omitempty"`
-	GiftCard                   bool                  `json:"gift_card,omitempty"`
-	Taxable                    bool                  `json:"taxable,omitempty"`
-	FulfillmentService         string                `json:"fulfillment_service,omitempty"`
-	RequiresShipping           bool                  `json:"requires_shipping,omitempty"`
-	VariantInventoryManagement string                `json:"variant_inventory_management,omitempty"`
-	PreTaxPrice                *decimal.Decimal      `json:"pre_tax_price,omitempty"`
-	Properties                 []NoteAttribute       `json:"properties,omitempty"`
+	ID                         int64            `json:"id,omitempty"`
+	ProductID                  int64            `json:"product_id,omitempty"`
+	VariantID                  int64            `json:"variant_id,omitempty"`
+	Quantity                   int              `json:"quantity,omitempty"`
+	Price                      *decimal.Decimal `json:"price,omitempty"`
+	TotalDiscount              *decimal.Decimal `json:"total_discount,omitempty"`
+	Title                      string           `json:"title,omitempty"`
+	VariantTitle               string           `json:"variant_title,omitempty"`
+	Name                       string           `json:"name,omitempty"`
+	SKU                        string           `json:"sku,omitempty"`
+	Vendor                     string           `json:"vendor,omitempty"`
+	GiftCard                   bool             `json:"gift_card,omitempty"`
+	Taxable                    bool             `json:"taxable,omitempty"`
+	FulfillmentService         string           `json:"fulfillment_service,omitempty"`
+	RequiresShipping           bool             `json:"requires_shipping,omitempty"`
+	VariantInventoryManagement string           `json:"variant_inventory_management,omitempty"`
+	PreTaxPrice                *decimal.Decimal `json:"pre_tax_price,omitempty"`
+	Properties                 []NoteAttribute  `json:"properties,omitempty"`
+	RestockType                `json:"restock_type, omitempty"`
 	ProductExists              bool                  `json:"product_exists,omitempty"`
 	FulfillableQuantity        int                   `json:"fulfillable_quantity,omitempty"`
 	Grams                      int                   `json:"grams,omitempty"`
