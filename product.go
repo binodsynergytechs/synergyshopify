@@ -67,7 +67,7 @@ type ProductOption struct {
 	ProductID int64    `json:"product_id,omitempty"`
 	Name      string   `json:"name,omitempty"`
 	Position  int      `json:"position,omitempty"`
-	Values    []string `json:"values,omitempty"`
+	Values    []string `json:"values"`
 }
 
 type ProductListOptions struct {
