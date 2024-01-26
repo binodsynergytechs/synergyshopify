@@ -120,6 +120,7 @@ type Order struct {
 	DiscountCodes          []DiscountCode   `json:"discount_codes,omitempty"`
 	PurchaseOrderNumber    string           `json:"po_number,omitempty"`
 	LineItems              []LineItem       `json:"line_items,omitempty"`
+	InventoryBehaviour     string           `json:"inventory_behaviour, omitempty"`
 	ShippingLines          []ShippingLines  `json:"shipping_lines,omitempty"`
 	Transactions           []Transaction    `json:"transactions,omitempty"`
 	TaxExempt              bool             `json:"tax_exempt,omitempty"`
