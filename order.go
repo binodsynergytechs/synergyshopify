@@ -207,6 +207,7 @@ type LineItem struct {
 	DestinationLocation        *Address              `json:"destination_location,omitempty"`
 	AppliedDiscount            *AppliedDiscount      `json:"applied_discount,omitempty"`
 	DiscountAllocations        []DiscountAllocations `json:"discount_allocations,omitempty"`
+	InventoryBehaviour         string                `json:"inventory_behaviour, omitempty"`
 }
 
 type DiscountAllocations struct {
